@@ -10,7 +10,7 @@
         <!--mybatis genertor 分页-->
         <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin"></plugin>
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/community?useUnicode=true&amp;characterEncoding=UTF-8&amp;amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;useSSL=true"
+                        connectionURL="jdbc:mysql://localhost:3306/security?useUnicode=true&amp;characterEncoding=UTF-8&amp;amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=UTC&amp;useSSL=true"
                         userId="root"
                         password="123456">
         </jdbcConnection>
@@ -40,5 +40,6 @@
         <table tableName="nav" domainObjectName="Nav"></table>
         <table tableName="ad" domainObjectName="Ad"></table>
         <table tableName="favorite" domainObjectName="Favorite"></table>
+        <table tableName="site" domainObjectName="Site"></table>
     </context>
 </generatorConfiguration>

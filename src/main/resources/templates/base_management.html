@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>场地管理</title>
+    <link rel="stylesheet" href="/css/bootstrap-4.3.1.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="content">
+   <table class="table  table-hover " id="siteListTable" ></table>
+    <a class="btn btn-primary float-right" data-toggle="modal" data-target="#exampleModal" href="#">添加场地</a>
+</div>
+<div class="footer"></div>
+<!--model-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">添加新基地信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-site" >
+                    <div class="form-group">
+                        <label for="siteName" class="col-form-label">基地名称:</label>
+                        <input type="text" class="form-control" id="siteName" name="siteName">
+                    </div>
+                    <div class="form-group">
+                        <label for="address" class="col-form-label">基地详细地址:</label>
+                        <textarea class="form-control" id="address" name="address"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" id="btn-submit" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery-3.4.1.min.js" ></script>
+<script src="/js/popper.min.js" ></script>
+<script src="/js/bootstrap.min.js" ></script>
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap-table-export.min.js"></script>
+<script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<script>
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="btn btn-info like" href="javascript:void(0)" title="Like">',
+            '<span class="fa fa-heart">详情</span>',
+            '</a>  ',
+            '<a class="btn btn-info remove " href="javascript:void(0)" title="Remove">',
+            '<span class="fa fa-trash">修改</span>',
+            '</a>'
+        ].join('')
+    }
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row))
+        },
+        'click .remove': function (e, value, row, index) {
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            })
+        }
+    }
+    function initTable(){
+        $("#siteListTable").bootstrapTable({
+            url: '/site/siteList',         //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            toolbar: '#toolbar',                //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: false,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            // queryParams: oTableInit.queryParams,//传递参数（*）
+            // sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber:1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            // strictSearch: true,
+            showColumns: true,                  //是否显示所有的列
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            // clickToSelect: true,                //是否启用点击选中行
+            // height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            // uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            // showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+            // cardView: false,                    //是否显示详细视图
+            // detailView: false,                   //是否显示父子表
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'siteId',
+                title: '场地编号',
+                align: 'center'
+            }, {
+                field: 'siteName',
+                title: '场地名称',
+                align: 'center'
+            }, {
+                field: 'address',
+                title: '地址',
+                align: 'center'
+            }, {
+                field: 'producerId',
+                title: '描述',
+                align: 'center'
+            }, {
+                    field: 'operate',
+                    title: '操作',
+                    align: 'center',
+                clickToSelect: false,
+                events: window.operateEvents,
+                formatter: operateFormatter
+                }]
+
+        });
+    }
+
+    $(document).ready(function () {
+        initTable();
+        $('#exampleModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget) // Button that triggered the modal
+            var recipient = button.data('whatever') // Extract info from data-* attributes
+            // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+            // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+            alert("test");
+            var modal = $(this)
+            modal.find('.modal-title').text('New message to ' + recipient)
+            modal.find('.modal-body input').val(recipient)
+        });
+
+        $("#btn-submit").click(function () {
+            var siteName = $("#siteName").val();
+            var address = $("#address").val();
+            $.ajax({
+                url:'/site/insert',
+                type:'post',
+                data:{
+                    siteName:siteName,
+                    address:address
+                },
+                success:function (data) {
+                    if (data.code == 200) {
+                        $("#exampleModal").modal('hide');
+                        window.local.reload();
+                    }
+                }
+            })
+        });
+    });
+</script>
+</body>
+</html>

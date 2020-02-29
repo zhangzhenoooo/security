@@ -9,6 +9,7 @@ function post() {
     var questionId = $("#question_id").val();
     var content = $("#comment_content").val();
     comment2target(questionId, 1, content);
+
 }
 
 function comment2target(targetId, type, content) {
@@ -46,6 +47,7 @@ function comment2target(targetId, type, content) {
 }
 
 function comment(e) {
+    //回复评论
     var commentId = e.getAttribute("data-id");
     var content = $("#input-" + commentId).val();
     comment2target(commentId, 2, content);
