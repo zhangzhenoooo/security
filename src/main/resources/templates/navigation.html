@@ -8,11 +8,14 @@
 
         <div class="pos-f-b">
 
-            <nav class="navbar navbar-dark bg-dark text-center">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <h3 class="float-left " style="color: white;">食品安全监管信息系统</h3>
+            <nav class="navbar navbar-dark bg-dark ">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                <h3 class="float-right" style="color: white;">食品安全监管信息系统</h3>
+                         <a class="nav-link float-right" href="/user/login" th:if="${session.user == null}">登录</a>
+                         <a class="nav-link float-right" href="/user/login" th:if="${session.user != null}" th:text="${session.user.getUserName()}"></a>
+
             </nav>
             <div class="collapse" id="navbarToggleExternalContent">
                 <div class="bg-dark p-4">
@@ -32,7 +35,7 @@
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        生产商
+                                        生产商000
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item" href="/site/siteManagement">产地管理</a>

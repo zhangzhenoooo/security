@@ -7,6 +7,7 @@ import com.zhangz.security.service.impl.SiteServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,20 +38,28 @@ public class BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/site/insert",method = RequestMethod.POST)
-    public ResultDTO insert(@RequestParam(name = "siteName") String siteName,
-                            @RequestParam(name = "address") String address
-    ){
+    @RequestMapping(value = "/site/insertOrUpdate",method = RequestMethod.POST)
+    public ResultDTO insertOrUpdate(@RequestParam(name = "siteId",required = false) Long siteId,
+                                    @RequestParam(name = "siteName") String siteName,
+                                    @RequestParam(name = "address") String address){
 
         Site site = new Site();
+        site.setSiteId(siteId);
         site.setAddress(address);
         site.setSiteName(siteName);
-        boolean result = siteServiceImpl.insert(site);
+        boolean result = siteServiceImpl.insertOrUpdate(site);
         if (result){
-            return ResultDTO.okOf();
+            return ResultDTO.successOf();
         }else {
             return ResultDTO.errorOf(CustomizeErrorCode.SITE_INSERT_FALSE);
         }
+    }
+    @ResponseBody
+    @RequestMapping(value = "site/{siteId}",method = RequestMethod.GET)
+    public Site selectById(@PathVariable(name = "siteId") Long siteId,
+                           Model model){
+        Site site = siteServiceImpl.selectById(siteId);
+        return site;
     }
 
 }

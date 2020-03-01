@@ -23,6 +23,8 @@ public interface SiteService {
      **/
         List<Site> list(Long LoginUserId, Integer type) ;
         //添加新场地
-        boolean insert(Site site);
+        boolean insertOrUpdate(Site site);
+        //根据id获取site信息
+        Site selectById(Long siteId);
 
 }

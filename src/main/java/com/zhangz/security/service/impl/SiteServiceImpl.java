@@ -28,9 +28,26 @@ public class SiteServiceImpl implements SiteService {
     }
 
     @Override
-    public boolean insert(Site site) {
-       int affectedRow =  siteMapper.insert(site);
+    public boolean insertOrUpdate(Site site) {
+        Site dbSite = siteMapper.selectByPrimaryKey(site.getSiteId());
+        int affectedRow;
+        if (dbSite == null ){
+            //insert
+            affectedRow = siteMapper.insert(site);
+        }else {
+            //updateByEmail
+            SiteExample siteExample = new SiteExample();
+            siteExample.createCriteria()
+                    .andSiteIdEqualTo(site.getSiteId());
+            affectedRow = siteMapper.updateByExample(site,siteExample);
+        }
         boolean reslut = affectedRow > 0 ? true : false;
         return reslut;
+    }
+
+    @Override
+    public Site selectById(Long siteId) {
+        Site site = siteMapper.selectByPrimaryKey(siteId);
+        return site;
     }
 }

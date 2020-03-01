@@ -28,14 +28,14 @@ public class ResultDTO<T> {
         return errorOf(e.getCode(), e.getMessage());
     }
 
-    public static ResultDTO okOf() {
+    public static ResultDTO successOf() {
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setCode(200);
         resultDTO.setMessage("请求成功");
         return resultDTO;
     }
 
-    public static <T> ResultDTO okOf(T t) {
+    public static <T> ResultDTO successOf(T t) {
         ResultDTO resultDTO = new ResultDTO();
         resultDTO.setCode(200);
         resultDTO.setMessage("请求成功");
