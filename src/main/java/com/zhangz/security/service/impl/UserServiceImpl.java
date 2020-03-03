@@ -49,8 +49,19 @@ public class UserServiceImpl implements UserService {
         UserExample userExample = new UserExample();
         userExample.createCriteria()
                 .andEmailEqualTo(email);
-        int affectedRow = userMapper.updateByExample(user,userExample);
+        int affectedRow = userMapper.updateByExampleSelective(user,userExample);
         return affectedRow > 0? true:false;
+    }
+
+    @Override
+    public List<User> selectNeedApprove( Integer userType) {
+
+        UserExample userExample  = new UserExample();
+        userExample.createCriteria()
+                .andIsDeleteEqualTo(true)
+                .andTypeEqualTo(userType);
+        List<User> users = userMapper.selectByExample(userExample);
+        return users;
     }
 
 

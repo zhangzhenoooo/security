@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>送检管理</title>
+    <link rel="stylesheet" href="/css/bootstrap-4.3.1.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+</head>
+<body>
+<div th:insert="~{navigation :: nav}"></div>
+<div class="content overflow-auto">
+
+
+    <div id="toolbar">
+        <div class="select float-left">
+            <select class="form-control" id="locale" style="width: 200px;" >
+                <option  value="待审批" >待审批</option>
+                <option  value="已审批" >已审批</option>
+                <option  value="" >全部</option>
+
+            </select>
+        </div>
+        <a class="btn btn-primary ml-5 float-left" data-toggle="modal" data-target="#exampleModal" href="#">添加送检</a>
+    </div>
+    <table class="table table-hover " id="examListTable" style="min-width:1500px;" ></table>
+</div>
+<div th:insert="~{footer :: foot}"></div>
+<!--model-->
+<div class="modal fade bs-example-modal-lg"  id="exampleModal" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" >
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">添加/修改送检产品信息</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="form-site" >
+                    <div class="form-group">
+                        <!--<label for="siteId" class="col-form-label">基地id:</label>-->
+                        <input type="hidden" class="form-control" id="siteId" name="siteId">
+                    </div>
+                    <div class="form-group">
+                        <!--<label for="site_select" class="col-form-label">选择基地:</label>-->
+                        选择基地:<select class="form-control" id="site_select" name="site_select" style="width: 200px;" >
+                            <option  value="" >全部</option>
+                            <option  value="已审批" >已审批</option>
+                            <option  value="已审批" >待审批</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <!--<label for="batch_select" class="col-form-label">选择批次:</label>-->
+                        选择批次:<select class="form-control" id="batch_select" name="batch_select" style="width: 200px;" >
+                            <option  value="" >全部</option>
+                            <option  value="已审批" >已审批</option>
+                            <option  value="已审批" >待审批</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <!--<label for="batch_select" class="col-form-label"></label>-->
+                      <table id="product_table" ></table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                <button type="button" id="btn-submit" class="btn btn-primary">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery-3.4.1.min.js" ></script>
+<script src="/js/popper.min.js" ></script>
+<script src="/js/bootstrap.min.js" ></script>
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap-table-export.min.js"></script>
+<script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<script>
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="btn btn-info like" href="javascript:void(0)" title="点击进入详情页面">',
+            '<span class="fa fa-heart">详情</span>',
+            '</a>  ',
+            '<a class="btn btn-info remove " href="javascript:void(0)" title="点击按钮进行编辑这一行">',
+            '<span class="fa fa-trash">编辑</span>',
+            '</a>'
+        ].join('')
+    }
+    function initModel(row){
+        var siteId = row.siteId;
+        $.ajax({
+            url:'/site/'+siteId,
+            type:'get',
+            success:function (data) {
+                $("#siteId").val(data.siteId);
+                $("#siteName").val(data.siteName);
+                $("#address").val(data.address);
+                $("#exampleModal").modal('show');
+            }
+        });
+    }
+    window.operateEvents = {
+        'click .remove': function (e, value, row, index) {
+            // 编辑
+            initModel(row);
+
+        },
+        'click .like': function (e, value, row, index) {
+            // 详情
+            window.location.href='/site/siteDetails/'+row.siteId;
+        }
+    }
+
+    //初始化检测表格
+    function initTable(){
+        $("#examListTable").bootstrapTable({
+            url: '/exam/listByVendorId',         //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            toolbar: '#toolbar',                //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: false,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            // queryParams: oTableInit.queryParams,//传递参数（*）
+            // sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber:1,                       //初始化加载第一页，默认第一页
+            pageSize: 8,                       //每页的记录行数（*）
+            pageList: [8, 16, 32, 100],        //可供选择的每页的行数（*）
+            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            // strictSearch: true,
+            showColumns: true,                  //是否显示所有的列
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            // clickToSelect: true,                //是否启用点击选中行
+            // height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            // uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            // showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+            // cardView: false,                    //是否显示详细视图
+            // detailView: false,                   //是否显示父子表
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'examId',
+                title: '检测编号',
+                align: 'center'
+            }, {
+                field: 'productId',
+                title: '产品编号',
+                align: 'center'
+            }, {
+                field: 'productName',
+                title: '产品名称',
+                align: 'center'
+            },  {
+                field: 'vendorId',
+                title: '生产商编号',
+                align: 'center'
+            }, {
+                field: 'vendorName',
+                title: '生产商',
+                align: 'center'
+            },{
+                field: 'examName',
+                title: '检测名称',
+                align: 'center'
+            }, {
+                    field: 'launchDate',
+                    title: '发起日期',
+                    align: 'center'
+            }, {
+                    field: 'examDate',
+                    title: '检测日期',
+                    align: 'center'
+            }, {
+                field: 'examStatus',
+                title: '检测结果',
+                align: 'center'
+            },{
+                field: 'siteName',
+                title: '生产基地',
+                align: 'center'
+            },{
+                    field: 'operate',
+                    title: '操作',
+                    align: 'center',
+                    clickToSelect: false,
+                    events: window.operateEvents,
+                    formatter: operateFormatter
+            }]
+
+        });
+    }
+    
+    // 初始化产品表
+    function initProductTable() {
+        var batchId = $("#locale").val();
+        alert("batchId"+batchId);
+        $('#product_table').bootstrapTable({
+            url: '/product/list',         //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            // toolbar: '#toolbar',                //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: false,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            queryParams: {batchId:1},//传递参数（*）
+            // sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber:1,                       //初始化加载第一页，默认第一页
+            pageSize: 8,                       //每页的记录行数（*）
+            pageList: [8, 16, 32, 100],        //可供选择的每页的行数（*）
+            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            // strictSearch: true,
+            showColumns: true,                  //是否显示所有的列
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: false,                //是否启用点击选中行
+            // height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            // uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            // showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+            // cardView: false,                    //是否显示详细视图
+            // detailView: false,                   //是否显示父子表
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'productId',
+                title: '产品编号',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'productName',
+                title: '产品名称',
+                align: 'center'
+            }, {
+                field: 'batchId',
+                title: '批次编号',
+                align: 'center',
+                sortable: true
+            }, {
+                field: 'batch.batchName',
+                title: '批次名称',
+                align: 'center'
+            }, {
+                field: 'siteId',
+                title: '场地编号',
+                align: 'center'
+            }, {
+                field: 'siteName',
+                title: '场地名称',
+                align: 'center'
+            },{
+                field: 'batch.productedDate',
+                title: '生产日期',
+                sortable: true,
+                align: 'center'
+            },{
+                field: 'batch.effectiveDate',
+                title: '有效期',
+                sortable: true,
+                align: 'center'
+            }]
+        })
+        $table.on('check.bs.table uncheck.bs.table ' +
+            'check-all.bs.table uncheck-all.bs.table',
+            function () {
+                $remove.prop('disabled', !$table.bootstrapTable('getSelections').length)
+
+                // save your data, here just save the current page
+                selections = getIdSelections()
+                // push or splice the selections if you want to save all data selections
+            })
+        $table.on('all.bs.table', function (e, name, args) {
+            console.log(name, args)
+        })
+        $remove.click(function () {
+            var ids = getIdSelections()
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            })
+            $remove.prop('disabled', true)
+        })
+    }
+
+    $(document).ready(function () {
+        // 初始化表格
+        initTable();
+        initProductTable();
+        $('#exampleModal').on('hide.bs.modal', function (event) {
+            $("#form-site")[0].reset();
+        });
+// 注册modal提交
+        $("#btn-submit").click(function () {
+            var siteId = $("#siteId").val();
+            var siteName = $("#siteName").val();
+            var address = $("#address").val();
+            $.ajax({
+                url:'/site/insertOrUpdate',
+                type:'post',
+                data:{
+                    siteId:siteId,
+                    siteName:siteName,
+                    address:address
+                },
+                success:function (data) {
+                    if (data.code == 200) {
+                        $("#exampleModal").modal('hide');
+                        window.location.reload();
+                    }
+                }
+            })
+        });
+        $("#exampleModal").modal('show').css({
+            width: 'auto'
+        });
+    });
+</script>
+</body>
+</html>

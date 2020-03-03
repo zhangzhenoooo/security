@@ -1,5 +1,6 @@
 package com.zhangz.security.controller;
 
+import com.zhangz.security.exception.CustomizeErrorCode;
 import com.zhangz.security.model.User;
 import com.zhangz.security.service.impl.UserServiceImpl;
 import com.zhangz.security.utils.DateUtil;
@@ -40,6 +41,12 @@ public class UserController {
         User dbUser = null;
         dbUser = userServiceImpl.selectByEmail(email);
         if (dbUser != null){
+            if (dbUser.getIsDelete()){
+                //账号还未审批
+                model.addAttribute("message",CustomizeErrorCode.ACCOUNT_NOT_APPROVED.getMessage());
+                model.addAttribute("success",false);
+                return "login";
+            }
             if (dbUser.getPassword().equals(password)) {
                 //登录成功，将登录用户信息存入session
                 dbUser.setPassword(null);
@@ -47,12 +54,12 @@ public class UserController {
                 return "redirect:/";
             }else {
                 //密码错误
-                model.addAttribute("message","密码错误！");
+                model.addAttribute("message",CustomizeErrorCode.USER_PASSWORD_WRONG.getMessage());
                 model.addAttribute("success",false);
                 return "login";
             }
         }else {
-            model.addAttribute("message","该用户不存在！");
+            model.addAttribute("message", CustomizeErrorCode.USER_NOT_EXIST.getMessage());
             model.addAttribute("success",false);
             return "login";
         }

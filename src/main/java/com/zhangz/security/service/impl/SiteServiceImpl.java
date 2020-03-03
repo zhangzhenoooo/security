@@ -39,7 +39,7 @@ public class SiteServiceImpl implements SiteService {
             SiteExample siteExample = new SiteExample();
             siteExample.createCriteria()
                     .andSiteIdEqualTo(site.getSiteId());
-            affectedRow = siteMapper.updateByExample(site,siteExample);
+            affectedRow = siteMapper.updateByExampleSelective(site,siteExample);
         }
         boolean reslut = affectedRow > 0 ? true : false;
         return reslut;

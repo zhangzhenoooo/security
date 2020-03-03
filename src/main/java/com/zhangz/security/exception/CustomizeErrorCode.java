@@ -8,7 +8,11 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     SITE_INSERT_FALSE(2001, "插入失败，请重试！"),
     USER_NOT_EXIST(2002,"用户不存在！"),
     USER_PASSWORD_WRONG(2003,"密码错误"),
+    ACCOUNT_NOT_APPROVED(2004,"账号还未通过审批！"),
+    APPROVE_FALSE(2005,"审批失败，请重试"),
+    ITEM_INSERT_FALSE(2006,"新增失败"),
     ;
+
 
 
     @Override
