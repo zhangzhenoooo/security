@@ -6,7 +6,9 @@ import com.zhangz.security.model.SiteExample;
 import com.zhangz.security.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -49,5 +51,31 @@ public class SiteServiceImpl implements SiteService {
     public Site selectById(Long siteId) {
         Site site = siteMapper.selectByPrimaryKey(siteId);
         return site;
+    }
+
+    @Override
+    public List<Site> listByExamStatus(String examStatus) {
+        SiteExample siteExample = new SiteExample();
+//        System.out.println("exam==============="+examStatus);
+        if (!StringUtils.isEmpty(examStatus)&&!("".equals(examStatus))){
+            siteExample.createCriteria()
+                    .andExamStatusEqualTo(examStatus);
+        }
+        List<Site> sites = siteMapper.selectByExample(siteExample);
+        if (sites.size() == 0 ){
+            return  new ArrayList<>();
+        }else {
+            return sites;
+
+        }
+    }
+
+    @Override
+    public boolean updateBySiteId(Site site, Long siteId) {
+        SiteExample siteExample = new SiteExample();
+        siteExample.createCriteria()
+                .andSiteIdEqualTo(siteId);
+        int i = siteMapper.updateByExampleSelective(site, siteExample);
+        return  i>0 ? true :false;
     }
 }

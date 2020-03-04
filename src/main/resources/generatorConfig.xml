@@ -34,13 +34,6 @@
         </javaClientGenerator>
 
 
-        <table tableName="question" domainObjectName="Question"></table>
-        <table tableName="comment" domainObjectName="Comment"></table>
-        <table tableName="notification" domainObjectName="Notification"></table>
-        <table tableName="nav" domainObjectName="Nav"></table>
-        <table tableName="ad" domainObjectName="Ad"></table>
-        <table tableName="favorite" domainObjectName="Favorite"></table>
-
         <table tableName="user" domainObjectName="User"></table>
         <table tableName="site" domainObjectName="Site"></table>
         <table tableName="siteline" domainObjectName="SiteLine"></table>

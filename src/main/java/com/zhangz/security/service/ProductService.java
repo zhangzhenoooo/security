@@ -8,5 +8,5 @@ import java.util.List;
  * @date 2020/3/2 20:20
  */
 public interface ProductService <T>{
-    List<T> list(Long vendorId,Long batchId);
+    List<T> list(Long vendorId,Long siteId,Long batchId);
 }

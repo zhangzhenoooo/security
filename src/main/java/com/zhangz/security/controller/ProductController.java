@@ -38,6 +38,7 @@ public class ProductController {
                 .andCreatorIdEqualTo(user.getUserId());
         List<Batch> batches = batchMapper.selectByExample(batchExample);
         model.addAttribute("batches",batches) ;
+
         return "product_management";
     }
 
@@ -45,8 +46,10 @@ public class ProductController {
     @RequestMapping(value = "product/list",method = RequestMethod.POST)
     public List<ProductDTO> list (@RequestBody Map<String,Long> map,
                                   HttpSession session){
+        Long batchId = map.get("batchId");
+        Long siteId = map.get("siteId");
         User user = (User) session.getAttribute("user");
-        List<ProductDTO> productDTOS = productServiceImpl.list(user.getUserId(),map.get("batchId"));
+        List<ProductDTO> productDTOS = productServiceImpl.list(user.getUserId(),siteId,batchId);
         return productDTOS;
     }
 }

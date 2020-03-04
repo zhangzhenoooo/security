@@ -4,6 +4,7 @@ import com.zhangz.security.exception.CustomizeErrorCode;
 import com.zhangz.security.model.User;
 import com.zhangz.security.service.impl.UserServiceImpl;
 import com.zhangz.security.utils.DateUtil;
+import com.zhangz.security.utils.GetIP;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,8 @@ public class UserController {
     public String checkLogin(@Param(value = "email") String email,
                              @Param(value = "password") String password,
                              Model model,
-                             HttpSession session){
+                             HttpSession session,
+                             HttpServletRequest request){
         User dbUser = null;
         dbUser = userServiceImpl.selectByEmail(email);
         if (dbUser != null){
@@ -51,6 +53,8 @@ public class UserController {
                 //登录成功，将登录用户信息存入session
                 dbUser.setPassword(null);
                 session.setAttribute("user",dbUser);
+                String ipAddr = GetIP.getIpAddr(request);
+                userServiceImpl.updateLastAddress(dbUser.getUserId(),ipAddr);
                 return "redirect:/";
             }else {
                 //密码错误

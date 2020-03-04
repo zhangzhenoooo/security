@@ -16,7 +16,7 @@
         <div class="select">
             <p>批次：</p>
             <select class="form-control" id="locale" style="width: 200px;" >
-                <option th:each="batche : ${batches}" th:value="${batche.batchId}"  th:text="${batche.batchId}"></option>
+                <option th:each="batche : ${batches}" th:value="${batche.batchId}"  th:text="${batche.batchName}"></option>
             </select>
         </div>
     </div>
@@ -98,7 +98,6 @@
 
     function initTable() {
         var batchId = $("#locale").val();
-        alert("batchId"+batchId);
         $('#productListTable').bootstrapTable({
             url: '/product/list',         //请求后台的URL（*）
             method: 'post',                      //请求方式（*）

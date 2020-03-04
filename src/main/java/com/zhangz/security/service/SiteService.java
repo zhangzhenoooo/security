@@ -27,4 +27,7 @@ public interface SiteService {
         //根据id获取site信息
         Site selectById(Long siteId);
 
+    List<Site> listByExamStatus(String examStatus);
+
+    boolean updateBySiteId(Site site, Long siteId);
 }

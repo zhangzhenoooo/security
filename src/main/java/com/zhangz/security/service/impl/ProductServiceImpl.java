@@ -11,6 +11,7 @@ import com.zhangz.security.service.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,12 +37,20 @@ public class ProductServiceImpl implements ProductService {
     private BatchMapper batchMapper;
 
     @Override
-    public List<ProductDTO> list(Long vendorId,Long batchId) {
+    public List<ProductDTO> list(Long vendorId,Long siteId ,Long batchId) {
 
         ProductExample productExample = new ProductExample();
-        productExample.createCriteria()
-                .andVendorEqualTo(vendorId)
-                .andBatchIdEqualTo(batchId);
+
+        ProductExample.Criteria criteria =  productExample.createCriteria()
+                .andVendorEqualTo(vendorId);
+
+        if (!ObjectUtils.isEmpty(siteId)){
+            criteria.andSiteIdEqualTo(siteId);
+        }
+        if (!ObjectUtils.isEmpty(batchId)){
+            criteria .andBatchIdEqualTo(batchId);
+        }
+
         List<Product> products = productMapper.selectByExample(productExample);
         if (products.size() == 0){
             return new ArrayList<>();

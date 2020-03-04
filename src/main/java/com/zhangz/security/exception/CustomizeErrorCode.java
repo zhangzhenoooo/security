@@ -11,7 +11,9 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     ACCOUNT_NOT_APPROVED(2004,"账号还未通过审批！"),
     APPROVE_FALSE(2005,"审批失败，请重试"),
     ITEM_INSERT_FALSE(2006,"新增失败"),
+    EXAM_INSERT_FALSE(2007,"插入失败"),
     ;
+
 
 
 

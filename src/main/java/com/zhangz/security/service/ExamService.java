@@ -1,6 +1,8 @@
 package com.zhangz.security.service;
 
+import com.zhangz.security.dto.ProductDTO;
 import com.zhangz.security.model.Exam;
+import com.zhangz.security.model.Product;
 
 import java.util.List;
 
@@ -11,5 +13,10 @@ import java.util.List;
  */
 public interface ExamService {
 
-    List<Exam> listByVendorId(Long vendorId);
+    List<Exam> listByVendorId(Long vendorId,String examStatus);
+    boolean  insertExams(List<ProductDTO> productDTOS);
+
+    List<Exam> listByExamStatus(String examStatus);
+
+    boolean updateByExamId(Exam exam, Long examId);
 }

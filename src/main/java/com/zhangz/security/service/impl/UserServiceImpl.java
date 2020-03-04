@@ -64,5 +64,16 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    @Override
+    public boolean updateLastAddress(Long userId,String lastAddress) {
+        User user = new User();
+        user.setLastAddress(lastAddress);
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andUserIdEqualTo(userId);
+        int i = userMapper.updateByExampleSelective(user, userExample);
+        return  i > 0 ?  true:false;
+    }
+
 
 }

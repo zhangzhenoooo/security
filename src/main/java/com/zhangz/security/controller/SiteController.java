@@ -8,6 +8,7 @@ import com.zhangz.security.model.Site;
 import com.zhangz.security.model.User;
 import com.zhangz.security.service.impl.ItemServiceImpl;
 import com.zhangz.security.service.impl.SiteServiceImpl;
+import com.zhangz.security.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangz
@@ -24,7 +26,7 @@ import java.util.List;
  */
 @Controller
 @Slf4j
-public class BaseController {
+public class SiteController {
 
     @Autowired
     private SiteServiceImpl siteServiceImpl;
@@ -82,6 +84,53 @@ public class BaseController {
                            Model model){
         Site site = siteServiceImpl.selectById(siteId);
         return site;
+    }
+
+    /**
+     *
+     * @description 跳转到场地监管界面
+     * @author zhangz
+     * @date 2020:03:04 20:22:05
+     * @return
+     **/
+    @GetMapping("/site/supervise")
+    public String  supervise(){
+        return "site_supervise";
+    }
+
+    /**
+     *
+     * @description 根据检测状态获取检测数据
+     * @author zhangz
+     * @date 2020:03:04 17:21:23
+     * @return
+     **/
+    @ResponseBody
+    @RequestMapping(value = "/site/listByExamStatus",method = RequestMethod.POST)
+    public List<Site>listByExamStatus( @RequestBody Map<String,String> map){
+
+        String examStatus = map.get("examStatus");
+        List<Site> sites = siteServiceImpl.listByExamStatus(examStatus);
+        return sites;
+    }
+
+    @ResponseBody
+    @PostMapping("/site/approve")
+    public ResultDTO approve(@RequestParam(name = "siteId")Long siteId,
+                             @RequestParam(name = "examStatus") String examStatus,
+                             HttpSession session){
+        User user = (User) session.getAttribute("user");
+        Site site = new Site();
+        site.setExamStatus(examStatus);
+        site.setExamDate(DateUtil.getData());
+        site.setVerifier(user.getUserId());
+        boolean affectRow = siteServiceImpl.updateBySiteId(site, siteId);
+        if (affectRow){
+            return  ResultDTO.successOf();
+        }else {
+            return  ResultDTO.errorOf(CustomizeErrorCode.APPROVE_FALSE);
+        }
+
     }
 
 }
