@@ -64,6 +64,15 @@ public class ExamController {
     }
 
 
+    /**
+     *
+     * @description 根据生产商和送检状态选择产品信息
+     * @author zhangz
+     * @date 2020:03:05 13:35:53
+     * @param session
+     * @param map
+     * @return
+     **/
     @ResponseBody
     @RequestMapping(value = "/exam/listByVendorId",method = RequestMethod.POST)
     public List<Exam>listByVendorId(HttpSession session,

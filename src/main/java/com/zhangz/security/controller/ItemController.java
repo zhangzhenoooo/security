@@ -1,6 +1,7 @@
 package com.zhangz.security.controller;
 
 import com.zhangz.security.dto.ResultDTO;
+import com.zhangz.security.enums.ExamTypeEnum;
 import com.zhangz.security.exception.CustomizeErrorCode;
 import com.zhangz.security.model.Item;
 import com.zhangz.security.model.User;
@@ -46,6 +47,7 @@ public class ItemController {
         item.setItemId(itemId);
         item.setItemName(itemName);
         item.setSiteId(siteId);
+        item.setExamStatus(ExamTypeEnum.NOT_APPROVAL.getStatus());
         item.setIsDelete(true);
         boolean result = itemServiceImpl.insertOrUpdate(item);
         if (result){

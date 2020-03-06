@@ -4,18 +4,15 @@ import com.zhangz.security.dto.ProductDTO;
 import com.zhangz.security.mapper.ExamMapper;
 import com.zhangz.security.model.Exam;
 import com.zhangz.security.model.ExamExample;
-import com.zhangz.security.model.Product;
 import com.zhangz.security.service.ExamService;
 import com.zhangz.security.utils.DateUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.util.DateUtils;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -32,12 +29,12 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public List<Exam> listByVendorId(Long vendorId,String examStatus) {
         ExamExample examExample = new ExamExample();
-        examExample.createCriteria()
-                .andVendorIdEqualTo(vendorId);
+        ExamExample.Criteria criteria =    examExample.createCriteria();
+
         if (!StringUtils.isEmpty(examStatus)&&!("".equals(examStatus))){
-            examExample.createCriteria()
-                    .andExamStatusEqualTo(examStatus);
+            criteria.andExamStatusEqualTo(examStatus);
         }
+        criteria.andVendorIdEqualTo(vendorId);
         List<Exam> exams = examMapper.selectByExample(examExample);
         if (exams.size() == 0 ){
             return  new ArrayList<>();
@@ -45,6 +42,7 @@ public class ExamServiceImpl implements ExamService {
             return exams;
         }
     }
+
 
     @Override
     public boolean insertExams(List<ProductDTO> productDTOS) {

@@ -2,6 +2,7 @@ package com.zhangz.security.controller;
 
 import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.zhangz.security.dto.ResultDTO;
+import com.zhangz.security.enums.ExamTypeEnum;
 import com.zhangz.security.exception.CustomizeErrorCode;
 import com.zhangz.security.model.Item;
 import com.zhangz.security.model.Site;
@@ -48,14 +49,27 @@ public class SiteController {
     }
 
 
+    /**
+     *
+     * @description 厂商根据一定条件删选自己的块地
+     * @author zhangz
+     * @date 2020:03:05 14:16:43
+     * @param session
+     * @return
+     **/
     @ResponseBody
-    @RequestMapping(value = "/site/siteList",method = RequestMethod.POST)
-    public List<Site> baseList(HttpSession session){
+    @RequestMapping(value = "/site/listByVendor",method = RequestMethod.POST)
+    public List<Site> listByVendor(HttpSession session,
+                                   @RequestBody Map<String,String> map){
         User user = (User) session.getAttribute("user");
-        List<Site> sites = siteServiceImpl.list(user.getUserId(), user.getType());
-//        System.out.println("sites ==============="+sites.size());
+        String examStatus = map.get("ExamStatus");
+        Site site = new Site();
+        site.setProducerId(user.getUserId());
+        site.setExamStatus(examStatus);
+        List<Site> sites = siteServiceImpl.listBySelective(site);
         return sites;
     }
+
 
     @ResponseBody
     @RequestMapping(value = "/site/insertOrUpdate",method = RequestMethod.POST)
@@ -69,6 +83,7 @@ public class SiteController {
         site.setAddress(address);
         site.setSiteName(siteName);
         site.setProducerId(user.getUserId());
+        site.setExamStatus(ExamTypeEnum.NOT_APPROVAL.getStatus());
         site.setIsDelete(false);
         boolean result = siteServiceImpl.insertOrUpdate(site);
         if (result){
@@ -100,7 +115,7 @@ public class SiteController {
 
     /**
      *
-     * @description 根据检测状态获取检测数据
+     * @description 检测人员根据检测状态获取site数据
      * @author zhangz
      * @date 2020:03:04 17:21:23
      * @return
@@ -108,9 +123,10 @@ public class SiteController {
     @ResponseBody
     @RequestMapping(value = "/site/listByExamStatus",method = RequestMethod.POST)
     public List<Site>listByExamStatus( @RequestBody Map<String,String> map){
-
         String examStatus = map.get("examStatus");
-        List<Site> sites = siteServiceImpl.listByExamStatus(examStatus);
+        Site site = new Site();
+        site.setExamStatus(examStatus);
+        List<Site> sites = siteServiceImpl.listBySelective(site);
         return sites;
     }
 

@@ -6,6 +6,7 @@ import com.zhangz.security.model.SiteExample;
 import com.zhangz.security.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.ArrayList;
@@ -77,5 +78,48 @@ public class SiteServiceImpl implements SiteService {
                 .andSiteIdEqualTo(siteId);
         int i = siteMapper.updateByExampleSelective(site, siteExample);
         return  i>0 ? true :false;
+    }
+
+    @Override
+    public List<Site> listBySelective(Site site) {
+
+        SiteExample siteExample = getSelectiveExample(site);
+        List<Site> sites = siteMapper.selectByExample(siteExample);
+        if (sites.size() == 0 ){
+            return  new ArrayList<>();
+        }else {
+            return sites;
+
+        }
+
+    }
+
+    /**
+     *
+     * @description  根据多条件查询site信息，属性为空就调过
+     * @author zhangz
+     * @date 2020:03:05 14:38:54
+     * @param site
+     * @return
+     **/
+    private SiteExample getSelectiveExample(Site site){
+        SiteExample siteExample = new SiteExample();
+        SiteExample.Criteria criteria = siteExample.createCriteria();
+        if (!ObjectUtils.isEmpty(site.getSiteId())){
+            //id
+           criteria.andSiteIdEqualTo(site.getSiteId());
+        }
+        if (!ObjectUtils.isEmpty(site.getExamStatus())){
+            //审批状态
+            criteria.andExamStatusEqualTo(site.getExamStatus());
+        }
+        if (!ObjectUtils.isEmpty(site.getProducerId())){
+            //生产商
+            criteria.andProducerIdEqualTo(site.getProducerId());
+        }
+        if (!ObjectUtils.isEmpty(site.getSiteName())){
+            criteria.andSiteNameEqualTo(site.getSiteName());
+        }
+        return siteExample;
     }
 }

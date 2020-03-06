@@ -50,7 +50,6 @@ public class ProductServiceImpl implements ProductService {
         if (!ObjectUtils.isEmpty(batchId)){
             criteria .andBatchIdEqualTo(batchId);
         }
-
         List<Product> products = productMapper.selectByExample(productExample);
         if (products.size() == 0){
             return new ArrayList<>();

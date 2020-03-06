@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -133,6 +134,40 @@ public class UserController {
             }
 
         }
+    }
+
+    /**
+     *
+     * @description  个人信息管理页面
+     * @author zhangz
+     * @date 2020:03:05 15:50:13
+     * @param model
+     * @return
+     **/
+    @GetMapping("/user/personManagement")
+    public String personManagement(Model model,
+                                   HttpSession session){
+        User user = (User) session.getAttribute("user");
+        if (ObjectUtils.isEmpty(user)){
+            return  "redirect:/user/login";
+        }else {
+            model.addAttribute("user",user);
+            return "person_management";
+        }
+    }
+
+    /**
+     *
+     * @description 退出登录跳转到登录界面
+     * @author zhangz
+     * @date 2020:03:05 15:55:18
+     * @param session
+     * @return
+     **/
+    @GetMapping("/user/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("user");
+        return  "redirect:/user/login";
     }
 
 }

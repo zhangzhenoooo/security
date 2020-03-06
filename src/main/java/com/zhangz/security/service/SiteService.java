@@ -30,4 +30,6 @@ public interface SiteService {
     List<Site> listByExamStatus(String examStatus);
 
     boolean updateBySiteId(Site site, Long siteId);
+
+    List<Site> listBySelective(Site site);
 }
