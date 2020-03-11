@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>个人信息管理</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+</head>
+<body>
+<div class="">
+    <form>
+        <div class="form-group row">
+            <label for="userId" class="col-sm-2 col-form-label">ID:</label>
+            <div class="col-sm-10">
+                <input th:value="${user.userId}" type="text" readonly class="form-control-plaintext" id="userId" name="userId" value="email@example.com">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="userName" class="col-sm-2 col-form-label">用户名:</label>
+            <div class="col-sm-10">
+                <input  th:value="${user.userName}" type="text" readonly class="form-control-plaintext" id="userName" name="userName" value="email@example.com">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="email" class="col-sm-2 col-form-label">邮箱:</label>
+            <div class="col-sm-10">
+                <input th:value="${user.email}" type="email" readonly class="form-control-plaintext" id="email" name="email" value="email@example.com">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">保存修改</button>
+    </form>
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/popper.min.js" ></script>
+<script src="/js/bootstrap.min.js" ></script>
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap-table-export.min.js"></script>
+<script src="/js/bootstrap-table-zh-CN.min.js"></script>
+</body>
+</html>

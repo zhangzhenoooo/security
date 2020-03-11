@@ -3,15 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>场地监管</title>
-    <link rel="stylesheet" href="/css/bootstrap-4.3.1.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="/css/community.css">
+
 </head>
 <body>
-<div th:insert="~{navigation :: nav}"></div>
-<div class="content">
+<div class="">
     <div id="toolbar">
-        <div class="select float-left">
+        <div class="select " style="float: left;">
             <select class="form-control" id="locale" style="width: 200px;" >
                 <option  value="待审批" >待审批</option>
                 <option  value="通过" >通过</option>
@@ -24,7 +23,6 @@
     </div>
     <table class="table table-hover " id="examListTable" style="min-width:1500px;" ></table>
 </div>
-<div th:insert="~{footer :: foot}"></div>
 <!--model-->
 <div class="modal fade bs-example-modal-lg"  id="exampleModal" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" >
     <div class="modal-dialog modal-lg" >
@@ -53,7 +51,8 @@
         </div>
     </div>
 </div>
-<script src="/js/jquery-3.4.1.min.js" ></script>
+
+<script src="/js/jquery-2.1.4.min.js"></script>
 <script src="/js/popper.min.js" ></script>
 <script src="/js/bootstrap.min.js" ></script>
 <script src="/js/bootstrap-table.min.js"></script>
@@ -176,7 +175,10 @@
                 clickToSelect: false,
                 events: window.operateEvents,
                 formatter: operateFormatter
-            }]
+            }],
+            formatNoMatches:function(){ // 自定义没有数据时的提示
+                return "暂无数据";
+            }
 
         });
     }

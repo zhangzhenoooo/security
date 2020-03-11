@@ -30,8 +30,8 @@ public class ItemController {
     @ResponseBody
     @RequestMapping(value = "/item/listBySiteId",method = RequestMethod.POST)
     public List<Item>  listBySiteId(@RequestBody  Map<String,Long> map){
-        List<Item> sites = itemServiceImpl.listBySiteId(map.get("siteId"));
-        return sites;
+        List<Item> items = itemServiceImpl.listBySiteId(map.get("siteId"));
+        return items;
     }
 
     @ResponseBody
@@ -48,7 +48,7 @@ public class ItemController {
         item.setItemName(itemName);
         item.setSiteId(siteId);
         item.setExamStatus(ExamTypeEnum.NOT_APPROVAL.getStatus());
-        item.setIsDelete(true);
+        item.setIsDelete(false);
         boolean result = itemServiceImpl.insertOrUpdate(item);
         if (result){
             return ResultDTO.successOf();
@@ -56,6 +56,7 @@ public class ItemController {
             return ResultDTO.errorOf(CustomizeErrorCode.ITEM_INSERT_FALSE);
         }
     }
+
 
     @ResponseBody
     @RequestMapping(value = "item/{itemId}",method = RequestMethod.GET)

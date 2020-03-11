@@ -13,8 +13,15 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
                 <h3 class="float-right" style="color: white;">食品安全监管信息系统</h3>
-                         <a class="nav-link float-right" href="/user/login" th:if="${session.user == null}">登录</a>
-                         <a class="nav-link float-right" href="/user/login" th:if="${session.user != null}" th:text="${session.user.getUserName()}"></a>
+                <a class="nav-link float-right" href="/user/login" th:if="${session.user == null}">登录</a>
+                <li class="nav-link nav-item float-right">
+                    <a class="nav-link dropdown-toggle" id="personMess" href="#" th:if="${session.user != null}" th:text="${session.user.getUserName()}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                    <div class="dropdown-menu" aria-labelledby="personMess">
+                        <a class="dropdown-item" href="/user/personManagement">个人信息</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/user/logout">切换账号</a>
+                    </div>
+                </li>
 
             </nav>
             <div class="collapse" id="navbarToggleExternalContent">

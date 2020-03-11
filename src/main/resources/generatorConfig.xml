@@ -42,5 +42,6 @@
         <table tableName="batch" domainObjectName="Batch"></table>
         <table tableName="item" domainObjectName="Item"></table>
         <table tableName="exam" domainObjectName="Exam"></table>
+        <table tableName="exambatch" domainObjectName="ExamBatch"></table>
     </context>
 </generatorConfiguration>

@@ -1,6 +1,5 @@
 package com.zhangz.security.service.impl;
 
-import com.zhangz.security.dto.CommentDTO;
 import com.zhangz.security.dto.ProductDTO;
 import com.zhangz.security.mapper.BatchMapper;
 import com.zhangz.security.mapper.ItemMapper;
@@ -75,5 +74,17 @@ public class ProductServiceImpl implements ProductService {
             return productDTO;
         }).collect(Collectors.toList());
         return productDTOS;
+    }
+
+    @Override
+    public int insert(Product record) {
+        Site dbSite = siteMapper.selectByPrimaryKey(record.getSiteId());
+        Batch dbBatch = batchMapper.selectByPrimaryKey(record.getBatchId());
+        Item dbItem = itemMapper.selectByPrimaryKey(record.getItemId());
+        record.setSiteName(dbSite.getSiteName());
+        record.setItemName(dbItem.getItemName());
+        record.setProductName(dbItem.getItemName());
+        int insert = productMapper.insert(record);
+        return insert;
     }
 }

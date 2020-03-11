@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加送检产品信息</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+</head>
+<body>
+<div class="">
+    <!--model-->
+                    <h5 class="card-title" id="exampleModalLabel">添加送检产品信息</h5>
+                    <form id="form-site" >
+                        <div class="form-group">
+                            <!--<label for="siteId" class="col-form-label">基地id:</label>-->
+                            <input type="hidden" class="form-control" id="siteId" name="siteId">
+                        </div>
+                        <div class="form-group">
+                            <!--<label for="batch_select" class="col-form-label"></label>-->
+                            <div class="muBar" id="mybar">
+                                <div class="form-group float-left">
+                                    <!--<label for="site_select" class="col-form-label"></label>-->
+                                    选择基地:<select class="form-control" id="site_select" name="site_select" style="width: 150px;" >
+                                    <option  value="" >全部</option>
+                                    <option th:each="site : ${sites}"  th:value="${site.siteId}" th:text="${site.siteName}"></option>
+
+                                </select>
+                                </div>
+                                <div class="form-group  float-left ml-1">
+                                    <!--<label for="batch_select" class="col-form-label">选择批次:</label>-->
+                                    选择批次:<select class="form-control" id="batch_select" name="batch_select" style="width: 150px;" >
+                                    <option  value="" >全部</option>
+                                    <option th:each="batch : ${batches}"  th:value="${batch.batchId}" th:text="${batch.batchName}" ></option>
+
+                                </select>
+                                </div>
+                            </div>
+                            <table id="product_table" ></table>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                        <button type="button" id="btn-submit" class="btn btn-primary">提交</button>
+                    </form>
+
+</div>
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/popper.min.js" ></script>
+<script src="/js/bootstrap.min.js" ></script>
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap-table-export.min.js"></script>
+<script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<script>
+    // 初始化产品表
+    function initProductTable() {
+        var batchId = $("#batch_select").val();
+        var siteId = $("#site_select").val();
+        $('#product_table').bootstrapTable({
+            url: '/product/list',         //请求后台的URL（*）
+            method: 'post',                      //请求方式（*）
+            toolbar: '#mybar',                //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: true,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+            queryParams: {
+                batchId:batchId,
+                siteId:siteId
+            },//传递参数（*）
+            // sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber:1,                       //初始化加载第一页，默认第一页
+            pageSize: 8,                       //每页的记录行数（*）
+            pageList: [8, 16, 32, 100],        //可供选择的每页的行数（*）
+            search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            // strictSearch: true,
+            showColumns: true,                  //是否显示所有的列
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,                //是否启用点击选中行
+            // height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "productId",                    //每一行的唯一标识，一般为主键列
+            // showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
+            // cardView: false,                    //是否显示详细视图
+            // detailView: false,                   //是否显示父子表
+            columns: [{
+                checkbox: true
+            }, {
+                field: 'productId',
+                title: '产品编号',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'productName',
+                title: '产品名称',
+                align: 'center'
+            }, {
+                field: 'batchId',
+                title: '批次编号',
+                align: 'center'
+            }, {
+                field: 'batch.batchName',
+                title: '批次名称',
+                align: 'center'
+            }, {
+                field: 'siteId',
+                title: '场地编号',
+                align: 'center'
+            }, {
+                field: 'siteName',
+                title: '场地名称',
+                align: 'center'
+            },{
+                field: 'batch.productedDate',
+                title: '生产日期',
+                sortable: true,
+                align: 'center'
+            },{
+                field: 'batch.effectiveDate',
+                title: '有效期',
+                sortable: true,
+                align: 'center'
+            }]
+        });
+
+    }
+
+    function refreshTable(){
+        $("#product_table").bootstrapTable('destroy');
+        initProductTable();
+    }
+    $(function () {
+        initProductTable();
+        // 注册modal提交点击事件
+        $("#btn-submit").click(function () {
+            // var siteSelect = $("#site_select").val();
+            // var batchSelect = $("#batch_select").val();
+            var getSelectRows = $("#product_table").bootstrapTable('getSelections', function (row) {
+                return row;
+            });
+            $.ajax({
+                url:'/exam/insertExams',
+                type:'post',
+                dataType: 'json', // 返回数据的格式, 通常为JSON
+                contentType: 'application/json',
+                data: JSON.stringify(getSelectRows) ,   // 需要传送的参数
+                success:function (data) {
+                    if (data.code == 200) {
+                        $("#exampleModal").modal('hide');
+                        window.location.reload();
+                    }
+                }
+            })
+        });
+        //  select 监听
+        $('#site_select').change(function () {
+            refreshTable();
+        });
+        $('#batch_select').change(function () {
+            refreshTable();
+        });
+    })
+</script>
+</body>
+</html>

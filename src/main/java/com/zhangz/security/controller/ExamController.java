@@ -94,6 +94,7 @@ public class ExamController {
         return "exam_product_management";
     }
 
+
     /**
      *
      * @description 根据检测状态获取检测数据
@@ -109,6 +110,7 @@ public class ExamController {
         List<Exam> exams = examServiceImpl.listByExamStatus(examStatus);
         return exams;
     }
+
 
     @ResponseBody
     @PostMapping("/exam/approve")
@@ -145,6 +147,34 @@ public class ExamController {
         }else {
            return  ResultDTO.errorOf(CustomizeErrorCode.EXAM_INSERT_FALSE);
         }
+    }
+
+    /**
+     *
+     * @description  跳转生产商添加将要送去检测到的检测产品信息页面
+     * @author zhangz
+     * @date 2020:03:07 14:45:10
+     * @param model
+     * @param session
+     * @return
+     **/
+    @GetMapping("/exam/andExamProduct")
+    public String andExamProduct(Model model,
+                                 HttpSession session){
+        User user = (User) session.getAttribute("user");
+        BatchExample batchExample = new BatchExample();
+        batchExample.createCriteria()
+                .andIsDeleteEqualTo(false)
+                .andCreatorIdEqualTo(user.getUserId());
+        List<Batch> batches = batchMapper.selectByExample(batchExample);
+        model.addAttribute("batches",batches) ;
+
+        SiteExample siteExaample = new SiteExample();
+        siteExaample.createCriteria()
+                .andProducerIdEqualTo(user.getUserId());
+        List<Site> sites = siteMapper.selectByExample(siteExaample);
+        model.addAttribute("sites",sites) ;
+        return "add_examproduct";
     }
 
 

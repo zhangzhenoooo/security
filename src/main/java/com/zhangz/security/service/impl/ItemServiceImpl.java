@@ -8,6 +8,7 @@ import com.zhangz.security.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class ItemServiceImpl implements ItemService {
     public boolean insertOrUpdate(Item item) {
         Item dbSite = itemMapper.selectByPrimaryKey(item.getItemId());
         int affectedRow;
-        if (dbSite == null ){
+        if (ObjectUtils.isEmpty(dbSite)){
             //insert
             item.setCreateDate(DateUtil.getData());
             item.setModifyDate(DateUtil.getData());

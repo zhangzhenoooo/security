@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>送检产品管理</title>
-    <link rel="stylesheet" href="/css/bootstrap-4.3.1.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/echarts.min.js"></script>
+
 </head>
 <body>
-<div th:insert="~{navigation :: nav}"></div>
 <div class="content">
     <div id="toolbar">
-        <div class="select float-left">
+        <div class="select" style="float: left;">
             <select class="form-control" id="locale" style="width: 200px;" >
                 <option  value="待审批" >待审批</option>
                 <option  value="通过" >通过</option>
@@ -23,8 +23,59 @@
         <!--<a class="btn btn-primary ml-5 float-left" data-toggle="modal" data-target="#exampleModal" href="#">添加送检</a>-->
     </div>
     <table class="table table-hover " id="examListTable" style="min-width:1500px;" ></table>
+    <h3>统计</h3>
+    <div class="card" id="main" style="height: 400px;width: 600px;">
+
+    </div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        option = {
+            title: {
+                text: '某站点用户访问来源',
+                subtext: '纯属虚构',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['直接访问', '邮件营销', '联盟广告', '视频广告', '搜索引擎']
+            },
+            series: [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [
+                        {value: 335, name: '直接访问'},
+                        {value: 310, name: '邮件营销'},
+                        {value: 234, name: '联盟广告'},
+                        {value: 135, name: '视频广告'},
+                        {value: 1548, name: '搜索引擎'}
+                    ],
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </script>
 </div>
-<div th:insert="~{footer :: foot}"></div>
 <!--model-->
 <div class="modal fade bs-example-modal-lg"  id="exampleModal" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" >
     <div class="modal-dialog modal-lg" >
@@ -53,12 +104,14 @@
         </div>
     </div>
 </div>
-<script src="/js/jquery-3.4.1.min.js" ></script>
+
+<script src="/js/jquery-2.1.4.min.js"></script>
 <script src="/js/popper.min.js" ></script>
 <script src="/js/bootstrap.min.js" ></script>
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap-table-export.min.js"></script>
 <script src="/js/bootstrap-table-zh-CN.min.js"></script>
+
 <script>
     function operateFormatter(value, row, index) {
         return [

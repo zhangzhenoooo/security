@@ -1,5 +1,7 @@
 package com.zhangz.security.service;
 
+import com.zhangz.security.model.Product;
+
 import java.util.List;
 
 /**
@@ -9,4 +11,6 @@ import java.util.List;
  */
 public interface ProductService <T>{
     List<T> list(Long vendorId,Long siteId,Long batchId);
+
+    int insert(Product record);
 }

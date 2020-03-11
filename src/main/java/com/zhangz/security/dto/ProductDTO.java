@@ -22,9 +22,9 @@ public class ProductDTO {
     private String composition;
     private Integer isDelete;
     private Site site;
-    private Batch batch;
     private Item item;
     private String siteName;
     private String itemName;
     private String vendorName;
+    private Batch batch;
 }
