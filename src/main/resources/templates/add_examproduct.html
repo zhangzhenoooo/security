@@ -5,50 +5,90 @@
     <title>添加送检产品信息</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="/css/community.css">
+    <link rel="stylesheet" href="/css/fileinput.min.css">
 </head>
 <body>
 <div class="">
-    <!--model-->
-                    <h5 class="card-title" id="exampleModalLabel">添加送检产品信息</h5>
-                    <form id="form-site" >
-                        <div class="form-group">
-                            <!--<label for="siteId" class="col-form-label">基地id:</label>-->
-                            <input type="hidden" class="form-control" id="siteId" name="siteId">
-                        </div>
-                        <div class="form-group">
-                            <!--<label for="batch_select" class="col-form-label"></label>-->
-                            <div class="muBar" id="mybar">
-                                <div class="form-group float-left">
-                                    <!--<label for="site_select" class="col-form-label"></label>-->
-                                    选择基地:<select class="form-control" id="site_select" name="site_select" style="width: 150px;" >
-                                    <option  value="" >全部</option>
-                                    <option th:each="site : ${sites}"  th:value="${site.siteId}" th:text="${site.siteName}"></option>
+    <!--start model-->
+    <h5 class="card-title" id="exampleModalLabel">添加送检产品信息</h5>
+    <form id="form-site" >
+        <div class="form-group">
+            <!--<label for="siteId" class="col-form-label">基地id:</label>-->
+            <input type="hidden" class="form-control" id="siteId" name="siteId">
+        </div>
+        <div class="form-group">
+            <!--<label for="batch_select" class="col-form-label"></label>-->
+            <div class="muBar" id="mybar">
+                <div class="form-group pull-left">
+                    <!--<label for="site_select" class="col-form-label"></label>-->
+                    选择基地:<select class="form-control" id="site_select" name="site_select" style="width: 150px;" >
+                    <option  value="" >全部</option>
+                    <option th:each="site : ${sites}"  th:value="${site.siteId}" th:text="${site.siteName}"></option>
 
-                                </select>
-                                </div>
-                                <div class="form-group  float-left ml-1">
-                                    <!--<label for="batch_select" class="col-form-label">选择批次:</label>-->
-                                    选择批次:<select class="form-control" id="batch_select" name="batch_select" style="width: 150px;" >
-                                    <option  value="" >全部</option>
-                                    <option th:each="batch : ${batches}"  th:value="${batch.batchId}" th:text="${batch.batchName}" ></option>
+                </select>
+                </div>
+                <div class="form-group  pull-left ml-1">
+                    <!--<label for="batch_select" class="col-form-label">选择批次:</label>-->
+                        选择批次:<select class="form-control" id="batch_select" name="batch_select" style="width: 150px;" >
+                        <option  value="" >全部</option>
+                        <option th:each="batch : ${batches}"  th:value="${batch.batchId}" th:text="${batch.batchName}" ></option>
 
-                                </select>
-                                </div>
-                            </div>
-                            <table id="product_table" ></table>
+                            </select>
+                </div>
+                <div class="form-group  pull-left ">
+                   批量导入（excel）：<br>  <a class="btn btn-primary "  data-toggle="modal" data-target="#import" href="#">批量导入</a>
+                </div>
+            </div>
+            <table id="product_table" ></table>
+        </div>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        <button type="button" id="btn-submit" class="btn btn-primary">提交</button>
+    </form>
+<!--end model -->
+    <!--START modal batch import-->
+    <div id="import" class="modal fade bs-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">文件导入</h4>
+                </div>
+                <div class="modal-body">
+                    <div style="text-align:right;padding:5px">
+                        <a href="/excel/downLoadTemplate/exam.xls" >
+                            <!--<img alt="测试用户信息-模板" src="~/Content/images/ico_excel.png" />-->
+                            点击下载模板：<span style="font-size:larger;font-weight:200;color:red" id="templateName">exam.xls</span>
+                        </a>
+                    </div>
+                    <hr/>
+                    <form id="ffImport" method="post">
+                        <div title="Excel导入操作" style="padding: 5px">
+                            <input type="hidden" id="AttachGUID" name="AttachGUID" />
+                            <input id="excelFile" name="excelFile" type="file">
                         </div>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
-                        <button type="button" id="btn-submit" class="btn btn-primary">提交</button>
                     </form>
 
+                    <!--数据显示表格-->
+                    <table id="gridImport" class="table table-striped table-bordered table-hover" cellpadding="0" cellspacing="0" border="0">
+
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" onclick="SaveImport()">导入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--END modal batch import-->
 </div>
 <script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/table-export.min.js" ></script>
 <script src="/js/popper.min.js" ></script>
 <script src="/js/bootstrap.min.js" ></script>
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap-table-export.min.js"></script>
-<script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="/js/fileinput.min.js"></script>
 <script>
     // 初始化产品表
     function initProductTable() {
@@ -128,7 +168,208 @@
         $("#product_table").bootstrapTable('destroy');
         initProductTable();
     }
+
+    // start batch import
+
+    //初始化Excel导入的文件
+    function InitExcelFile() {
+        //记录GUID
+        $("#AttachGUID").val(0);
+
+        $("#excelFile").fileinput({
+            uploadUrl: "/excel/upload",//上传的地址
+            uploadAsync: true,              //异步上传
+            language: "zh",                 //设置语言
+            // showCaption: true,              //是否显示标题
+            showUpload: true,               //是否显示上传按钮
+            showRemove: true,               //是否显示移除按钮
+            // showPreview : true,             //是否显示预览按钮
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled: false,         //是否显示拖拽区域
+            allowedFileExtensions: ["xls", "xlsx"], //接收的文件后缀
+            maxFileCount: 1,                        //最大上传文件数限制
+            uploadExtraData: {  //上传的时候，增加的附加参数
+                type: 'exam', guid: $("#AttachGUID").val()
+            }
+        })  //文件上传完成后的事件
+            .on('fileuploaded', function (event, data, previewId, index) { //文件上传后的处理函数
+                var res = data.response; //返回结果
+                var message = res.message;
+                var code = res.code;
+                var data =res.data;
+                if ( code != 200 ) {
+                    alert(message);
+                }
+                else {
+                    // showTips('上传成功');
+                    var guid = $("#AttachGUID").val();
+                    InitImport(data); //重新刷新表格数据
+                    // alert("文件已上传，数据加载完毕！");
+
+                    //重新刷新GUID，以及清空文件，方便下一次处理
+                    RefreshExcel();
+
+                }
+            });
+    }
+    //重新更新GUID的值，并清空文件
+    function RefreshExcel() {
+        $("#AttachGUID").val(0);
+        $('#excelFile').fileinput('clear');//清空所有文件
+
+        //附加参数初始化后一直不会变化，如果需要发生变化，则需要使用refresh进行更新
+        $('#excelFile').fileinput('refresh', {
+            uploadExtraData: { folder: '数据导入文件', guid: $("#AttachGUID").val() },
+        });
+    }
+
+    //根据条件查询并绑定结果
+    // var $('#gridImport');
+    function InitImport(data) {
+        $("#gridImport").bootstrapTable('destroy').bootstrapTable({
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                  //是否显示分页（*）
+            sidePagination: "client",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber: 1,                      //初始化加载第一页，默认第一页,并记录
+            pageSize: 20,                     //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            search: false,                      //是否显示表格搜索
+            strictSearch: true,
+            showColumns: true,                  //是否显示所有的列（选择显示的列）
+            showRefresh: true,                  //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,               //是否启用点击选中行
+            columns: [{
+                field: 'state',
+                checkbox: true,
+                align: 'center',
+                valign: 'middle'
+            },{
+                title: '序号',
+                align: 'center',
+                formatter: function (value, row, index) {
+                    var pageSize=$('#gridImport').bootstrapTable('getOptions').pageSize;
+                    var pageNumber=$('#gridImport').bootstrapTable('getOptions').pageNumber;
+                    return pageSize * (pageNumber - 1) + index + 1;
+                }
+            },{
+                title: 'productId',
+                field: 'productId',
+                align: 'center',
+                valign: 'middle',
+                sortable: true
+            }, {
+                title: 'productName',
+                field:'productName',
+                align: 'center'
+            },{
+                field: 'siteId',
+                title: 'siteId',
+                sortable: true,
+                align: 'center'
+            },{
+                field: 'siteName',
+                title: 'siteName',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'batchId',
+                title: 'batchId',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'itemId',
+                title: 'itemId',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'itemName',
+                title: 'itemName',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'vendor',
+                title: 'vendor',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'vendorName',
+                title: 'vendorName',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'description',
+                title: 'description',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'composition',
+                title: 'composition',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'isDelete',
+                title: 'isDelete',
+                sortable: true,
+                align: 'center'
+            }],
+            data:data
+        });
+        // $('#gridImport').bootstrapTable({data: data});
+    }
+
+    //保存导入的数据
+    function SaveImport() {
+
+        var list = [];//构造集合对象
+        var rows = $('#gridImport').bootstrapTable('getSelections');
+        for (var i = 0; i < rows.length; i++) {
+            list.push({
+                'productId': rows[i].productId, 'productName': rows[i].productName, 'siteId': rows[i].siteId,'siteName': rows[i].siteName, 'batchId': rows[i].batchId,
+                'itemId': rows[i].itemId,'itemName': rows[i].itemName, 'vendor': rows[i].vendor,  'vendorName': rows[i].vendor,'vendorName': rows[i].siteName, 'description': rows[i].description,
+                'composition': rows[i].composition, 'isDelete': rows[i].isDelete
+            });
+        }
+
+        if (list.length == 0) {
+            alert("请选择一条记录", "warning");
+            return;
+        }
+
+        var postData = { 'list': list,'type':'exam' };//可以增加其他参数，如{ 'list': list, 'Rucanghao': $("#Rucanghao").val() };
+        postData = JSON.stringify(postData);
+        alert(postData);
+        $.ajax({
+            url: '/excel/batchImport',
+            type: 'post',
+            dataType: 'json',
+            contentType: 'application/json;charset=utf-8',
+            traditional: true,
+            success: function (data) {
+                if (data.code = 200) {
+                    //保存成功  1.关闭弹出层，2.清空记录显示 3.刷新主列表
+                    // alert("保存成功");
+                    alert("保存成功");
+                    $("#import").modal("hide");
+                    $(bodyTag).html("");
+                    Refresh();
+                    initTable(); //刷新主表
+                }
+                else {
+                    alert("保存失败");
+                    // alert("保存失败:" + data.ErrorMessage, "error");
+                }
+            },
+            data: postData
+        });
+    }
+
+    // end batch import
+
+    // when  page ready
     $(function () {
+        InitExcelFile();
         initProductTable();
         // 注册modal提交点击事件
         $("#btn-submit").click(function () {
@@ -158,6 +399,11 @@
         $('#batch_select').change(function () {
             refreshTable();
         });
+
+        $('#import').on('hidden.bs.modal', function () {
+            var  data = [];
+            InitImport(data);
+        })
     })
 </script>
 </body>

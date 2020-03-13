@@ -3,11 +3,16 @@ package com.zhangz.security.dto;
 import lombok.Data;
 
 /**
- * Created by codedrinker on 2019/6/26.
- */
+ *
+ * @description
+ * @author zhangz
+ * @date 2020:03:11 19:58:45
+ * @return
+ **/
 @Data
 public class FileDTO {
     private int success;
     private String message;
     private String url;
+
 }

@@ -1,10 +1,7 @@
 package com.zhangz.security.service.impl;
 
 import com.zhangz.security.dto.ProductDTO;
-import com.zhangz.security.mapper.BatchMapper;
-import com.zhangz.security.mapper.ItemMapper;
-import com.zhangz.security.mapper.ProductMapper;
-import com.zhangz.security.mapper.SiteMapper;
+import com.zhangz.security.mapper.*;
 import com.zhangz.security.model.*;
 import com.zhangz.security.service.ProductService;
 import org.springframework.beans.BeanUtils;
@@ -28,6 +25,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private ProductExtMapper productExtMapper;
     @Autowired
     private SiteMapper siteMapper;
     @Autowired
@@ -86,5 +85,11 @@ public class ProductServiceImpl implements ProductService {
         record.setProductName(dbItem.getItemName());
         int insert = productMapper.insert(record);
         return insert;
+    }
+
+    @Override
+    public int batchInsert(List list) {
+        int i = productExtMapper.batchInsert(list);
+        return i;
     }
 }

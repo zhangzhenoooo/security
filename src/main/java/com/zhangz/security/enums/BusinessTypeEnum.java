@@ -1,6 +1,7 @@
 package com.zhangz.security.enums;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +11,11 @@ import java.util.Map;
  * @date 2020/3/10 13:55
  */
 public enum  BusinessTypeEnum {
-    VENDOR_IMPORT_PRODUCT("VENDOR_IMPORT_PRODUCT"),
+    VENDOR_IMPORT_PRODUCT("product"),
+    EXAM_IMPORT_PRODUCT("exam"),
     ;
     private String type;
-    private String[] headers;
+    private List<String> headers;
 
     BusinessTypeEnum(String type) {
         this.type = type;
@@ -23,11 +25,11 @@ public enum  BusinessTypeEnum {
         return type;
     }
 
-    public String[] getHeaders() {
+    public List getHeaders() {
         return headers;
     }
 
-    public void setHeaders(String[] headers) {
+    public void setHeaders(List headers) {
         this.headers = headers;
     }
 
@@ -36,13 +38,18 @@ public enum  BusinessTypeEnum {
         this.headers = initHeader(type);
     }
 
-    private final  static  String[] vendorImportHeaders = {"hello world", "welcome to java", "I love China" };
 
-    private String[]  initHeader(String type){
-       if ("VENDOR_IMPORT_PRODUCT".equals(type)){
-           return  vendorImportHeaders;
-       }else {
-           return new String[0];
+    private List<String>  initHeader(String type){
+         final    String[] vendorImportHeaders = {"productId ","productName","siteId", "siteName", "batchId","itemId","itemName","vendor","vendorName","description" ,"composition","isDelete"};
+        final    String[] examImportHeaders = {"examId ","examName","productId","productName", "examBatchId", "examBatchName","launchDate","examDate","examStatus","siteId","siteName" ,"batchId","batchName","productedDate","effectiveDate","vendorId","vendorName","itemId"};
+
+        if ("product".equals(type)){
+           return Arrays.asList(vendorImportHeaders);
+       }else if ("exam".equals(type)){
+            return Arrays.asList(examImportHeaders);
+        } else {
+           return  new ArrayList();
        }
     }
+
 }

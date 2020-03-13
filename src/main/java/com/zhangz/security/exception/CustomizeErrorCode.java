@@ -12,9 +12,15 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     APPROVE_FALSE(2005,"审批失败，请重试"),
     ITEM_INSERT_FALSE(2006,"新增失败"),
     EXAM_INSERT_FALSE(2007,"插入失败"),
+    FILE_UPLOAD_ERROR(2008,"上传失败"),
+    FILE_TYPE_WRONG(2009,"文件格式错误"),
+    FIEL_IS_NULL(2010,"文件为空"),
+    FIEL_COL_NOT_MATCH(2011,"表格的列不匹配"),
+    RESULT_NULL(2012,"结果不能未空"),
+    FUNCTION_NOT_EXIST(2013,"功能不存在"),
+    INSERT_FALSE(2014,"插入失败"),
+    FILE_NOT_EXIST(2015,"文件不存在");
     ;
-
-
 
 
     @Override

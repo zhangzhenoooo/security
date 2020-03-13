@@ -132,4 +132,10 @@ public class ExamServiceImpl implements ExamService {
         }
 
     }
+
+    @Override
+    public int batchInsert(List<Exam> exams) {
+        int i = examExtMapper.insertBatch(exams);
+        return i;
+    }
 }

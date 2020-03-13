@@ -1,5 +1,7 @@
 package com.zhangz.security.utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -23,5 +25,16 @@ public class DateUtil {
         Instant localDate =  LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
         Date date = Date.from(localDate);
         return date;
+    }
+
+    public static Date  getDateByString(String str){
+        Date date1=null;
+        SimpleDateFormat simdate1=new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            date1=simdate1.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date1;
     }
 }

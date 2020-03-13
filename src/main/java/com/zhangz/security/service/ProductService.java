@@ -13,4 +13,6 @@ public interface ProductService <T>{
     List<T> list(Long vendorId,Long siteId,Long batchId);
 
     int insert(Product record);
+
+    int batchInsert(List<Product> list);
 }

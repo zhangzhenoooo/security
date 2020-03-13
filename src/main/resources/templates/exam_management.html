@@ -5,6 +5,7 @@
     <title>送检管理</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/css/fileinput.min.css">
 </head>
 <body>
 <div class=" overflow-auto">
@@ -42,7 +43,7 @@
                     <div class="form-group">
                         <!--<label for="batch_select" class="col-form-label"></label>-->
                         <div class="muBar" id="mybar">
-                            <div class="form-group float-left">
+                            <div class="form-group pull-left">
                                 <!--<label for="site_select" class="col-form-label"></label>-->
                                 选择基地:<select class="form-control" id="site_select" name="site_select" style="width: 150px;" >
                                     <option  value="" >全部</option>
@@ -50,7 +51,7 @@
 
                                 </select>
                             </div>
-                            <div class="form-group  float-left ml-1">
+                            <div class="form-group ml-1 pull-left">
                                 <!--<label for="batch_select" class="col-form-label">选择批次:</label>-->
                                 选择批次:<select class="form-control" id="batch_select" name="batch_select" style="width: 150px;" >
                                     <option  value="" >全部</option>
@@ -72,11 +73,13 @@
 </div>
 
 <script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/table-export.min.js" ></script>
 <script src="/js/popper.min.js" ></script>
 <script src="/js/bootstrap.min.js" ></script>
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap-table-export.min.js"></script>
 <script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="/js/fileinput.min.js"></script>
 <script>
     function operateFormatter(value, row, index) {
         return [
@@ -136,6 +139,8 @@
             showColumns: true,                  //是否显示所有的列
             showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
+            showExport:true,                       //是否显示导出数据
+            exportDataType:'all',                  //导出数据范围{basic ：当前，all;所有,selected：选择的}
             // clickToSelect: true,                //是否启用点击选中行
             // height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             // uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
@@ -223,6 +228,8 @@
             showRefresh: true,                  //是否显示刷新按钮
             minimumCountColumns: 2,             //最少允许的列数
             clickToSelect: true,                //是否启用点击选中行
+            showExport:true,                       //是否显示导出数据
+            exportDataType:'all',                  //导出数据范围{basic ：当前，all;所有,selected：选择的}
             // height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
             uniqueId: "productId",                    //每一行的唯一标识，一般为主键列
             // showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
@@ -300,6 +307,8 @@
                     if (data.code == 200) {
                         $("#exampleModal").modal('hide');
                         window.location.reload();
+                    }else {
+                        alert(data.message);
                     }
                 }
             })

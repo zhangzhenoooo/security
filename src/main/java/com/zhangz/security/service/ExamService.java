@@ -19,4 +19,6 @@ public interface ExamService {
     List<Exam> listByExamStatus(String examStatus);
 
     boolean updateByExamId(Exam exam, Long examId);
+
+    int batchInsert(List<Exam> exams);
 }
