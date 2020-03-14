@@ -5,6 +5,7 @@ import com.zhangz.security.model.User;
 import com.zhangz.security.service.impl.UserServiceImpl;
 import com.zhangz.security.utils.DateUtil;
 import com.zhangz.security.utils.GetIP;
+import com.zhangz.security.utils.SnowIdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,6 +112,7 @@ public class UserController {
                 return "register";
             } else {
                 User user = new User();
+                user.setUserId(SnowIdUtils.uniqueLong());
                 user.setPassword(password);
                 user.setEmail(email);
                 user.setType(1);

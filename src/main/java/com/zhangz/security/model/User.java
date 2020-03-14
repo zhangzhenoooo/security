@@ -1,5 +1,7 @@
 package com.zhangz.security.model;
 
+import com.zhangz.security.plugin.AutoId;
+
 import java.util.Date;
 
 public class User {
@@ -10,6 +12,7 @@ public class User {
      *
      * @mbg.generated Fri Mar 13 13:55:42 CST 2020
      */
+    @AutoId
     private Long userId;
 
     /**

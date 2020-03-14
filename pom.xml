@@ -17,6 +17,8 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
+
+
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -66,12 +68,22 @@
 			<artifactId>fastjson</artifactId>
 			<version>1.2.57</version>
 		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.45</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>20.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.10</version>
+		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
@@ -98,7 +110,18 @@
 			<artifactId>ufile-client-java</artifactId>
 			<version>2.1.1</version>
 		</dependency>
-		 <!--读取后缀为xlsx或xls的excel操作需要导入包-->
+        <!-- Druid 数据连接池依赖 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>1.1.21</version>
+        </dependency>
+        <dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+            <version>1.4.5</version>
+        </dependency>
+        <!--读取后缀为xlsx或xls的excel操作需要导入包-->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -109,6 +132,7 @@
 			<artifactId>poi-ooxml</artifactId>
 			<version>3.17</version>
 		</dependency>
+
 	</dependencies>
 
 	<build>
