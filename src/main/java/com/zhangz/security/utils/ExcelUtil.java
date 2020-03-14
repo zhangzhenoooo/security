@@ -198,22 +198,22 @@ public class ExcelUtil <T> {
                     Exam exam = new Exam();
                     exam.setExamId(Long.parseLong(rowData.get(0)));
                     exam.setExamName(rowData.get(1));
-                    exam.setProductId(Long.parseLong(rowData.get(3)));
-                    exam.setProductName(rowData.get(4));
-                    exam.setBatchId(Long.parseLong(rowData.get(5)));
-                    exam.setExamBatchName(rowData.get(6));
-                    exam.setLaunchDate(DateUtil.parseYYYYMMDDDate(rowData.get(7)));
-                    exam.setExamDate(DateUtil.parseYYYYMMDDDate(rowData.get(8)));
-                    exam.setExamStatus(rowData.get(9));
-                    exam.setSiteId(Long.parseLong(rowData.get(10)));
-                    exam.setSiteName(rowData.get(11));
-                    exam.setBatchId(Long.parseLong(rowData.get(12)));
-                    exam.setBatchName(rowData.get(13));
-                    exam.setProductedDate(DateUtil.parseYYYYMMDDDate(rowData.get(14)));
-                    exam.setEffectiveDate(DateUtil.parseYYYYMMDDDate(rowData.get(15)));
-                    exam.setVendorId(Long.parseLong(rowData.get(16)));
-                    exam.setVendorName(rowData.get(17));
-                    exam.setItemId(Long.parseLong(rowData.get(18)));
+                    exam.setProductId(Long.parseLong(rowData.get(2)));
+                    exam.setProductName(rowData.get(3));
+                    exam.setExamBatchId(Long.parseLong(rowData.get(4)));
+                    exam.setExamBatchName(rowData.get(5));
+                    exam.setLaunchDate(DateUtil.parseYYYYMMDDDate(rowData.get(6)));
+                    exam.setExamDate(DateUtil.parseYYYYMMDDDate(rowData.get(7)));
+                    exam.setExamStatus(rowData.get(8));
+                    exam.setSiteId(Long.parseLong(rowData.get(9)));
+                    exam.setSiteName(rowData.get(10));
+                    exam.setBatchId(Long.parseLong(rowData.get(11)));
+                    exam.setBatchName(rowData.get(12));
+                    exam.setProductedDate(DateUtil.parseYYYYMMDDDate(rowData.get(13)));
+                    exam.setEffectiveDate(DateUtil.parseYYYYMMDDDate(rowData.get(14)));
+                    exam.setVendorId(Long.parseLong(rowData.get(15)));
+                    exam.setVendorName(rowData.get(16));
+                    exam.setItemId(Long.parseLong(rowData.get(17)));
 
                     exams.add(exam);
                 }

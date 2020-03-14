@@ -1,7 +1,7 @@
 package com.zhangz.security.controller;
 
-import com.alibaba.fastjson.*;
-import com.sun.org.apache.regexp.internal.RE;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.zhangz.security.dto.ProductDTO;
 import com.zhangz.security.dto.ResultDTO;
 import com.zhangz.security.exception.CustomizeErrorCode;
@@ -10,15 +10,15 @@ import com.zhangz.security.mapper.SiteMapper;
 import com.zhangz.security.model.*;
 import com.zhangz.security.service.impl.ExamServiceImpl;
 import com.zhangz.security.utils.DateUtil;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author zhangz

@@ -95,6 +95,7 @@ public class ExcelController {
 //                        boolean b = excelUtil.checkExcelColumns(excelFile, type);
                         basePath = FILE_UPLOAD_PATH+type;
                         if (true){
+
                             List<Exam> exams = excelUtil.getExcelData(excelFile, type);
                             //save
                             FileUtil.upload( basePath,excelFile);
@@ -152,7 +153,7 @@ public class ExcelController {
 //                    插入失败
                     return   ResultDTO.errorOf(CustomizeErrorCode.INSERT_FALSE);
                 }
-            }else if (BusinessTypeEnum.VENDOR_IMPORT_PRODUCT.getType().equals(type)){
+            }else if (BusinessTypeEnum.EXAM_IMPORT_PRODUCT.getType().equals(type)){
                 List<Exam> exams = mapper.convertValue(list,new TypeReference<List<Exam>>(){});
                 int affectRows = examServiceImpl.batchInsert(exams);
                 if (affectRows > 0 ){

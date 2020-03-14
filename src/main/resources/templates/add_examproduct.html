@@ -254,21 +254,56 @@
                     return pageSize * (pageNumber - 1) + index + 1;
                 }
             },{
-                title: 'productId',
-                field: 'productId',
+                title: 'examId',
+                field: 'examId',
                 align: 'center',
                 valign: 'middle',
                 sortable: true
             }, {
-                title: 'productName',
-                field:'productName',
+                title: 'examName',
+                field:'examName',
                 align: 'center'
             },{
+                field: 'productId',
+                title: 'productId',
+                sortable: true,
+                align: 'center'
+            },{
+                field: 'productName',
+                title: 'productName',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'examBatchId',
+                title: 'examBatchId',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'examBatchName',
+                title: 'examBatchName',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'launchDate',
+                title: 'launchDate',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'examDate',
+                title: 'examDate',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'examStatus',
+                title: 'examStatus',
+                sortable: true,
+                align: 'center'
+            }, {
                 field: 'siteId',
                 title: 'siteId',
                 sortable: true,
                 align: 'center'
-            },{
+            }, {
                 field: 'siteName',
                 title: 'siteName',
                 sortable: true,
@@ -279,18 +314,23 @@
                 sortable: true,
                 align: 'center'
             }, {
-                field: 'itemId',
-                title: 'itemId',
+                field: 'batchName',
+                title: 'batchName',
                 sortable: true,
                 align: 'center'
             }, {
-                field: 'itemName',
-                title: 'itemName',
+                field: 'productedDate',
+                title: 'productedDate',
                 sortable: true,
                 align: 'center'
             }, {
-                field: 'vendor',
-                title: 'vendor',
+                field: 'effectiveDate',
+                title: 'effectiveDate',
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'vendorId',
+                title: 'vendorId',
                 sortable: true,
                 align: 'center'
             }, {
@@ -299,18 +339,8 @@
                 sortable: true,
                 align: 'center'
             }, {
-                field: 'description',
-                title: 'description',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'composition',
-                title: 'composition',
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'isDelete',
-                title: 'isDelete',
+                field: 'itemId',
+                title: 'itemId',
                 sortable: true,
                 align: 'center'
             }],
@@ -326,9 +356,9 @@
         var rows = $('#gridImport').bootstrapTable('getSelections');
         for (var i = 0; i < rows.length; i++) {
             list.push({
-                'productId': rows[i].productId, 'productName': rows[i].productName, 'siteId': rows[i].siteId,'siteName': rows[i].siteName, 'batchId': rows[i].batchId,
-                'itemId': rows[i].itemId,'itemName': rows[i].itemName, 'vendor': rows[i].vendor,  'vendorName': rows[i].vendor,'vendorName': rows[i].siteName, 'description': rows[i].description,
-                'composition': rows[i].composition, 'isDelete': rows[i].isDelete
+                'examId': rows[i].examId, 'examName': rows[i].examName, 'productId': rows[i].productId,'productName': rows[i].productName, 'examBatchId': rows[i].examBatchId,
+                'examBatchName': rows[i].examBatchName,'launchDate': rows[i].launchDate, 'examDate': rows[i].examDate,  'examStatus': rows[i].examStatus,'siteId': rows[i].siteId, 'siteName': rows[i].siteName,
+                'batchId': rows[i].batchId, 'batchName': rows[i].batchName, 'productedDate': rows[i].productedDate, 'effectiveDate': rows[i].effectiveDate, 'vendorId': rows[i].vendorId, 'vendorName': rows[i].vendorName, 'itemId': rows[i].itemId
             });
         }
 
