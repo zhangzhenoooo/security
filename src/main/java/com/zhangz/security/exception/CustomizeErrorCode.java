@@ -19,7 +19,8 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     RESULT_NULL(2012,"结果不能未空"),
     FUNCTION_NOT_EXIST(2013,"功能不存在"),
     INSERT_FALSE(2014,"插入失败"),
-    FILE_NOT_EXIST(2015,"文件不存在");
+    FILE_NOT_EXIST(2015,"文件不存在"),
+    NOT_LOGIN(2016,"未登录"),
     ;
 
 

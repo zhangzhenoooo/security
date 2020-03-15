@@ -325,14 +325,14 @@
                     <li class="active" id="nav-second"></li>
                 </ul><!-- /.breadcrumb -->
 
-                <div class="nav-search" id="nav-search">
-                    <form class="form-search">
-								<span class="input-icon">
-									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
-									<i class="ace-icon fa fa-search nav-search-icon"></i>
-								</span>
-                    </form>
-                </div><!-- /.nav-search -->
+                <!--<div class="nav-search" id="nav-search">-->
+                    <!--<form class="form-search">-->
+								<!--<span class="input-icon">-->
+									<!--<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />-->
+									<!--<i class="ace-icon fa fa-search nav-search-icon"></i>-->
+								<!--</span>-->
+                    <!--</form>-->
+                <!--</div>&lt;!&ndash; /.nav-search &ndash;&gt;-->
             </div>
 
             <div class="page-content">
@@ -404,13 +404,16 @@
                 </div><!-- /.ace-settings-container -->
 
                 <div class="page-header">
-                    <h1>
-                      <span  id="b-first-nav"></span>
-                        <small>
-                            <i class="ace-icon fa fa-angle-double-right"></i>
-                           <span id="b-second-nav"></span>
-                        </small>
-                    </h1>
+                    <!--<h1>-->
+                      <!--<span  id="b-first-nav"></span>-->
+                        <!--<small>-->
+                            <!--<i class="ace-icon fa fa-angle-double-right"></i>-->
+                           <!--<span id="b-second-nav"></span>-->
+                        <!--</small>-->
+                    <!--</h1>-->
+                    <input type="button" value="Back" onclick="document.getElementById('myFrame').contentWindow.history.back();">
+                    <input type="button" value="forward" onclick="document.getElementById('myFrame').contentWindow.history.forward();">
+                    <input type="button" value="refresh" onclick="document.getElementById('myFrame').contentWindow.location.reload();">
                 </div><!-- /.page-header -->
 
                 <div class="row">
@@ -494,7 +497,13 @@
 <!-- inline scripts related to this page -->
 <script type="text/javascript">
 
-    function changeNav(e){
+
+    function back() {
+        document.frames['#myFrame'].history.back();
+        return false;
+    }
+
+        function changeNav(e){
         var String = e.getAttribute("data-id");
         var arr=new Array();
         arr=String.split('/');
@@ -721,6 +730,20 @@
                 $(this).addClass('dropup');
             else $(this).removeClass('dropup');
         });
+
+        // 修改浏览器后退 ：后退iframe
+        var counter = 0;
+        if (window.history && window.history.pushState) {
+            $(window).on('popstate', function () {
+                window.history.pushState('forward', null, '#');
+                window.history.forward(1);
+                back();
+                //alert("请使用自带的返回按钮操作");
+            });
+        }
+
+        window.history.pushState('forward', null, '#'); //在IE中必须得有这两行
+        window.history.forward(1);
 
     })
 </script>

@@ -88,6 +88,9 @@ public class ProductController {
                             @RequestParam(name ="composition" )String composition,
                             HttpSession session){
         User user = (User) session.getAttribute("user");
+        if (user == null){
+              return ResultDTO.errorOf(CustomizeErrorCode.NOT_LOGIN);
+        }
         Product product = new Product();
         product.setSiteId(siteId);
         product.setItemId(itemId);

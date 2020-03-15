@@ -37,7 +37,7 @@ public class AutoIdInterceptor implements Interceptor {
         MappedStatement mappedStatement = (MappedStatement) args[0];
         //实体对象
         Object entity = args[1];
-        if ("INSERT".equalsIgnoreCase(mappedStatement.getSqlCommandType().name())) {
+        if ("INSERT".equalsIgnoreCase(mappedStatement.getSqlCommandType().name())||("foreach".equalsIgnoreCase(mappedStatement.getSqlCommandType().name()))||("BATCHINSERT".equalsIgnoreCase(mappedStatement.getSqlCommandType().name()))) {
             // 获取实体集合
             Set<Object> entitySet = getEntitySet(entity);
             // 批量设置id

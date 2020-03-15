@@ -7,6 +7,7 @@ import com.zhangz.security.enums.BusinessTypeEnum;
 import com.zhangz.security.exception.CustomizeErrorCode;
 import com.zhangz.security.model.Exam;
 import com.zhangz.security.model.Product;
+import com.zhangz.security.model.User;
 import com.zhangz.security.service.impl.ExamServiceImpl;
 import com.zhangz.security.service.impl.ProductServiceImpl;
 import com.zhangz.security.utils.ExcelUtil;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.activation.MimetypesFileTypeMap;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,7 +60,8 @@ public class ExcelController {
     @RequestMapping(value = "/excel/upload",method = RequestMethod.POST)
     public ResultDTO Upload(@RequestParam(name = "excelFile") MultipartFile excelFile,
                             @RequestParam(name = "guid") String guid,
-                            @RequestParam(name = "type",defaultValue = "") String type) {
+                            @RequestParam(name = "type",defaultValue = "") String type,
+                            HttpSession session) {
         String folder = "";
 
         if (excelFile != null) {
@@ -135,16 +138,24 @@ public class ExcelController {
      **/
     @ResponseBody
     @RequestMapping(value = "/excel/batchImport",method = RequestMethod.POST)
-    public ResultDTO batchImport(@RequestBody Map<String,Object> map){
+    public ResultDTO batchImport(@RequestBody Map<String,Object> map,
+                                 HttpSession session){
         String type = (String) map.get("type");
         List<Product> list = (List<Product>) map.get("list");
 //        System.out.println("list.size ==========================="+o.getProductName());
         ObjectMapper mapper = new ObjectMapper();
-
+User user = (User) session.getAttribute("user");
 
         if (!ObjectUtils.isEmpty(list)){
             if (BusinessTypeEnum.VENDOR_IMPORT_PRODUCT.getType().equals(type)){
                 List<Product> products = mapper.convertValue(list,new TypeReference<List<Product>>(){});
+
+                for (Product product: products){
+                    //为产品设置供应商
+                    product.setVendor(user.getUserId());
+                    product.setVendorName(user.getUserName());
+                }
+
                 int affectRows = productServiceImpl.batchInsert(products);
                 if (affectRows > 0 ){
                     //插入成功

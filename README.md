@@ -49,6 +49,9 @@ http://localhost:8887
 [Live Reload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei/related)  
 [Postman](https://chrome.google.com/webstore/detail/coohjcphdfgbiolnekdpbcijmhambjff)
 
+## 笔记
+[[Mybatis自定义插件生成雪花ID做为表主键项目:案例](https://www.cnblogs.com/qdhxhz/p/11407815.html)
+
 ## 脚本
 ```sql
 CREATE TABLE USER

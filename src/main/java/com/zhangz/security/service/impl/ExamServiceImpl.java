@@ -58,6 +58,8 @@ public class ExamServiceImpl implements ExamService {
         List<Exam> exams = productDTOS.stream().map(productDTO -> {
             Exam exam = new Exam();
             BeanUtils.copyProperties(productDTO,exam);
+            exam.setVendorId(productDTO.getVendor());
+            exam.setBatchName(productDTO.getBatch().getBatchName());
             exam.setLaunchDate(DateUtil.getData());
             return exam;
         }).collect(Collectors.toList());

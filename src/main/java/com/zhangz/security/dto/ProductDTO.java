@@ -25,6 +25,7 @@ public class ProductDTO {
     private Item item;
     private String siteName;
     private String itemName;
+    private Long vendor;
     private String vendorName;
     private Batch batch;
 }

@@ -6,6 +6,7 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -22,16 +23,25 @@ import java.util.Collections;
 @MapperScan(basePackages = "com.zhangz.security")
 public class DalModule {
 
+    @Value("${spring.datasource.url}")
+    private String url;
+    @Value("${spring.datasource.driver-class-name}")
+    private String className;
+    @Value("${spring.datasource.username}")
+    private String userName;
+    @Value("${spring.datasource.password}")
+    private String password;
+
     /**
      * 连接数据库数据源信息
      */
     @Bean
     public DataSource dataSource() {
         DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setUrl("jdbc:mysql://localhost:3306/security?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=true");
-        druidDataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        druidDataSource.setUsername("root");
-        druidDataSource.setPassword("123456");
+        druidDataSource.setUrl(url);
+        druidDataSource.setDriverClassName(className);
+        druidDataSource.setUsername(userName);
+        druidDataSource.setPassword(password);
         druidDataSource.setMaxActive(20);
         druidDataSource.setInitialSize(1);
         druidDataSource.setMaxWait(60000);
