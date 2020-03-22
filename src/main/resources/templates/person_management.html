@@ -19,14 +19,41 @@
         <div class="form-group row">
             <label for="userName" class="col-sm-2 col-form-label">用户名:</label>
             <div class="col-sm-10">
-                <input  th:value="${user.userName}" type="text" readonly class="form-control-plaintext" id="userName" name="userName" value="email@example.com">
+                <input  th:value="${user.userName}" type="text" readonly class="form-control-plaintext" id="userName" name="userName" >
             </div>
         </div>
         <div class="form-group row">
             <label for="email" class="col-sm-2 col-form-label">邮箱:</label>
             <div class="col-sm-10">
-                <input th:value="${user.email}" type="email" readonly class="form-control-plaintext" id="email" name="email" value="email@example.com">
+                <input th:value="${user.email}" type="email" readonly class="form-control-plaintext" id="email" name="email">
             </div>
+        </div>
+        <div class="form-group">
+            <label for="address">地址信息：</label>
+            <div class="row" id="address">
+                <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="province" name="province">
+                        <option  value="">请选择省份</option>
+                        <option  th:each="province :${provinces}" th:value="${province.getId()}" th:text="${province.getName()}" th:selected="${province.id} == ${user.provinceCode}"></option>
+                    </select>
+                </div>
+                <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="city" name="city">
+                        <option  value="">请选择市</option>
+                        <option th:each="city :${cities}" th:value="${city.getId()}" th:text="${city.getName()}" th:selected="${city.id} == ${user.cityCode}"  ></option>
+                    </select>
+                </div>
+                <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="county" name="county">
+                        <option  value="">请选择县</option>
+                        <option th:each="county :${counties}" th:value="${county.getId()}" th:text="${county.getName()}" th:selected="${county.id} == ${user.countyCode}"   ></option>
+                    </select>
+                </div>
+                <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <input type="text" class="form-control" id="addressDetails" name="addressDetails" placeholder="请输入详细地址" th:value="${user.address}" required>
+                </div>
+            </div>
+
         </div>
         <button type="submit" class="btn btn-primary">保存修改</button>
     </form>
@@ -37,5 +64,63 @@
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap-table-export.min.js"></script>
 <script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<script>
+    /*
+   * 拼接地址的下拉选择框
+   **/
+    function initSelectDOMOfAddress(domId,list) {
+        // alert("select"+domId);
+        // var id = '"#'+domId+'"';
+        $(domId).empty();
+        var length = list.length;
+        // alert("select.list"+length);
+        var html = "";
+        //循环取出外层list的值
+        $.each(list,function(i,address){
+            html = html+ ' <option  value="'+address.id;
+            html = html + '">'+address.name;
+            html = html+'</option> <br>';
+        });
+
+        $(domId).append(html);
+    }
+
+    function initAddress(type,id){
+        // alert("type="+type +"id"+id);
+        $.ajax({
+            url:'/address/getAddressListByParentId',
+            type:'post',
+            data:{id:id},
+            success: function(data) {
+                // alert("ajax success");
+                var list = data.data;
+                // alert("ajax success"+list);
+                if (type == 1){
+                    //省
+                    initSelectDOMOfAddress(province,list);
+                } else if (type == 2){
+                    //市
+                    initSelectDOMOfAddress(city,list);
+                } else if (type == 3) {
+                    //县
+                    initSelectDOMOfAddress(county,list);
+                }
+            }
+        });
+
+    }
+    $(function () {
+        $("#province").change(function () {
+            var id = $('#province').val();
+            initAddress(2,id);
+            var cityId = $('#city').val();
+            initAddress(3,cityId);
+        });
+        $("#city").change(function () {
+            var id = $('#city').val();
+            initAddress(3,id);
+        });
+    })
+</script>
 </body>
 </html>

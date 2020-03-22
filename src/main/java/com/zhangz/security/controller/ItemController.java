@@ -4,8 +4,10 @@ import com.zhangz.security.dto.ResultDTO;
 import com.zhangz.security.enums.ExamTypeEnum;
 import com.zhangz.security.exception.CustomizeErrorCode;
 import com.zhangz.security.model.Item;
+import com.zhangz.security.model.Kindlist;
 import com.zhangz.security.model.User;
 import com.zhangz.security.service.impl.ItemServiceImpl;
+import com.zhangz.security.service.impl.KindListServiceImpl;
 import com.zhangz.security.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,9 @@ public class ItemController {
     @Autowired
     private ItemServiceImpl itemServiceImpl;
 
+    @Autowired
+    private KindListServiceImpl kindListServiceImpl;
+
     @ResponseBody
     @RequestMapping(value = "/item/listBySiteId",method = RequestMethod.POST)
     public List<Item>  listBySiteId(@RequestBody  Map<String,Long> map){
@@ -40,6 +45,7 @@ public class ItemController {
                                     @RequestParam(name = "itemName") String itemName,
                                     @RequestParam(name = "description") String description,
                                     @RequestParam (name = "siteId") Long siteId,
+                                    @RequestParam (name = "kindId") Long kindId,
                                     HttpSession session){
         User user = (User)session.getAttribute("user");
         Item item = new Item();
@@ -49,11 +55,14 @@ public class ItemController {
         item.setSiteId(siteId);
         item.setExamStatus(ExamTypeEnum.NOT_APPROVAL.getStatus());
         item.setIsDelete(false);
+        item.setKindId(kindId);
+        Kindlist kindlist = kindListServiceImpl.selectById(kindId);
+        item.setKindName(kindlist.getKindName());
         boolean result = itemServiceImpl.insertOrUpdate(item);
         if (result){
             return ResultDTO.successOf();
         }else {
-            return ResultDTO.errorOf(CustomizeErrorCode.ITEM_INSERT_FALSE);
+            return ResultDTO.errorOf(CustomizeErrorCode.INSERT_FALSE);
         }
     }
 

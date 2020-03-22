@@ -43,5 +43,9 @@
         <table tableName="item" domainObjectName="Item"></table>
         <table tableName="exam" domainObjectName="Exam"></table>
         <table tableName="exambatch" domainObjectName="ExamBatch"></table>
+        <table tableName="kindlist" domainObjectName="Kindlist"></table>
+        <table tableName="examindex" domainObjectName="Examindex"></table>
+        <table tableName="examindexline" domainObjectName="Examindexline"></table>
+        <table tableName="address" domainObjectName="Address"></table>
     </context>
 </generatorConfiguration>

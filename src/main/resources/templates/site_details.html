@@ -58,6 +58,15 @@
                         <label for="description" class="col-form-label">产品描述:</label>
                         <textarea class="form-control" id="description" name="description"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label for="kind">选择食品所属类别：</label>
+                                <select class="form-control" id="kind" name="kind">
+                                    <option  value="">请选择...</option>
+                                    <option  th:each="kind :${kinds}" th:value="${kind.kindId}" >
+                                        <span th:text="${kind.kindName}"></span>(<span  th:text="${#strings.abbreviate(kind.description,30)}"></span>)
+                                    </option>
+                                </select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -75,6 +84,8 @@
 <script src="/js/bootstrap-table-export.min.js"></script>
 <script src="/js/bootstrap-table-zh-CN.min.js"></script>
 <script>
+
+
     function operateFormatter(value, row, index) {
         return [
             '<a class="btn btn-info like" href="javascript:void(0)" title="点击进入详情页面">',
@@ -183,6 +194,7 @@
             var itemId = $("#itemId").val();
             var description = $("#description").val();
             var itemName = $("#itemName").val();
+            var kindId = $('#kind').val();
             $.ajax({
                 url:'/item/insertOrUpdate',
                 type:'post',
@@ -190,7 +202,8 @@
                     siteId:siteId,
                     itemId:itemId,
                     description:description,
-                    itemName:itemName
+                    itemName:itemName,
+                    kindId:kindId
                 },
                 success:function (data) {
                     if (data.code == 200) {

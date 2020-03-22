@@ -5,9 +5,11 @@ import com.zhangz.security.dto.ResultDTO;
 import com.zhangz.security.enums.ExamTypeEnum;
 import com.zhangz.security.exception.CustomizeErrorCode;
 import com.zhangz.security.model.Item;
+import com.zhangz.security.model.Kindlist;
 import com.zhangz.security.model.Site;
 import com.zhangz.security.model.User;
 import com.zhangz.security.service.impl.ItemServiceImpl;
+import com.zhangz.security.service.impl.KindListServiceImpl;
 import com.zhangz.security.service.impl.SiteServiceImpl;
 import com.zhangz.security.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,8 @@ public class SiteController {
     private SiteServiceImpl siteServiceImpl;
     @Autowired
     private  ItemServiceImpl itemServiceImpl;
+    @Autowired
+    private KindListServiceImpl  kindListServiceImpl;
 
     @GetMapping("/site/siteManagement")
     public String baseManagement(){
@@ -44,7 +48,10 @@ public class SiteController {
     public String siteDetails(Model model,
                               @PathVariable (name = "siteId")Long siteId){
         Site site = siteServiceImpl.selectById(siteId);
+        List<Kindlist> kinds = kindListServiceImpl.list();
+
         model.addAttribute("site",site);
+        model.addAttribute("kinds",kinds);
         return "site_details";
     }
 

@@ -1,7 +1,10 @@
 package com.zhangz.security.controller;
 
+import com.zhangz.security.dto.ResultDTO;
 import com.zhangz.security.exception.CustomizeErrorCode;
+import com.zhangz.security.model.Address;
 import com.zhangz.security.model.User;
+import com.zhangz.security.service.impl.AddressServiceImpl;
 import com.zhangz.security.service.impl.UserServiceImpl;
 import com.zhangz.security.utils.DateUtil;
 import com.zhangz.security.utils.GetIP;
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * @author zhangz
@@ -29,7 +33,8 @@ import java.io.IOException;
 public class UserController {
     @Autowired
     private UserServiceImpl userServiceImpl;
-
+    @Autowired
+    private AddressServiceImpl addressServiceImpl;
 
     @GetMapping("/user/login")
     public String login(){
@@ -73,7 +78,16 @@ public class UserController {
 
 
     @GetMapping("/user/register")
-    public String register(){return "register";}
+    public String register(Model model){
+
+        List<Address> provinces = addressServiceImpl.listOfProvince();
+        List<Address> cities = addressServiceImpl.listOfCity();
+        List<Address> counties = addressServiceImpl.listOfCountry();
+        model.addAttribute("provinces",provinces);
+        model.addAttribute("cities",cities);
+        model.addAttribute("counties",counties);
+        return "register";
+    }
 
     /**
      *
@@ -95,8 +109,19 @@ public class UserController {
                                 @Param(value = "password2")String password2,
                                 @Param(value = "type")Integer type,
                                 @Param(value = "userName")String userName,
+                                @Param(value = "province")Long province,
+                                @Param(value = "city")Long city,
+                                @Param(value = "county")Long county,
+                                @Param(value = "addressDetails")String addressDetails,
                                 Model model,
                                 HttpServletResponse response) throws IOException {
+
+        List<Address> provinces = addressServiceImpl.listOfProvince();
+        List<Address> cities = addressServiceImpl.listOfCity();
+        List<Address> counties = addressServiceImpl.listOfCountry();
+        model.addAttribute("provinces",provinces);
+        model.addAttribute("cities",cities);
+        model.addAttribute("counties",counties);
 
         if (!password.equals(password2)){
             model.addAttribute("success",false);
@@ -121,6 +146,10 @@ public class UserController {
                 user.setModifyDate(DateUtil.getData());
                 user.setIsDelete(true);
                 user.setLastAddress("123");
+                user.setProvinceCode(province);
+                user.setCityCode(city);
+                user.setCountyCode(county);
+                user.setAddress(addressDetails);
 
                 boolean result = userServiceImpl.insert(user);
                 if (result) {
@@ -150,6 +179,14 @@ public class UserController {
     public String personManagement(Model model,
                                    HttpSession session){
         User user = (User) session.getAttribute("user");
+
+        List<Address> provinces = addressServiceImpl.listOfProvince();
+        List<Address> cities = addressServiceImpl.listOfCity();
+        List<Address> counties = addressServiceImpl.listOfCountry();
+        model.addAttribute("provinces",provinces);
+        model.addAttribute("cities",cities);
+        model.addAttribute("counties",counties);
+
         if (ObjectUtils.isEmpty(user)){
             return  "redirect:/user/login";
         }else {
@@ -171,5 +208,7 @@ public class UserController {
         session.removeAttribute("user");
         return  "redirect:/user/login";
     }
+
+
 
 }

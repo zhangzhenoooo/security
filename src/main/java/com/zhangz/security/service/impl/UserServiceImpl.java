@@ -1,12 +1,16 @@
 package com.zhangz.security.service.impl;
 
+import com.zhangz.security.mapper.AddressMapper;
 import com.zhangz.security.mapper.UserMapper;
+import com.zhangz.security.model.Address;
+import com.zhangz.security.model.AddressExample;
 import com.zhangz.security.model.User;
 import com.zhangz.security.model.UserExample;
 import com.zhangz.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +23,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private AddressMapper addressMapper;
 
 
     @Override
@@ -36,6 +42,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean insert(User user) {
+
+        List<Long> ids = new ArrayList<>();
+        ids.add(user.getProvinceCode());
+        ids.add(user.getCityCode());
+        ids.add(user.getCountyCode());
+
+        AddressExample addressExample = new AddressExample();
+        addressExample.createCriteria()
+                .andIdIn(ids);
+        List<Address> addresses = addressMapper.selectByExample(addressExample);
+        for (Address address:addresses){
+            if (address.getId().equals(user.getProvinceCode())){
+                user.setProvinceName(address.getName());
+            }else if (address.getId().equals(user.getCityCode())){
+                user.setCityName(address.getName());
+            }else  if (user.getCountyCode().equals(address.getId())){
+                user.setCountyName(address.getName());
+            }
+        }
+
         int affectedRow = userMapper.insert(user);
        if (affectedRow > 0){
            return true;
