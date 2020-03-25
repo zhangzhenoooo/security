@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ExamExtMapper {
 
-    List<Long> selectAllId();
+    List<String> selectAllId();
     int insertBatch(List<Exam> record);
 
 }

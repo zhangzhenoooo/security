@@ -1,6 +1,9 @@
 package com.zhangz.security.service.impl;
 
+import com.zhangz.security.mapper.AddressMapper;
 import com.zhangz.security.mapper.SiteMapper;
+import com.zhangz.security.model.Address;
+import com.zhangz.security.model.AddressExample;
 import com.zhangz.security.model.Site;
 import com.zhangz.security.model.SiteExample;
 import com.zhangz.security.service.SiteService;
@@ -22,6 +25,8 @@ public class SiteServiceImpl implements SiteService {
 
     @Autowired
     private  SiteMapper siteMapper;
+    @Autowired
+    private AddressMapper addressMapper;
 
     @Override
     public List list(String LoginUserId, Integer type) {
@@ -33,9 +38,28 @@ public class SiteServiceImpl implements SiteService {
     @Override
     public boolean insertOrUpdate(Site site) {
         Site dbSite = siteMapper.selectByPrimaryKey(site.getSiteId());
+        List<String> ids = new ArrayList<>();
+        ids.add(site.getProvinceCode());
+        ids.add(site.getCityCode());
+        ids.add(site.getCountyCode());
+
+        AddressExample addressExample = new AddressExample();
+        addressExample.createCriteria()
+                .andIdIn(ids);
+        List<Address> addresses = addressMapper.selectByExample(addressExample);
+        for (Address address:addresses){
+            if (address.getId().equals(site.getProvinceCode())){
+                site.setProvinceName(address.getName());
+            }else if (address.getId().equals(site.getCityCode())){
+                site.setCityName(address.getName());
+            }else  if (site.getCountyCode().equals(address.getId())){
+                site.setCountyName(address.getName());
+            }
+        }
+
         int affectedRow;
         if (dbSite == null ){
-            //insert
+            //insertORUpdate
             affectedRow = siteMapper.insert(site);
         }else {
             //updateByEmail

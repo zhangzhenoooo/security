@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 public interface UserService {
     //根据邮箱查询用户
-    User selectByEmail(String email );
+    User selectByEmail(String email);
     //插入用户
     boolean insert(User user);
     /**
@@ -26,7 +26,7 @@ public interface UserService {
      * @param email email是唯一的根据email确定需要更改的用户
      * @return boolean
      **/
-    boolean updateByEmail(User user,String email);
+    boolean updateByEmail(User user, String email);
     /**
      *
      * @description 查询待审批的账号，
@@ -38,4 +38,6 @@ public interface UserService {
     List<User> selectNeedApprove(Integer userType);
 
     boolean updateLastAddress(String userId, String lastAddress);
+
+    List<User> list();
 }

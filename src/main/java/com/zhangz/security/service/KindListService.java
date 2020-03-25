@@ -13,4 +13,7 @@ public interface KindListService {
     List<Kindlist> list();
 
     Kindlist selectById(String id);
+
+    int insetOrUpdate(Kindlist kindlist);
+    int updateByExampleSelective(Kindlist kindlist);
 }

@@ -75,7 +75,7 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public List<Exam> listByExamStatus(String examStatus) {
 
-        List<Long> productIds = examExtMapper.selectAllId();
+        List<String> productIds = examExtMapper.selectAllId();
         ExamExample examExample = new ExamExample();
          if (!StringUtils.isEmpty(examStatus)&&!("".equals(examStatus))){
             examExample.createCriteria()

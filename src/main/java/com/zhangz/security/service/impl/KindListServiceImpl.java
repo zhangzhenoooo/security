@@ -6,6 +6,7 @@ import com.zhangz.security.model.KindlistExample;
 import com.zhangz.security.service.KindListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 
@@ -40,5 +41,29 @@ public class KindListServiceImpl implements KindListService {
         }else {
             return  null;
         }
+    }
+
+    @Override
+    public int insetOrUpdate(Kindlist kindlist) {
+        Kindlist dbKindList = selectById(kindlist.getKindId());
+        int result = 0;
+        if (ObjectUtils.isEmpty(dbKindList.getKindId())) {
+            //insertORUpdate
+             result = kindlistMapper.insert(kindlist);
+        }else {
+            //update
+            result =  updateByExampleSelective(kindlist);
+        }
+
+        return result;
+    }
+
+    @Override
+    public int updateByExampleSelective(Kindlist kindlist) {
+        KindlistExample kindListExample = new KindlistExample();
+        kindListExample.createCriteria()
+                .andKindIdEqualTo(kindlist.getKindId());
+        int i = kindlistMapper.updateByExampleSelective(kindlist, kindListExample);
+        return i;
     }
 }

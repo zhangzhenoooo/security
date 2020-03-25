@@ -101,5 +101,14 @@ public class UserServiceImpl implements UserService {
         return  i > 0 ?  true:false;
     }
 
+    @Override
+    public List<User> list() {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andIsDeleteEqualTo(false);
+        List<User> users = userMapper.selectByExample(userExample);
+        return users;
+    }
+
 
 }

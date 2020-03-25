@@ -1,10 +1,8 @@
 package com.zhangz.security.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import com.zhangz.security.dto.ResultDTO;
 import com.zhangz.security.enums.ExamTypeEnum;
 import com.zhangz.security.exception.CustomizeErrorCode;
-import com.zhangz.security.model.Item;
 import com.zhangz.security.model.Kindlist;
 import com.zhangz.security.model.Site;
 import com.zhangz.security.model.User;
@@ -46,7 +44,7 @@ public class SiteController {
 
     @GetMapping("/site/siteDetails/{siteId}")
     public String siteDetails(Model model,
-                              @PathVariable (name = "siteId")String siteId){
+                              @PathVariable (name = "siteId") String siteId){
         Site site = siteServiceImpl.selectById(siteId);
         List<Kindlist> kinds = kindListServiceImpl.list();
 
@@ -82,14 +80,21 @@ public class SiteController {
     @RequestMapping(value = "/site/insertOrUpdate",method = RequestMethod.POST)
     public ResultDTO insertOrUpdate(@RequestParam(name = "siteId",required = false) String siteId,
                                     @RequestParam(name = "siteName") String siteName,
+                                    @RequestParam(name = "province")String province,
+                                    @RequestParam(name = "city") String city,
+                                    @RequestParam(name = "county") String county,
                                     @RequestParam(name = "address") String address,
                                     HttpSession session){
         User user = (User)session.getAttribute("user");
         Site site = new Site();
         site.setSiteId(siteId);
+        site.setProvinceCode(province);
+        site.setCityCode(city);
+        site.setCountyCode(county);
         site.setAddress(address);
         site.setSiteName(siteName);
         site.setProducerId(user.getUserId());
+        site.setProvinceName(user.getUserName());
         site.setExamStatus(ExamTypeEnum.NOT_APPROVAL.getStatus());
         site.setIsDelete(false);
         boolean result = siteServiceImpl.insertOrUpdate(site);
@@ -139,7 +144,7 @@ public class SiteController {
 
     @ResponseBody
     @PostMapping("/site/approve")
-    public ResultDTO approve(@RequestParam(name = "siteId")String siteId,
+    public ResultDTO approve(@RequestParam(name = "siteId") String siteId,
                              @RequestParam(name = "examStatus") String examStatus,
                              HttpSession session){
         User user = (User) session.getAttribute("user");
@@ -147,6 +152,7 @@ public class SiteController {
         site.setExamStatus(examStatus);
         site.setExamDate(DateUtil.getData());
         site.setVerifier(user.getUserId());
+        site.setVerifiername(user.getUserName());
         boolean affectRow = siteServiceImpl.updateBySiteId(site, siteId);
         if (affectRow){
             return  ResultDTO.successOf();
@@ -155,5 +161,46 @@ public class SiteController {
         }
 
     }
+    /**
+     *
+     * @description 管理员:待审批基地列表
+     * @author zhangz
+     * @date 2020:03:23 21:58:52
+     * @param model
+     * @return
+     **/
+    @GetMapping("/site/siteNeedApproveList")
+    public String siteNeedApproveList(Model model){
+        return "admin_site_need_approve";
+    }
+
+    /**
+     *
+     * @description 管理员:已审批基地列表
+     * @author zhangz
+     * @date 2020:03:23 21:58:52
+     * @param model
+     * @return
+     **/
+    @GetMapping("/site/siteApprovedList")
+    public String siteApprovedList(Model model){
+        return "admin_site_approved_list";
+    }
+
+    /**
+     *
+     * @description 管理员:添加基地
+     * @author zhangz
+     * @date 2020:03:23 21:58:52
+     * @param model
+     * @return
+     **/
+    @GetMapping("/site/addSite")
+    public String addSite(Model model){
+        return "provider_site_add";
+    }
+
+
+
 
 }

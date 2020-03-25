@@ -44,7 +44,7 @@ public class ItemServiceImpl implements ItemService {
         Item dbSite = itemMapper.selectByPrimaryKey(item.getItemId());
         int affectedRow;
         if (ObjectUtils.isEmpty(dbSite)){
-            //insert
+            //insertORUpdate
             item.setCreateDate(DateUtil.getData());
             item.setModifyDate(DateUtil.getData());
             affectedRow = itemMapper.insert(item);
