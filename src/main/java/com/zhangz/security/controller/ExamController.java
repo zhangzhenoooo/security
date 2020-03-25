@@ -60,7 +60,7 @@ public class ExamController {
                 .andProducerIdEqualTo(user.getUserId());
         List<Site> sites = siteMapper.selectByExample(siteExaample);
         model.addAttribute("sites",sites) ;
-        return "exam_management";
+        return "provider_examed_list";
     }
 
 
@@ -82,16 +82,28 @@ public class ExamController {
         List<Exam> exams = examServiceImpl.listByVendorId(user.getUserId(),examStatus);
         return exams;
     }
-/**
- *
- * @description 厂商对送检产品进行管理
- * @author zhangz
- * @date 2020:03:04 21:54:57
- * @return
- **/
+    /**
+     *
+     * @description 检测部门:已检测列表
+     * @author zhangz
+     * @date 2020:03:04 21:54:57
+     * @return
+     **/
     @GetMapping("/exam/productManagement")
     public String productManagement(){
-        return "exam_product_management";
+        return "examed_product_list";
+    }
+
+    /**
+     *
+     * @description 检测部门：待检测列表
+     * @author zhangz
+     * @date 2020:03:04 21:54:57
+     * @return
+     **/
+    @GetMapping("/exam/listOfNeedExam")
+    public String listOfNeedExam(){
+        return "need_exam_product_list";
     }
 
 
@@ -112,16 +124,16 @@ public class ExamController {
     }
 
 
-    @ResponseBody
+
     @PostMapping("/exam/approve")
-    public ResultDTO approve(@RequestParam(name = "examId")String examId,
+    public ResultDTO approve(@RequestParam(name = "examId") String examId,
                              @RequestParam(name = "examStatus") String examStatus){
         Exam exam = new Exam();
         exam.setExamStatus(examStatus);
         exam.setExamDate(DateUtil.getData());
         boolean affectRow = examServiceImpl.updateByExamId(exam, examId);
         if (affectRow){
-           return  ResultDTO.successOf();
+            return  ResultDTO.successOf();
         }else {
             return  ResultDTO.errorOf(CustomizeErrorCode.APPROVE_FALSE);
         }
@@ -143,9 +155,9 @@ public class ExamController {
                 JSON.parseObject(productList, new TypeReference<ArrayList<ProductDTO>>(){});
         boolean result = examServiceImpl.insertExams(productDTOS);
         if (result){
-           return  ResultDTO.successOf();
+            return  ResultDTO.successOf();
         }else {
-           return  ResultDTO.errorOf(CustomizeErrorCode.EXAM_INSERT_FALSE);
+            return  ResultDTO.errorOf(CustomizeErrorCode.EXAM_INSERT_FALSE);
         }
     }
 
@@ -174,8 +186,9 @@ public class ExamController {
                 .andProducerIdEqualTo(user.getUserId());
         List<Site> sites = siteMapper.selectByExample(siteExaample);
         model.addAttribute("sites",sites) ;
-        return "add_examproduct";
+        return "provider_add_examproduct";
     }
+
 
 
 }
