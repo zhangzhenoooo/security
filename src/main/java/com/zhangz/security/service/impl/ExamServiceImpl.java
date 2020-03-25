@@ -36,7 +36,7 @@ public class ExamServiceImpl implements ExamService {
     @Autowired
     private BatchMapper batchMapper;
     @Override
-    public List<Exam> listByVendorId(Long vendorId,String examStatus) {
+    public List<Exam> listByVendorId(String vendorId, String examStatus) {
         ExamExample examExample = new ExamExample();
         ExamExample.Criteria criteria =    examExample.createCriteria();
 
@@ -91,7 +91,7 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public boolean updateByExamId(Exam exam, Long examId) {
+    public boolean updateByExamId(Exam exam, String examId) {
         Exam dbExam = examMapper.selectByPrimaryKey(examId);
         if (!ObjectUtils.isEmpty(dbExam)){
 
@@ -107,7 +107,7 @@ public class ExamServiceImpl implements ExamService {
             }
             if (examStatus){
                 //            更新检测批次是否通过
-                Long examBatchId = dbExam.getExamBatchId();
+                String examBatchId = dbExam.getExamBatchId();
                 ExamBatchExample examBatchExample = new ExamBatchExample();
                 examBatchExample.createCriteria()
                         .andBatchIdEqualTo(examBatchId);

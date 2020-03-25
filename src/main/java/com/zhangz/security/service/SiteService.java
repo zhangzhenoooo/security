@@ -21,15 +21,15 @@ public interface SiteService {
      * @param type
      * @return list
      **/
-        List<Site> list(Long LoginUserId, Integer type) ;
+        List<Site> list(String LoginUserId, Integer type) ;
         //添加新场地
         boolean insertOrUpdate(Site site);
         //根据id获取site信息
-        Site selectById(Long siteId);
+        Site selectById(String siteId);
 
     List<Site> listByExamStatus(String examStatus);
 
-    boolean updateBySiteId(Site site, Long siteId);
+    boolean updateBySiteId(Site site, String siteId);
 
     List<Site> listBySelective(Site site);
 }

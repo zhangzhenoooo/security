@@ -171,14 +171,14 @@ public class ExcelUtil <T> {
                     //行循环
                     ArrayList<String> rowData = readExcel.get(r);
                     Product product = new Product();
-                    product.setProductId(Long.parseLong(rowData.get(0)));
+                    product.setProductId(rowData.get(0));
                     product.setProductName(rowData.get(1));
-                    product.setSiteId(Long.parseLong(rowData.get(2)));
+                    product.setSiteId(rowData.get(2));
                     product.setSiteName(rowData.get(3));
-                    product.setBatchId(Long.parseLong(rowData.get(4)));
-                    product.setItemId(Long.parseLong(rowData.get(5)));
+                    product.setBatchId(rowData.get(4));
+                    product.setItemId(rowData.get(5));
                     product.setItemName(rowData.get(6));
-                    product.setVendor(Long.parseLong(rowData.get(7)));
+                    product.setVendor(rowData.get(7));
                     product.setVendorName(rowData.get(8));
                     product.setDescription(rowData.get(9));
                     product.setComposition(rowData.get(10));
@@ -196,24 +196,24 @@ public class ExcelUtil <T> {
                     ArrayList<String> rowData = readExcel.get(r);
 
                     Exam exam = new Exam();
-                    exam.setExamId(Long.parseLong(rowData.get(0)));
+                    exam.setExamId(rowData.get(0));
                     exam.setExamName(rowData.get(1));
-                    exam.setProductId(Long.parseLong(rowData.get(2)));
+                    exam.setProductId(rowData.get(2));
                     exam.setProductName(rowData.get(3));
-                    exam.setExamBatchId(Long.parseLong(rowData.get(4)));
+                    exam.setExamBatchId(rowData.get(4));
                     exam.setExamBatchName(rowData.get(5));
                     exam.setLaunchDate(DateUtil.parseYYYYMMDDDate(rowData.get(6)));
                     exam.setExamDate(DateUtil.parseYYYYMMDDDate(rowData.get(7)));
                     exam.setExamStatus(rowData.get(8));
-                    exam.setSiteId(Long.parseLong(rowData.get(9)));
+                    exam.setSiteId(rowData.get(9));
                     exam.setSiteName(rowData.get(10));
-                    exam.setBatchId(Long.parseLong(rowData.get(11)));
+                    exam.setBatchId(rowData.get(11));
                     exam.setBatchName(rowData.get(12));
                     exam.setProductedDate(DateUtil.parseYYYYMMDDDate(rowData.get(13)));
                     exam.setEffectiveDate(DateUtil.parseYYYYMMDDDate(rowData.get(14)));
-                    exam.setVendorId(Long.parseLong(rowData.get(15)));
+                    exam.setVendorId(rowData.get(15));
                     exam.setVendorName(rowData.get(16));
-                    exam.setItemId(Long.parseLong(rowData.get(17)));
+                    exam.setItemId(rowData.get(17));
 
                     exams.add(exam);
                 }

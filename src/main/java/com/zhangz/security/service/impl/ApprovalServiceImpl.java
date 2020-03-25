@@ -9,7 +9,6 @@ import com.zhangz.security.model.UserExample;
 import com.zhangz.security.service.ApprovalService;
 import com.zhangz.security.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
@@ -28,7 +27,7 @@ public class ApprovalServiceImpl implements ApprovalService {
     private UserServiceImpl userServiceImpl;
 
     @Override
-    public boolean approve(User approver,Long userId,boolean status) {
+    public boolean approve(User approver, String userId, boolean status) {
 
         //添加审批记录
         Approval approval = new Approval();

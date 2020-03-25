@@ -24,7 +24,7 @@ public class SiteServiceImpl implements SiteService {
     private  SiteMapper siteMapper;
 
     @Override
-    public List list(Long LoginUserId, Integer type) {
+    public List list(String LoginUserId, Integer type) {
         SiteExample siteExample = new SiteExample();
         List<Site> sites = siteMapper.selectByExample(siteExample);
         return sites;
@@ -49,7 +49,7 @@ public class SiteServiceImpl implements SiteService {
     }
 
     @Override
-    public Site selectById(Long siteId) {
+    public Site selectById(String siteId) {
         Site site = siteMapper.selectByPrimaryKey(siteId);
         return site;
     }
@@ -72,7 +72,7 @@ public class SiteServiceImpl implements SiteService {
     }
 
     @Override
-    public boolean updateBySiteId(Site site, Long siteId) {
+    public boolean updateBySiteId(Site site, String siteId) {
         SiteExample siteExample = new SiteExample();
         siteExample.createCriteria()
                 .andSiteIdEqualTo(siteId);

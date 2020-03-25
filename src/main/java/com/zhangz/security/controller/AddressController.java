@@ -26,7 +26,7 @@ public class AddressController {
 
     @ResponseBody
     @RequestMapping(value = "/address/getAddressListByParentId",method = RequestMethod.POST)
-    public ResultDTO getAddressListByParentId(@RequestParam(name = "id") Long parentId){
+    public ResultDTO getAddressListByParentId(@RequestParam(name = "id") String parentId){
 //        System.out.println("/address/getAddressListByParentId ========================="+parentId);
         List<Address> addresses = addressServiceImpl.listByParentId(parentId);
         return  ResultDTO.successOf(addresses);

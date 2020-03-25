@@ -1,6 +1,5 @@
 package com.zhangz.security.service;
 
-import com.zhangz.security.model.Approval;
 import com.zhangz.security.model.User;
 
 /**
@@ -10,5 +9,5 @@ import com.zhangz.security.model.User;
  */
 public interface ApprovalService {
 
-    boolean approve(User approver,Long userId,boolean status);
+    boolean approve(User approver, String userId, boolean status);
 }

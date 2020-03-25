@@ -3,7 +3,6 @@ package com.zhangz.security.service.impl;
 import com.zhangz.security.mapper.KindlistMapper;
 import com.zhangz.security.model.Kindlist;
 import com.zhangz.security.model.KindlistExample;
-import com.zhangz.security.plugin.AutoId;
 import com.zhangz.security.service.KindListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class KindListServiceImpl implements KindListService {
     }
 
     @Override
-    public Kindlist selectById(Long id) {
+    public Kindlist selectById(String id) {
         KindlistExample kindListExample = new KindlistExample();
         kindListExample.createCriteria()
                 .andKindIdEqualTo(id)

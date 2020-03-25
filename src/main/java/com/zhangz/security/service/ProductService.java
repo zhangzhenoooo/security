@@ -10,7 +10,7 @@ import java.util.List;
  * @date 2020/3/2 20:20
  */
 public interface ProductService <T>{
-    List<T> list(Long vendorId,Long siteId,Long batchId);
+    List<T> list(String vendorId, String siteId, String batchId);
 
     int insert(Product record);
 

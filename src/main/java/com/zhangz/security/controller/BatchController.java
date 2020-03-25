@@ -40,7 +40,7 @@ public class BatchController {
      **/
     @ResponseBody
     @RequestMapping(value = "/batch/insertBatch",method = RequestMethod.POST)
-    public ResultDTO insertBatch(@RequestParam(name = "batchId",required = false) Long batchId,
+    public ResultDTO insertBatch(@RequestParam(name = "batchId",required = false) String batchId,
                                  @RequestParam(name = "batchName") String batchName,
                                  @RequestParam(name = "description") String description,
                                  HttpSession session){
@@ -73,7 +73,7 @@ public class BatchController {
 
     @ResponseBody
     @RequestMapping("/batch/getBatchById")
-    public  Batch getBatchById(@PathVariable (name = "batchId") Long batchId){
+    public  Batch getBatchById(@PathVariable (name = "batchId") String batchId){
         Batch batch = batchServiceImpl.selectById(batchId);
         return batch;
     }

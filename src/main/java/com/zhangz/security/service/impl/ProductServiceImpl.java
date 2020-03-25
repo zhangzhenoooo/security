@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
     private BatchMapper batchMapper;
 
     @Override
-    public List<ProductDTO> list(Long vendorId,Long siteId ,Long batchId) {
+    public List<ProductDTO> list(String vendorId, String siteId , String batchId) {
 
         ProductExample productExample = new ProductExample();
 
@@ -53,8 +53,8 @@ public class ProductServiceImpl implements ProductService {
             return new ArrayList<>();
         }
         // 获取去重的batch
-        Set<Long> batches = products.stream().map(product -> product.getBatchId()).collect(Collectors.toSet());
-        List<Long> batchIds = new ArrayList();
+        Set<String> batches = products.stream().map(product -> product.getBatchId()).collect(Collectors.toSet());
+        List<String> batchIds = new ArrayList();
         batchIds.addAll(batches);
 
         // 获取batch并转换为 Map
@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
         batchExample.createCriteria()
                 .andBatchIdIn(batchIds);
         List<Batch> batchList = batchMapper.selectByExample(batchExample);
-        Map<Long, Batch> batchMap = batchList.stream().collect(Collectors.toMap(b -> b.getBatchId(), b -> b));
+        Map<String, Batch> batchMap = batchList.stream().collect(Collectors.toMap(b -> b.getBatchId(), b -> b));
 
 
         // 转换 productDTO

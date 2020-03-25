@@ -12,5 +12,5 @@ import java.util.List;
 public interface KindListService {
     List<Kindlist> list();
 
-    Kindlist selectById(Long id);
+    Kindlist selectById(String id);
 }

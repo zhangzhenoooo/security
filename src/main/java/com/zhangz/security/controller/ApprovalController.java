@@ -59,7 +59,7 @@ public class ApprovalController {
 
     @ResponseBody
     @RequestMapping(value = "/approval/approve", method = RequestMethod.POST)
-    public ResultDTO approve(@RequestParam(name = "userId") Long userId,
+    public ResultDTO approve(@RequestParam(name = "userId") String userId,
                               @RequestParam(name = "status") boolean status,
                               HttpSession session) {
         User user = (User) session.getAttribute("user");

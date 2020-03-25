@@ -114,7 +114,7 @@ public class ExamController {
 
     @ResponseBody
     @PostMapping("/exam/approve")
-    public ResultDTO approve(@RequestParam(name = "examId")Long examId,
+    public ResultDTO approve(@RequestParam(name = "examId")String examId,
                              @RequestParam(name = "examStatus") String examStatus){
         Exam exam = new Exam();
         exam.setExamStatus(examStatus);

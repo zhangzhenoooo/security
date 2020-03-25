@@ -55,8 +55,8 @@ public class ProductController {
         model.addAttribute("sites",sites) ;
 
 
-        Set<Long> commentators = sites.stream().map(site -> site.getProducerId()).collect(Collectors.toSet());
-        List<Long> siteIds = new ArrayList();
+        Set<String> commentators = sites.stream().map(site -> site.getProducerId()).collect(Collectors.toSet());
+        List<String> siteIds = new ArrayList();
         siteIds.addAll(commentators);
 
         ItemExample itemExample = new ItemExample();
@@ -70,10 +70,10 @@ public class ProductController {
 
     @ResponseBody
     @RequestMapping(value = "product/list",method = RequestMethod.POST)
-    public List<ProductDTO> list (@RequestBody Map<String,Long> map,
+    public List<ProductDTO> list (@RequestBody Map<String,String> map,
                                   HttpSession session){
-        Long batchId = map.get("batchId");
-        Long siteId = map.get("siteId");
+        String batchId = map.get("batchId");
+        String siteId = map.get("siteId");
         User user = (User) session.getAttribute("user");
         List<ProductDTO> productDTOS = productServiceImpl.list(user.getUserId(),siteId,batchId);
         return productDTOS;
@@ -81,9 +81,9 @@ public class ProductController {
 
     @ResponseBody
     @RequestMapping(value = "/product/insert",method = RequestMethod.POST)
-    public ResultDTO insert(@RequestParam(name = "siteId") Long siteId,
-                            @RequestParam(name = "batchId") Long batchId,
-                            @RequestParam(name ="itemId" )Long itemId,
+    public ResultDTO insert(@RequestParam(name = "siteId") String siteId,
+                            @RequestParam(name = "batchId") String batchId,
+                            @RequestParam(name ="itemId" )String itemId,
                             @RequestParam(name ="description" )String description,
                             @RequestParam(name ="composition" )String composition,
                             HttpSession session){

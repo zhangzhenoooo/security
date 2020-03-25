@@ -13,5 +13,5 @@ public interface AddressService {
     List<Address> listOfProvince();
     List<Address> listOfCity();
     List<Address> listOfCountry();
-    List<Address> listByParentId(Long parentId);
+    List<Address> listByParentId(String parentId);
 }

@@ -20,7 +20,7 @@ public class BatchServiceImpl implements BatchService {
     @Autowired
     private BatchMapper batchMapper;
     @Override
-    public List<Batch> listByCreatorId(Long creatorId) {
+    public List<Batch> listByCreatorId(String creatorId) {
         BatchExample batchExample = new BatchExample();
         batchExample.createCriteria()
                 .andIsDeleteEqualTo(false)
@@ -40,7 +40,7 @@ public class BatchServiceImpl implements BatchService {
     }
 
     @Override
-    public Batch selectById(Long Id) {
+    public Batch selectById(String Id) {
         Batch batch = batchMapper.selectByPrimaryKey(Id);
         return batch;
     }

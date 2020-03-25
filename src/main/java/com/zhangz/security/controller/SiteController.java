@@ -46,7 +46,7 @@ public class SiteController {
 
     @GetMapping("/site/siteDetails/{siteId}")
     public String siteDetails(Model model,
-                              @PathVariable (name = "siteId")Long siteId){
+                              @PathVariable (name = "siteId")String siteId){
         Site site = siteServiceImpl.selectById(siteId);
         List<Kindlist> kinds = kindListServiceImpl.list();
 
@@ -80,7 +80,7 @@ public class SiteController {
 
     @ResponseBody
     @RequestMapping(value = "/site/insertOrUpdate",method = RequestMethod.POST)
-    public ResultDTO insertOrUpdate(@RequestParam(name = "siteId",required = false) Long siteId,
+    public ResultDTO insertOrUpdate(@RequestParam(name = "siteId",required = false) String siteId,
                                     @RequestParam(name = "siteName") String siteName,
                                     @RequestParam(name = "address") String address,
                                     HttpSession session){
@@ -102,7 +102,7 @@ public class SiteController {
 
     @ResponseBody
     @RequestMapping(value = "site/{siteId}",method = RequestMethod.GET)
-    public Site selectById(@PathVariable(name = "siteId") Long siteId,
+    public Site selectById(@PathVariable(name = "siteId") String siteId,
                            Model model){
         Site site = siteServiceImpl.selectById(siteId);
         return site;
@@ -139,7 +139,7 @@ public class SiteController {
 
     @ResponseBody
     @PostMapping("/site/approve")
-    public ResultDTO approve(@RequestParam(name = "siteId")Long siteId,
+    public ResultDTO approve(@RequestParam(name = "siteId")String siteId,
                              @RequestParam(name = "examStatus") String examStatus,
                              HttpSession session){
         User user = (User) session.getAttribute("user");

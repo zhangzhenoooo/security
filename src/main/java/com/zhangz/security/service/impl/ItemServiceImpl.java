@@ -6,7 +6,6 @@ import com.zhangz.security.model.ItemExample;
 import com.zhangz.security.service.ItemService;
 import com.zhangz.security.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -25,7 +24,7 @@ public class ItemServiceImpl implements ItemService {
     private  ItemMapper itemMapper;
 
     @Override
-    public List<Item> listBySiteId(Long siteId) {
+    public List<Item> listBySiteId(String siteId) {
         ItemExample itemExample = new ItemExample();
         itemExample.createCriteria()
                 .andIsDeleteEqualTo(false)
@@ -61,7 +60,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Item selectById(Long itemId) {
+    public Item selectById(String itemId) {
         Item item = itemMapper.selectByPrimaryKey(itemId);
         return item;
     }

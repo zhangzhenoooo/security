@@ -1,7 +1,6 @@
 package com.zhangz.security.service;
 
 import com.zhangz.security.model.Item;
-import org.w3c.dom.ls.LSInput;
 
 import java.util.List;
 
@@ -12,9 +11,9 @@ import java.util.List;
  */
 public interface ItemService {
 
-    List<Item> listBySiteId(Long siteId);
+    List<Item> listBySiteId(String siteId);
 
     boolean insertOrUpdate(Item site);
 
-    Item selectById(Long itemId);
+    Item selectById(String itemId);
 }

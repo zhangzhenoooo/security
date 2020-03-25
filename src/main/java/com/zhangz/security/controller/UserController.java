@@ -109,9 +109,9 @@ public class UserController {
                                 @Param(value = "password2")String password2,
                                 @Param(value = "type")Integer type,
                                 @Param(value = "userName")String userName,
-                                @Param(value = "province")Long province,
-                                @Param(value = "city")Long city,
-                                @Param(value = "county")Long county,
+                                @Param(value = "province")String province,
+                                @Param(value = "city")String city,
+                                @Param(value = "county")String county,
                                 @Param(value = "addressDetails")String addressDetails,
                                 Model model,
                                 HttpServletResponse response) throws IOException {
@@ -137,7 +137,7 @@ public class UserController {
                 return "register";
             } else {
                 User user = new User();
-                user.setUserId(SnowIdUtils.uniqueLong());
+                user.setUserId(SnowIdUtils.uniqueLongHex());
                 user.setPassword(password);
                 user.setEmail(email);
                 user.setType(1);

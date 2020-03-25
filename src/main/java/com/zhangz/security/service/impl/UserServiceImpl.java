@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean insert(User user) {
 
-        List<Long> ids = new ArrayList<>();
+        List<String> ids = new ArrayList<>();
         ids.add(user.getProvinceCode());
         ids.add(user.getCityCode());
         ids.add(user.getCountyCode());
@@ -91,7 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateLastAddress(Long userId,String lastAddress) {
+    public boolean updateLastAddress(String userId, String lastAddress) {
         User user = new User();
         user.setLastAddress(lastAddress);
         UserExample userExample = new UserExample();

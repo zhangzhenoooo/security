@@ -34,18 +34,18 @@ public class ItemController {
 
     @ResponseBody
     @RequestMapping(value = "/item/listBySiteId",method = RequestMethod.POST)
-    public List<Item>  listBySiteId(@RequestBody  Map<String,Long> map){
+    public List<Item>  listBySiteId(@RequestBody  Map<String,String> map){
         List<Item> items = itemServiceImpl.listBySiteId(map.get("siteId"));
         return items;
     }
 
     @ResponseBody
     @RequestMapping(value = "/item/insertOrUpdate",method = RequestMethod.POST)
-    public ResultDTO insertOrUpdate(@RequestParam(name = "itemId",required = false) Long itemId,
+    public ResultDTO insertOrUpdate(@RequestParam(name = "itemId",required = false) String itemId,
                                     @RequestParam(name = "itemName") String itemName,
                                     @RequestParam(name = "description") String description,
-                                    @RequestParam (name = "siteId") Long siteId,
-                                    @RequestParam (name = "kindId") Long kindId,
+                                    @RequestParam (name = "siteId") String siteId,
+                                    @RequestParam (name = "kindId") String kindId,
                                     HttpSession session){
         User user = (User)session.getAttribute("user");
         Item item = new Item();
@@ -69,7 +69,7 @@ public class ItemController {
 
     @ResponseBody
     @RequestMapping(value = "item/{itemId}",method = RequestMethod.GET)
-    public Item selectById(@PathVariable(name = "itemId") Long itemId,
+    public Item selectById(@PathVariable(name = "itemId") String itemId,
                            Model model){
         Item item = itemServiceImpl.selectById(itemId);
         return item;

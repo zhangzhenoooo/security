@@ -13,10 +13,10 @@ import lombok.Data;
 @Data
 public class ProductDTO {
 
-    private Long productId;
-    private Long siteId;
-    private Long batchId;
-    private Long itemId;
+    private String productId;
+    private String siteId;
+    private String batchId;
+    private String itemId;
     private String productName;
     private String description;
     private String composition;
@@ -25,7 +25,7 @@ public class ProductDTO {
     private Item item;
     private String siteName;
     private String itemName;
-    private Long vendor;
+    private String vendor;
     private String vendorName;
     private Batch batch;
 }

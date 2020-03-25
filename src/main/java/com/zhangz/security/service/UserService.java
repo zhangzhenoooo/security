@@ -37,5 +37,5 @@ public interface UserService {
      **/
     List<User> selectNeedApprove(Integer userType);
 
-    boolean updateLastAddress(Long userId,String lastAddress);
+    boolean updateLastAddress(String userId, String lastAddress);
 }

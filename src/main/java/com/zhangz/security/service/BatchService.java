@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface BatchService {
 
-    List<Batch> listByCreatorId(Long creatorId);
+    List<Batch> listByCreatorId(String creatorId);
     int insert(Batch record);
-    Batch selectById(Long Id);
+    Batch selectById(String Id);
 }
