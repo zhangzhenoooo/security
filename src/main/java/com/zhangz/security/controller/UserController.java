@@ -209,6 +209,31 @@ public class UserController {
         return  "redirect:/user/login";
     }
 
+    /**
+     *
+     * @description 管理员：所有用户
+     * @author zhangz
+     * @date 2020:03:23 21:50:25
+     * @param model
+     * @return
+     **/
+    @GetMapping("/user/userList")
+    public String userList(Model model){
+        return "admin_user_list";
+    }
 
+    /**
+     *
+     * @description 获取系统已经注册的所有用户列表
+     * @author zhangz
+     * @date 2020:03:24 17:04:08
+     * @return
+     **/
+    @ResponseBody
+    @RequestMapping(value = "/user/getUserList",method = RequestMethod.POST)
+    public List<User> getUserList(){
+        List<User> users = userServiceImpl.list();
+        return users;
+    }
 
 }

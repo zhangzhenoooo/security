@@ -28,31 +28,43 @@ public class ApprovalController {
     @Autowired
     private ApprovalServiceImpl approvalServiceImpl;
 
+    /**
+     *
+     * @description 管理员：账号待审批列表
+     * @author zhangz
+     * @date 2020:03:23 22:03:54
+     * @param model
+     * @return
+     **/
     @GetMapping("/approval/approvalList")
     public String approvalList(Model model) {
-//        //获取待审批账号
-//        List<User> users = userServiceImpl.selectNeedApprove( UserStatusEnum.DELETED_OR_NOT_APPROVED.isDelete());
-//        List<User> producers = new ArrayList<>();
-//        List<User> checkers = new ArrayList<>();
-//        for (User user:users){
-////            根据账号类型分类：1 生产商 2检测部门
-//            if (UserTypeEnum.PRODUCER.equals(user.getType())){
-//                //producer
-//                producers.add(user);
-//            }
-//            if (UserTypeEnum.DETECTION.equals(user.getType())){
-//                checkers.add(user);
-//            }
-//        }
-//        model.addAttribute("producers",producers);
-//        model.addAttribute("checkers",checkers);
-        return "approval_management";
+        return "admin_account_need_approval_list";
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/approval/list", method = RequestMethod.POST)
-    public List<User> listOfNeedApprove(@RequestBody Map<String, Integer> map) {
+    /**
+     *
+     * @description 管理员：账号已审批列表
+     * @author zhangz
+     * @date 2020:03:23 22:03:54
+     * @param model
+     * @return
+     **/
+    @GetMapping("/approval/approvedList")
+    public String approvedList(Model model) {
+        return "admin_account_approved_list";
+    }
 
+    /**
+     *
+     * @description 获取需要审批的用户列表
+     * @author zhangz
+     * @date 2020:03:24 16:37:09
+     * @param map
+     * @return
+     **/
+    @ResponseBody
+    @RequestMapping(value = "/approval/listOfNeedApprove", method = RequestMethod.POST)
+    public List<User> listOfNeedApprove(@RequestBody Map<String, Integer> map) {
         List<User> users = userServiceImpl.selectNeedApprove(map.get("userType"));
         return users;
     }
@@ -60,14 +72,14 @@ public class ApprovalController {
     @ResponseBody
     @RequestMapping(value = "/approval/approve", method = RequestMethod.POST)
     public ResultDTO approve(@RequestParam(name = "userId") String userId,
-                              @RequestParam(name = "status") boolean status,
-                              HttpSession session) {
+                             @RequestParam(name = "status") boolean status,
+                             HttpSession session) {
         User user = (User) session.getAttribute("user");
         boolean result = approvalServiceImpl.approve(user, userId,status);
         if (result){
-          return   ResultDTO.successOf();
+            return   ResultDTO.successOf();
         }else {
-          return   ResultDTO.errorOf(CustomizeErrorCode.APPROVE_FALSE);
+            return   ResultDTO.errorOf(CustomizeErrorCode.APPROVE_FALSE);
         }
     }
 
