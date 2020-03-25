@@ -74,8 +74,11 @@
                     <!--用户已登录-->
                     <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                         <img class="nav-user-photo" src="/images/avatars/profile-pic.jpg" alt="Jason's Photo" />
-                        <span class="user-info">
-									<small>Welcome,</small>
+                        <span class="user-info"  th:switch = "${session.user.type}"  >
+									<small th:case="3">管理员,</small>
+                            <small th:case="1">生产商,</small>
+                            <small th:case="2">检测部门,</small>
+
 								<span  th:text="${session.user.getUserName()}"></span>
 								</span>
 
@@ -136,173 +139,312 @@
 
                 <b class="arrow"></b>
             </li>
-            <!--生产商-->
-            <li class="">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-desktop"></i>
-                    <span class="menu-text">
-							产品管理
+            <!--start 生产商-->
+
+            <li id="productor" th:if="${session.user.type == 1}">
+                <ul class="nav-list">
+                <!--产地管理-->
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-desktop"></i>
+                        <span class="menu-text">
+							产地管理
 							</span>
 
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
 
-                <b class="arrow"></b>
+                    <b class="arrow"></b>
 
-                <ul class="submenu">
-                    <li class="">
-                        <a href="/batch/batchManagement" data-id="产品管理/批次管理" target="myFrame" onclick="changeNav(this)" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            批次管理
-                        </a>
+                    <ul class="submenu">
+                        <li class="">
+                            <a href="/batch/batchManagement" data-id="产地管理/批次管理" target="myFrame" onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                批次管理
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/provider/addSite" data-id="产地管理/添加产地" target="myFrame" onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                添加产地
+                            </a>
 
-                    <li class="">
-                        <a href="/site/siteManagement" data-id="产品管理/我的产地" target="myFrame" onclick="changeNav(this)" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            我的产地
-                        </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/site/siteManagement" data-id="产地管理/产地列表" target="myFrame" onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                产地列表
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
+                            <b class="arrow"></b>
+                        </li>
 
-                    <li class="">
-                        <a href="/product/productManagement" target="myFrame"  data-id="产品管理/产地管理"  onclick="changeNav(this)" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            我的产品
-                        </a>
+                        <li class="">
+                            <a href="/product/productManagement" target="myFrame"  data-id="产地管理/我的产品"  onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                我的产品
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
+                            <b class="arrow"></b>
+                        </li>
 
-                </ul>
-            </li>
-            <li class="">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-desktop"></i>
-                    <span class="menu-text">
+                    </ul>
+                </li>
+                <!--送检管理-->
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-desktop"></i>
+                        <span class="menu-text">
 							送检管理
 							</span>
 
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
 
-                <b class="arrow"></b>
+                    <b class="arrow"></b>
 
-                <ul class="submenu">
+                    <ul class="submenu">
 
-                    <li class="">
-                        <a href="/exam/examManagement"   target="myFrame"   data-id="生产商/我的送检"  onclick="changeNav(this)" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            我的送检
-                        </a>
+                        <li class="">
+                            <a href="/batch/batchManagement"   target="myFrame"   data-id="送检管理/送检批次"  onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                送检批次
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
-                    <li class="">
-                        <a href="/exam/andExamProduct"   target="myFrame"   data-id="生产商/添加送检"  onclick="changeNav(this)" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            添加送检
-                        </a>
+                            <b class="arrow"></b>
+                        </li>
 
-                        <b class="arrow"></b>
-                    </li>
+                        <li class="">
+                            <a href="/exam/andExamProduct"   target="myFrame"   data-id="送检管理/添加送检"  onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                添加送检
+                            </a>
 
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="/exam/examManagement"   target="myFrame"   data-id="送检管理/送检列表"  onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                送检列表
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                        <li class="">
+                            <a href="#"   target="myFrame"   data-id="送检管理/报表"  onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                报表
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
                 </ul>
             </li>
 
-            <li class="">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-list"></i>
-                    <span class="menu-text"> 管理员 </span>
+            <!--end 生产商-->
 
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
-
-                <b class="arrow"></b>
-
-                <ul class="submenu">
+            <!--start 管理员-->
+            <li id="admin" th:if="${session.user.type == 3}" >
+                <ul class="nav nav-list">
+                    <!--账号审批-->
                     <li class="">
-                        <a href="/approval/approvalList"  target="myFrame" data-id="管理员/账号审批"  onclick="changeNav(this)" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                          账号审批
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-list"></i>
+                            <span class="menu-text"> 账号审批 </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
                         </a>
 
                         <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/approval/approvalList" target="myFrame"  data-id="账号审批/待审批"  onclick="changeNav(this)" >
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    新用户审批
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="">
+                                <a href="/user/userList"  target="myFrame" data-id="用户管理/所有用户"  onclick="changeNav(this)" >
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    所有用户
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
                     </li>
-
+                    <!--食品区域管理-->
                     <li class="">
-                        <a href="/exam/examManagement"  target="myFrame">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            jqGrid plugin
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-list"></i>
+                            <span class="menu-text"> 食品区域管理 </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
                         </a>
 
                         <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/site/siteNeedApproveList"  target="myFrame" data-id="食品区域管理/待审批"  onclick="changeNav(this)" >
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    待审批
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="">
+                                <a a href="/site/siteApprovedList"  target="myFrame" data-id="食品区域管理/已审批"  onclick="changeNav(this)" >
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    已审批
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+
+                        </ul>
+                    </li>
+                    <!--公告管理-->
+                    <li class="">
+                        <a href="#" class="dropdown-toggle">
+                            <i class="menu-icon fa fa-list"></i>
+                            <span class="menu-text"> 公告管理 </span>
+
+                            <b class="arrow fa fa-angle-down"></b>
+                        </a>
+
+                        <b class="arrow"></b>
+
+                        <ul class="submenu">
+                            <li class="">
+                                <a href="/notification/addNotification"  target="myFrame" data-id="公告管理/添加公告"  onclick="changeNav(this)" >
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    添加公告
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li class="">
+                                <a a href="/notification/notificationList"  target="myFrame" data-id="公告管理/历史列表"  onclick="changeNav(this)" >
+                                    <i class="menu-icon fa fa-caret-right"></i>
+                                    历史列表
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </li>
+            <!--end 管理员-->
 
-            <li class="">
-                <a href="#" class="dropdown-toggle">
-                    <i class="menu-icon fa fa-pencil-square-o"></i>
-                    <span class="menu-text"> 检测部门 </span>
+                <!-- start 检测部门-->
+            <li id="exam" th:if="${session.user.type ==2}" >
+                <ul class="nav-list">
+                <!--食品检测设置-->
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil-square-o"></i>
+                        <span class="menu-text"> 食品检测设置 </span>
 
-                    <b class="arrow fa fa-angle-down"></b>
-                </a>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
 
-                <b class="arrow"></b>
+                    <b class="arrow"></b>
 
-                <ul class="submenu">
-                    <li class="">
-                        <a type="" href="/site/supervise" target="myFrame" data-id="检测部门/生产基地管理"  onclick="changeNav(this)" >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            生产基地管理
-                        </a>
+                    <ul class="submenu">
+                        <li class="">
+                            <a type="" href="/supervisor/examAddProduct" target="myFrame" data-id="食品检测设置/新增检测食品"  onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                新增检测食品
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
+                            <b class="arrow"></b>
+                        </li>
 
-                    <li class="">
-                        <a href="/exam/productManagement" target="myFrame" data-id="检测部门/产品检测管理"  onclick="changeNav(this)"  >
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            产品检测管理
-                        </a>
+                        <li class="">
+                            <a href="/supervisor/examProductMenu" target="myFrame" data-id="食品检测设置/食品检测指标信息"  onclick="changeNav(this)"  >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                食品检测指标信息
+                            </a>
 
-                        <b class="arrow"></b>
-                    </li>
+                            <b class="arrow"></b>
+                        </li>
 
-                    <li class="">
-                        <a href="form-wizard.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Wizard &amp; Validation
-                        </a>
+                    </ul>
+                </li>
+                <!--食品检测管理-->
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil-square-o"></i>
+                        <span class="menu-text"> 食品检测管理 </span>
 
-                        <b class="arrow"></b>
-                    </li>
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
 
-                    <li class="">
-                        <a href="wysiwyg.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Wysiwyg &amp; Markdown
-                        </a>
+                    <b class="arrow"></b>
 
-                        <b class="arrow"></b>
-                    </li>
+                    <ul class="submenu">
+                        <li class="">
+                            <a type="" href="/exam/listOfNeedExam" target="myFrame" data-id="食品检测管理/待检测"  onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                待检测
+                            </a>
 
-                    <li class="">
-                        <a href="dropzone.html">
-                            <i class="menu-icon fa fa-caret-right"></i>
-                            Dropzone File Upload
-                        </a>
+                            <b class="arrow"></b>
+                        </li>
 
-                        <b class="arrow"></b>
-                    </li>
+                        <li class="">
+                            <a href="/exam/productManagement" target="myFrame" data-id="食品检测管理/已检测"  onclick="changeNav(this)"  >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                已检测
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+
+                    </ul>
+                </li>
+                <!--食品区域管理-->
+                <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-pencil-square-o"></i>
+                        <span class="menu-text"> 食品区域管理 </span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu">
+                        <li class="">
+                            <a type="" href="/site/supervise" target="myFrame" data-id="食品区域管理/区域定检"  onclick="changeNav(this)" >
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                区域定检
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+                </li>
                 </ul>
             </li>
-
+            <!--end 检测部门-->
         </ul><!-- /.nav-list -->
+
 
         <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
             <i id="sidebar-toggle-icon" class="ace-icon fa fa-angle-double-left ace-save-state" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>
@@ -326,12 +468,12 @@
                 </ul><!-- /.breadcrumb -->
 
                 <!--<div class="nav-search" id="nav-search">-->
-                    <!--<form class="form-search">-->
-								<!--<span class="input-icon">-->
-									<!--<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />-->
-									<!--<i class="ace-icon fa fa-search nav-search-icon"></i>-->
-								<!--</span>-->
-                    <!--</form>-->
+                <!--<form class="form-search">-->
+                <!--<span class="input-icon">-->
+                <!--<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />-->
+                <!--<i class="ace-icon fa fa-search nav-search-icon"></i>-->
+                <!--</span>-->
+                <!--</form>-->
                 <!--</div>&lt;!&ndash; /.nav-search &ndash;&gt;-->
             </div>
 
@@ -405,11 +547,11 @@
 
                 <div class="page-header">
                     <!--<h1>-->
-                      <!--<span  id="b-first-nav"></span>-->
-                        <!--<small>-->
-                            <!--<i class="ace-icon fa fa-angle-double-right"></i>-->
-                           <!--<span id="b-second-nav"></span>-->
-                        <!--</small>-->
+                    <!--<span  id="b-first-nav"></span>-->
+                    <!--<small>-->
+                    <!--<i class="ace-icon fa fa-angle-double-right"></i>-->
+                    <!--<span id="b-second-nav"></span>-->
+                    <!--</small>-->
                     <!--</h1>-->
                     <input type="button" value="Back" onclick="document.getElementById('myFrame').contentWindow.history.back();">
                     <input type="button" value="forward" onclick="document.getElementById('myFrame').contentWindow.history.forward();">
@@ -464,14 +606,14 @@
 <!-- basic scripts -->
 
 <!--[if !IE]> -->
-<script src="/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
 
 <!-- <![endif]-->
 
 <!--[if IE]>
-<script src="/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="/js/jquery-1.11.3.min.js"></script>
 <![endif]-->
-<script type="text/javascript">
+<script  type="text/javascript">
     if('ontouchstart' in document.documentElement) document.write("<script src='/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
 </script>
 <script src="/js/bootstrap.min.js"></script>
@@ -479,23 +621,23 @@
 <!-- page specific plugin scripts -->
 
 <!--[if lte IE 8]>
-<script src="/js/excanvas.min.js"></script>
+<script type="text/javascript" src="/js/excanvas.min.js"></script>
 <![endif]-->
-<script src="/js/jquery-ui.custom.min.js"></script>
-<script src="/js/jquery.ui.touch-punch.min.js"></script>
-<script src="/js/jquery.easypiechart.min.js"></script>
-<script src="/js/jquery.sparkline.index.min.js"></script>
-<script src="/js/jquery.flot.min.js"></script>
-<script src="/js/jquery.flot.pie.min.js"></script>
-<script src="/js/jquery.flot.resize.min.js"></script>
-<script src="/js/popper.min.js" ></script>
+<script type="text/javascript" src="/js/jquery-ui.custom.min.js"></script>
+<script type="text/javascript" src="/js/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easypiechart.min.js"></script>
+<script type="text/javascript" src="/js/jquery.sparkline.index.min.js"></script>
+<script type="text/javascript" src="/js/jquery.flot.min.js"></script>
+<script type="text/javascript" src="/js/jquery.flot.pie.min.js"></script>
+<script type="text/javascript" src="/js/jquery.flot.resize.min.js"></script>
+<script type="text/javascript" src="/js/popper.min.js" ></script>
 
 <!-- ace scripts -->
-<script src="/js/ace-elements.min.js"></script>
-<script src="/js/ace.min.js"></script>
+<script type="text/javascript" src="/js/ace-elements.min.js"></script>
+<script type="text/javascript" src="/js/ace.min.js"></script>
 
 <!-- inline scripts related to this page -->
-<script type="text/javascript">
+<script  type="text/javascript">
 
 
     function back() {
@@ -503,7 +645,7 @@
         return false;
     }
 
-        function changeNav(e){
+    function changeNav(e){
         var String = e.getAttribute("data-id");
         var arr=new Array();
         arr=String.split('/');
@@ -511,7 +653,7 @@
         $("#nav-second").text(arr[1]);
         //获取iframe的title
         var $mainFrame=$('#myFrame');
-      var title = $mainFrame.contents().attr("title");
+        var title = $mainFrame.contents().attr("title");
         $("#b-first-nav").text(arr[1]);
         $("#b-second-nav").text(title);
 

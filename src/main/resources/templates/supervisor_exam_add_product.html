@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>添加/修改检测食品</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/css/fileinput.min.css">
+</head>
+<body >
+<form id="form-site" >
+    <div class="form-group">
+        <!--<label for="siteId" class="col-form-label">基地id:</label>-->
+        <input th:text="${kind !=null ?kind.kindId:''}"  type="hidden" class="form-control" id="kindId" name="kindId">
+    </div>
+    <div class="form-group">
+        <label for="kindName" class="col-form-label">食品名称:</label>
+        <input th:text="${kind !=null ?kind.kindName:''}"  type="text" class="form-control" id="kindName" name="kindName">
+    </div>
+    <div class="form-group">
+        <label for="description" class="col-form-label">描述:</label>
+        <textarea th:text="${kind !=null ?kind.description:''}"  class="form-control" id="description" name="description"></textarea>
+    </div>
+    <!--<div class="form-group">-->
+        <!--<label for="address">地址信息：</label>-->
+        <!--<div class="row" id="address">-->
+            <!--<div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">-->
+                <!--<select class="form-control" id="province" name="province">-->
+                    <!--<option  value="">请选择省份</option>-->
+                    <!--<option  th:each="province :${provinces}" th:value="${province.getId()}" th:text="${province.getName()}" th:selected="${province.id} == ${site != null ? site.provinceCode:''}" ></option>-->
+                <!--</select>-->
+            <!--</div>-->
+            <!--<div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">-->
+                <!--<select class="form-control" id="city" name="city">-->
+                    <!--<option  value="">请选择市</option>-->
+                    <!--<option th:each="city :${cities}" th:value="${city.getId()}" th:text="${city.getName()}"  th:selected="${city.id} == ${site != null ? site.CityeCode:''}" ></option>-->
+                <!--</select>-->
+            <!--</div>-->
+            <!--<div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2col-xs-2 col-sm-2 col-md-2 col-lg-2">-->
+                <!--<select class="form-control" id="county" name="county">-->
+                    <!--<option  value="">请选择县</option>-->
+                    <!--<option th:each="county :${counties}" th:value="${county.getId()}" th:text="${county.getName()}"  th:selected="${county.id} == ${site != null ? site.countyCode:''}"  ></option>-->
+                <!--</select>-->
+            <!--</div>-->
+            <!--<div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6">-->
+                <!--<input type="text" class="form-control" id="addressDetails" name="addressDetails" placeholder="请输入详细地址"  required>-->
+            <!--</div>-->
+        <!--</div>-->
+
+    <!--</div>-->
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+    <button type="button" id="btn-submit" class="btn btn-primary">提交</button>
+</form>
+
+<!--js-->
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/table-export.min.js" ></script>
+<script src="/js/popper.min.js" ></script>
+<script src="/js/bootstrap.min.js" ></script>
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap-table-export.min.js"></script>
+<script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="/js/fileinput.min.js"></script>
+<script>
+    $(function () {
+        // 注册modal提交
+        $("#btn-submit").click(function () {
+            var kindId = $("#kindId").val();
+            var kindName = $("#kindName").val();
+            var description = $("#description").val();
+            $.ajax({
+                url:'/supervisor/doExamAddProduct',
+                type:'post',
+                data:{
+                    kindId:kindId,
+                    kindName:kindName,
+                    description:description
+                },
+                success:function (data) {
+                    if (data.code == 200) {
+                        $("#exampleModal").modal('hide');
+                        window.location.reload();
+                    }
+                }
+            })
+        });
+        $("#province").change(function () {
+            var id = $('#province').val();
+            initAddress(2,id);
+            var cityId = $('#city').val();
+            initAddress(3,cityId);
+        });
+        $("#city").change(function () {
+            var id = $('#city').val();
+            initAddress(3,id);
+        });
+    })
+</script>
+</body>
+</html>
