@@ -3,6 +3,7 @@ package com.zhangz.security.service.impl;
 import com.zhangz.security.mapper.KindlistMapper;
 import com.zhangz.security.model.Kindlist;
 import com.zhangz.security.model.KindlistExample;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.KindListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,6 +50,7 @@ public class KindListServiceImpl implements KindListService {
         int result = 0;
         if (ObjectUtils.isEmpty(dbKindList.getKindId())) {
             //insertORUpdate
+            kindlist.setKindId(SnowIdUtils.uniqueLongHex());
              result = kindlistMapper.insert(kindlist);
         }else {
             //update

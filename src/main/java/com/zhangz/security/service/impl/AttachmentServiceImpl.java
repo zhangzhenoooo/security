@@ -3,6 +3,7 @@ package com.zhangz.security.service.impl;
 import com.zhangz.security.mapper.AttachmentMapper;
 import com.zhangz.security.model.Attachment;
 import com.zhangz.security.model.AttachmentExample;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.AttachmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,7 @@ public class AttachmentServiceImpl implements AttachmentService {
 
     @Override
     public int insert(Attachment attachment) {
+        attachment.setAttachmentId(SnowIdUtils.uniqueLongHex());
         int insert = attachmentMapper.insert(attachment);
        return insert;
     }

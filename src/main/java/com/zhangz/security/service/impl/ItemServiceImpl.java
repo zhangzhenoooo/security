@@ -6,6 +6,7 @@ import com.zhangz.security.mapper.ItemExtMapper;
 import com.zhangz.security.mapper.ItemMapper;
 import com.zhangz.security.model.Item;
 import com.zhangz.security.model.ItemExample;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.ItemService;
 import com.zhangz.security.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,6 +67,7 @@ public class ItemServiceImpl implements ItemService {
         int affectedRow;
         if (ObjectUtils.isEmpty(dbSite)){
             //insertORUpdate
+            item.setItemId(SnowIdUtils.uniqueLongHex());
             item.setCreateDate(DateUtil.getData());
             item.setModifyDate(DateUtil.getData());
             affectedRow = itemMapper.insert(item);

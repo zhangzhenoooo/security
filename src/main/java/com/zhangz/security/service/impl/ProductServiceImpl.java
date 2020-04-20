@@ -3,6 +3,7 @@ package com.zhangz.security.service.impl;
 import com.zhangz.security.dto.ProductDTO;
 import com.zhangz.security.mapper.*;
 import com.zhangz.security.model.*;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.ProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +86,7 @@ public class ProductServiceImpl implements ProductService {
         record.setSiteName(dbSite.getSiteName());
         record.setItemName(dbItem.getItemName());
         record.setProductName(dbItem.getItemName());
+        record.setProductId(SnowIdUtils.uniqueLongHex());
         int insert = productMapper.insert(record);
         return insert;
     }

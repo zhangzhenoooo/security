@@ -6,6 +6,7 @@ import com.zhangz.security.mapper.UserMapper;
 import com.zhangz.security.model.Approval;
 import com.zhangz.security.model.User;
 import com.zhangz.security.model.UserExample;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.ApprovalService;
 import com.zhangz.security.utils.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 
         //添加审批记录
         Approval approval = new Approval();
+        approval.setApprovededId(SnowIdUtils.uniqueLongHex());
         approval.setApproveDate(DateUtil.getData());
         approval.setApprovededId(userId);
         approval.setApproverId(approver.getUserId());

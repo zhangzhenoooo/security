@@ -6,6 +6,7 @@ import com.zhangz.security.model.Address;
 import com.zhangz.security.model.AddressExample;
 import com.zhangz.security.model.Site;
 import com.zhangz.security.model.SiteExample;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,6 +61,7 @@ public class SiteServiceImpl implements SiteService {
         int affectedRow;
         if (dbSite == null ){
             //insertORUpdate
+            site.setSiteId(SnowIdUtils.uniqueLongHex());
             affectedRow = siteMapper.insert(site);
         }else {
             //updateByEmail

@@ -3,6 +3,7 @@ package com.zhangz.security.service.impl;
 import com.zhangz.security.mapper.BatchMapper;
 import com.zhangz.security.model.Batch;
 import com.zhangz.security.model.BatchExample;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.BatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ public class BatchServiceImpl implements BatchService {
 
     @Override
     public int insert(Batch record) {
+        record.setBatchId(SnowIdUtils.uniqueLongHex());
         int insert = batchMapper.insert(record);
         return insert;
     }

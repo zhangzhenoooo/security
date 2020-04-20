@@ -7,6 +7,7 @@ import com.zhangz.security.mapper.ExamBatchMapper;
 import com.zhangz.security.mapper.ExamExtMapper;
 import com.zhangz.security.mapper.ExamMapper;
 import com.zhangz.security.model.*;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.ExamService;
 import com.zhangz.security.utils.DateUtil;
 import org.springframework.beans.BeanUtils;
@@ -57,6 +58,7 @@ public class ExamServiceImpl implements ExamService {
     public boolean insertExams(List<ProductDTO> productDTOS) {
         List<Exam> exams = productDTOS.stream().map(productDTO -> {
             Exam exam = new Exam();
+            exam.setExamId(SnowIdUtils.uniqueLongHex());
             BeanUtils.copyProperties(productDTO,exam);
             exam.setVendorId(productDTO.getVendor());
             exam.setBatchName(productDTO.getBatch().getBatchName());

@@ -6,6 +6,7 @@ import com.zhangz.security.model.Address;
 import com.zhangz.security.model.AddressExample;
 import com.zhangz.security.model.User;
 import com.zhangz.security.model.UserExample;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +63,7 @@ public class UserServiceImpl implements UserService {
             }
         }
 
+        user.setUserId(SnowIdUtils.uniqueLongHex());
         int affectedRow = userMapper.insert(user);
        if (affectedRow > 0){
            return true;

@@ -4,6 +4,7 @@ import com.zhangz.security.mapper.NotificationExtMapper;
 import com.zhangz.security.mapper.NotificationMapper;
 import com.zhangz.security.model.Notification;
 import com.zhangz.security.model.NotificationExample;
+import com.zhangz.security.plugin.SnowIdUtils;
 import com.zhangz.security.service.NotificationService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +31,12 @@ public class NotificationServieImpl implements NotificationService {
     public int insertORUpdate(Notification notification) {
         int insert = 0;
         if (ObjectUtils.isEmpty(notification.getNotificationId())){
+            notification.setNotificationId(SnowIdUtils.uniqueLongHex());
              insert = notificationMapper.insert(notification);
         }else {
             Notification dbNotication = selectById(notification.getNotificationId());
             if (ObjectUtils.isEmpty(dbNotication)){
+                notification.setNotificationId(SnowIdUtils.uniqueLongHex());
                 insert = notificationMapper.insert(notification);
             }else {
                 NotificationExample notificationExample = new NotificationExample();
