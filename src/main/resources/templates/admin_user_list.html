@@ -85,11 +85,24 @@
                 title: '用户名',
                 align: 'center'
             }, {
-                field: 'email',
-                title: '邮箱',
+                field: 'type',
+                title: '用户类型',
                 align: 'center',
+                formatter:function(value, row, index){
+                    if (row.type == 1){
+                        return "生产商";
+                    }
+                    if (row.type == 2){
+                        return "检测机构";
+                    }
+                },
                 sortable: true
             }, {
+                    field: 'email',
+                    title: '邮箱',
+                    align: 'center',
+                    sortable: true
+                },{
                 field: 'provinceName',
                 title: '所在省份',
                 align: 'center'

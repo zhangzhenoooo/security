@@ -1,5 +1,7 @@
 package com.zhangz.security.service;
 
+import com.zhangz.security.dto.EChartsResultDTO;
+import com.zhangz.security.dto.ItemDTO;
 import com.zhangz.security.model.Item;
 
 import java.util.List;
@@ -12,7 +14,8 @@ import java.util.List;
 public interface ItemService {
 
     List<Item> listBySiteId(String siteId);
-
+    //获取site的item组成
+    EChartsResultDTO getItemKindsBySiteId(String sited);
     boolean insertOrUpdate(Item site);
 
     Item selectById(String itemId);

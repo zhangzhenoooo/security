@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,8 @@ public class ProductServiceImpl implements ProductService {
     private ItemMapper itemMapper;
     @Autowired
     private BatchMapper batchMapper;
-
+    @Autowired
+    private ExamServiceImpl  examServiceImpl;
     @Override
     public List<ProductDTO> list(String vendorId, String siteId , String batchId) {
 
@@ -85,6 +87,85 @@ public class ProductServiceImpl implements ProductService {
         record.setProductName(dbItem.getItemName());
         int insert = productMapper.insert(record);
         return insert;
+    }
+
+    @Override
+    public ProductDTO selectById(String productId) {
+        ProductDTO productDTO = new ProductDTO();
+//        ProductExample productExample = new ProductExample();
+//        productExample.createCriteria()
+//                .andProductIdEqualTo(productId);
+       Product product = productMapper.selectByPrimaryKey(productId);
+       BeanUtils.copyProperties(product,productDTO);
+        Site site = siteMapper.selectByPrimaryKey(product.getSiteId());
+        productDTO.setSite(site);
+        return productDTO;
+
+    }
+
+    @Override
+    public List<Product> selectByExampleSelective(Product product) {
+
+        ProductExample productExample = new ProductExample();
+        ProductExample.Criteria criteria = productExample.createCriteria();
+        if (!StringUtils.isEmpty(product.getProductId())){
+            criteria.andProductIdEqualTo(product.getProductId());
+        }
+        if (!StringUtils.isEmpty(product.getProductName())){
+            criteria.andProductNameEqualTo(product.getProductName());
+        }
+        if (!StringUtils.isEmpty(product.getKindName())){
+            criteria.andKindNameLike(product.getKindName());
+        }
+        List<Product> products = productMapper.selectByExample(productExample);
+        if (products.size() > 0 ){
+            return products;
+        }else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<ProductDTO> listOfNeedExamed(String vendorId, String siteId, String batchId) {
+        List<Exam> exams = examServiceImpl.list();
+        List<String>  examedProductIds = exams.stream().map(e->e.getProductId()).collect(Collectors.toList());
+        ProductExample productExample = new ProductExample();
+        ProductExample.Criteria criteria =  productExample.createCriteria()
+                .andVendorEqualTo(vendorId)
+                .andProductIdNotIn(examedProductIds);
+
+        if (!StringUtils.isEmpty(siteId)){
+            criteria.andSiteIdEqualTo(siteId);
+        }
+        if (!StringUtils.isEmpty(batchId)){
+            criteria .andBatchIdEqualTo(batchId);
+        }
+        List<Product> products = productMapper.selectByExample(productExample);
+        if (products.size() == 0){
+            return new ArrayList<>();
+        }
+        // 获取去重的batch
+        Set<String> batches = products.stream().map(product -> product.getBatchId()).collect(Collectors.toSet());
+        List<String> batchIds = new ArrayList();
+        batchIds.addAll(batches);
+
+        // 获取batch并转换为 Map
+        BatchExample batchExample = new BatchExample();
+        batchExample.createCriteria()
+                .andBatchIdIn(batchIds);
+        List<Batch> batchList = batchMapper.selectByExample(batchExample);
+        Map<String, Batch> batchMap = batchList.stream().collect(Collectors.toMap(b -> b.getBatchId(), b -> b));
+
+
+        // 转换 productDTO
+        List<ProductDTO> productDTOS = products.stream().map(product -> {
+            ProductDTO productDTO = new ProductDTO();
+            BeanUtils.copyProperties(product, productDTO);
+            productDTO.setBatch(batchMap.get(product.getBatchId()));
+            return productDTO;
+        }).collect(Collectors.toList());
+        return productDTOS;
+
     }
 
     @Override

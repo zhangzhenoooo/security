@@ -21,6 +21,12 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode {
     INSERT_FALSE(2014,"插入失败"),
     FILE_NOT_EXIST(2015,"文件不存在"),
     NOT_LOGIN(2016,"未登录"),
+    EMALI_IS_NULL(2017,"邮箱为空"),
+    PASSWORD_IS_NULL(2018,"密码为空"),
+    IS_NOT_EMAIL(2019,"非法邮箱格式"),
+    IS_NOT_PASSWORD(2020,"非法的密码"),
+    UPDATE_USER_FILED(2021,"用户信息更新失败"),
+    DELECT_FILE_FAILD(2022,"删除失败"),
     ;
 
 

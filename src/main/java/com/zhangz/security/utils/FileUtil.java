@@ -1,5 +1,6 @@
 package com.zhangz.security.utils;
 
+import com.zhangz.security.dto.FileDTO;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -37,6 +38,34 @@ public class FileUtil {
         Path p = Paths.get(path); //文件路径
         Files.write(p, bytes);//保存到服务器
         return true;
+    }
+    /**
+     * @param file
+     * @return
+     * @description 上传文件
+     * @author zhangz
+     * @date 2020:03:13 15:29:15
+     **/
+    public static FileDTO upload(String basePath, MultipartFile file, String fileName) throws IOException {
+
+        // 获取文件名，带后缀
+        String originalFilename = getOriginalFileName(file);
+        // 获取文件的后缀格式
+        String fileSuffix = getFileSuffix(file);
+        String path = null;//文件路径
+//        String newFileName; //重新命名文件
+        byte[] bytes = file.getBytes();
+//        newFileName = originalFilename;
+        path = basePath + "/" + fileName;
+        //save
+        Path p = Paths.get(path); //文件路径
+        Files.write(p, bytes);//保存到服务器
+        FileDTO fileDTO = new FileDTO();
+        fileDTO.setMessage("上传成功");
+        fileDTO.setSuccess(200);
+        fileDTO.setUrl(path);
+        fileDTO.setFileName(fileName);
+        return fileDTO;
     }
 
     /*

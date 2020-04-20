@@ -1,14 +1,14 @@
 package com.zhangz.security.controller;
 
+import com.zhangz.security.dto.EChartsResultDTO;
 import com.zhangz.security.dto.ResultDTO;
 import com.zhangz.security.enums.ExamTypeEnum;
 import com.zhangz.security.exception.CustomizeErrorCode;
-import com.zhangz.security.model.Item;
-import com.zhangz.security.model.Kindlist;
-import com.zhangz.security.model.User;
+import com.zhangz.security.model.*;
+import com.zhangz.security.service.impl.AttachmentServiceImpl;
 import com.zhangz.security.service.impl.ItemServiceImpl;
 import com.zhangz.security.service.impl.KindListServiceImpl;
-import com.zhangz.security.utils.DateUtil;
+import com.zhangz.security.service.impl.SiteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +28,10 @@ public class ItemController {
 
     @Autowired
     private ItemServiceImpl itemServiceImpl;
-
+    @Autowired
+    private SiteServiceImpl SiteServiceImpl;
+    @Autowired
+    private AttachmentServiceImpl attachmentServiceImpl;
     @Autowired
     private KindListServiceImpl kindListServiceImpl;
 
@@ -74,4 +77,33 @@ public class ItemController {
         Item item = itemServiceImpl.selectById(itemId);
         return item;
     }
+
+    @GetMapping(value = "/itemDetails/{itemId}")
+    public String itemDetails(@PathVariable(name = "itemId") String itemId,
+                              Model model){
+        Item item  = itemServiceImpl.selectById(itemId);
+        Site site = SiteServiceImpl.selectById(item.getSiteId());
+        List<Attachment> attachments = attachmentServiceImpl.listByParentId(itemId);
+        model.addAttribute("site",site);
+        model.addAttribute("item",item);
+        model.addAttribute("attachments",attachments);
+        return "item_details.html";
+    }
+
+    /**
+     *
+     * @description 查询基地产品种类的及占比
+     * @author zhangz
+     * @date 2020:04:11 21:59:52
+     * @param siteId
+     * @return
+     **/
+    @ResponseBody
+    @RequestMapping(value = "/item/getItemKindsBySiteId",method = RequestMethod.POST)
+    public EChartsResultDTO getItemKindsBySiteId(@RequestParam(name = "siteId") String siteId){
+        EChartsResultDTO eChartsResultDTO = itemServiceImpl.getItemKindsBySiteId(siteId);
+        return eChartsResultDTO;
+    }
+
+
 }

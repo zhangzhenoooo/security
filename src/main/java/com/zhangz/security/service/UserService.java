@@ -40,4 +40,6 @@ public interface UserService {
     boolean updateLastAddress(String userId, String lastAddress);
 
     List<User> list();
+
+    int  updateUserBySelective(User user);
 }

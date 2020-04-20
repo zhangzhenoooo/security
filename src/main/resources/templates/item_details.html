@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>产品详情</title>
+    <!--<head th:insert="~{import :: markdown}"></head>-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="/css/fileinput.min.css">
+</head>
+<body >
+<div class="content">
+    <div class="">
+        <div class="col-md-12">
+            <form >
+                <div class="row">
+                    <h4>食品信息：</h4>
+                    <div class="col-md-4 ">
+                        <label for="itemId">食品编号：</label>
+                        <input type="text" class="form-control" id="itemId" name="itemId" placeholder="" th:value="${item.itemId}" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="itemName">名称：</label>
+                        <input type="text" class="form-control" id="itemName" name="itemName" placeholder="" th:value="${item.itemName}" readonly>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="kindName">食品类别：</label>
+                        <input type="text" class="form-control" id="kindName" name="kindName"  th:value="${item.kindName}" readonly >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="description">描述：</label>
+                        <textarea class="form-control" id="description" th:text="${item.description}" name="description" rows="5" readonly></textarea>
+                        <!--<input type="text" class="form-control" id="description" th:value="${item.description}" name="description" readonly >-->
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="composition">成分：</label>
+                        <textarea class="form-control" id="composition" name="composition" th:text="${item.composition}" rows="5"  readonly></textarea>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <input type="hidden" class="form-control" id="kindId" name="kindId"  th:value="${item.kindId}" readonly >
+                </div>
+
+                <hr class="mb-4">
+                <!--分割线-->
+                <div class="row">
+                    <h4>生产基地信息：</h4>
+                    <div class="col-md-6 ">
+                        <label for="siteId">生产基地编号：</label>
+                        <input type="text" class="form-control" id="siteId" name="siteId" placeholder="" th:value="${site.siteId}" readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="siteName">基地名称：</label>
+                        <input type="text" class="form-control" id="siteName" name="siteName" placeholder="" th:value="${site.siteName}" readonly >
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description">地址信息：</label>
+                    <input type="text" class="form-control" id="address" name="address" th:value="${site.address}" readonly >
+                </div>
+                <hr class="mb-4">
+                <!--分割线-->
+                <div>
+                    <form id="ffImport" method="post">
+                        <div class="row">
+
+                            <div class="col-md-4 ">
+                                <span >产品图片展示：</span>
+                                <div title="Excel导入操作" style="padding: 5px;width: 300px;">
+                                    <input type="hidden" id="AttachGUID" name="AttachGUID" />
+                                    <input id="file" name="file" type="file">
+                                </div>
+                            </div>
+                            <!--<div class="col-md-4">-->
+                            <!---->
+                            <!--</div>-->
+                        </div>
+
+
+
+                    </form>
+                </div>
+
+                <div class="row">
+                    <!--show-->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-3" th:each="attachment : ${attachments}">
+                                <a href="#" class="thumbnail">
+                                    <img th:src="@{/uploadFile/products/{url}(url=${attachment.url})}" style="height: 180px; width: 100%; display: block;" >
+                                </a>
+                                <a href="#"  onclick="deleteImg(this)" th:data-id="${attachment.getUrl()}" th:id="${attachment.getAttachmentId()}" th:name="${attachment.getType()}" class="red">删除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/table-export.min.js" ></script>
+<script src="/js/popper.min.js" ></script>
+<script src="/js/bootstrap.min.js" ></script>
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap-table-export.min.js"></script>
+<script src="/js/fileinput.min.js"></script>
+<script>
+    function deleteImg(e) {
+        var id = e.getAttribute("id");
+        var type = e.getAttribute("name");
+        var fileName = e.getAttribute("data-id");
+        alert(id+type+fileName);
+        $.ajax({
+            url:'/file/delete',
+            type:'post',
+            data:{
+                attachmentId:id,
+                type:type,
+                fileName:fileName
+            },
+            success:function (res) {
+                window.location.reload();
+            },
+            error:function (res) {
+                alert(res.message);
+            }
+        })
+
+    }
+    //初始化Excel导入的文件
+    function InitExcelFile() {
+        //记录GUID
+        $("#AttachGUID").val(0);
+
+        $("#file").fileinput({
+            uploadUrl: "/file/upload",//上传的地址
+            uploadAsync: true,              //异步上传
+            language: "zh",                 //设置语言
+            // showCaption: true,              //是否显示标题
+            showUpload: true,               //是否显示上传按钮
+            showRemove: true,               //是否显示移除按钮
+            // showPreview : true,             //是否显示预览按钮
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled: false,         //是否显示拖拽区域
+            allowedFileExtensions: ["jpg", "png","jpeg","gif","bmp"], //接收的文件后缀
+            maxFileCount: 1,                        //最大上传文件数限制
+            uploadExtraData: {  //上传的时候，增加的附加参数
+                type: 'products', guid: $("#AttachGUID").val(),parentId:$("#itemId").val()
+            }
+        })  //文件上传完成后的事件
+            .on('fileuploaded', function (event, data, previewId, index) { //文件上传后的处理函数
+                var res = data.response; //返回结果
+                var message = res.message;
+                var code = res.success;
+                var data =res.url;
+                if ( code != 200 ) {
+                    alert(message);
+                }
+                else {
+                    // showTips('上传成功');
+                    // var guid = $("#AttachGUID").val();
+                    // InitImport(data); //重新刷新表格数据
+                    // alert("文件已上传，数据加载完毕！");
+
+                    //重新刷新GUID，以及清空文件，方便下一次处理
+                    RefreshExcel();
+                    window.location.reload();
+
+                }
+            });
+    }
+    //重新更新GUID的值，并清空文件
+    function RefreshExcel() {
+        $("#AttachGUID").val(0);
+        $('#file').fileinput('clear');//清空所有文件
+
+        //附加参数初始化后一直不会变化，如果需要发生变化，则需要使用refresh进行更新
+        $('#file').fileinput('refresh', {
+            uploadExtraData: { folder: '数据导入文件', guid: $("#AttachGUID").val() },
+        });
+    }
+
+    $(function () {
+        InitExcelFile();
+    })
+</script>
+</body>
+</html>

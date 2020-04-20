@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>添加送检产品信息</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="/css/fileinput.min.css">
+    <head th:insert="~{import :: markdown}"></head>
 </head>
 <body>
 <div class="">
@@ -82,13 +80,6 @@
     </div>
     <!--END modal batch import-->
 </div>
-<script src="/js/jquery-2.1.4.min.js"></script>
-<script src="/js/table-export.min.js" ></script>
-<script src="/js/popper.min.js" ></script>
-<script src="/js/bootstrap.min.js" ></script>
-<script src="/js/bootstrap-table.min.js"></script>
-<script src="/js/bootstrap-table-export.min.js"></script>
-<script src="/js/fileinput.min.js"></script>
 <script>
     // 初始化产品表
     function initProductTable() {

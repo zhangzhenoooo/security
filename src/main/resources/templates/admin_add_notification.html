@@ -3,37 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>添加公告</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
-    <link rel="stylesheet" href="/css/fileinput.min.css">
+    <head th:insert="~{import :: markdown}"></head>
 
 </head>
 <body>
-<form action="/notification/doAddNotification" method="get">
+<form action="/notification/doAddNotification" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <!--<label for="notificationId">标题</label>-->
-        <input th:text="${notification != null?notification.notificationId:''}" th:value="${notification != null?notification.notificationId:''}" type="hidden" class="form-control" id="notificationId" name="notificationId" placeholder="" >
+        <input th:value="${notification != null?notification.notificationId:''}" type="hidden" class="form-control" id="notificationId" name="notificationId" >
     </div>
     <div class="form-group">
         <label for="notificationName">标题</label>
-        <input th:text="${notification != null ?notification.notificationName:''}" type="text" class="form-control" id="notificationName" name="notificationName" placeholder="请输入标题" required>
+        <input th:value="${notification != null ?notification.notificationName:''}" type="text" class="form-control" id="notificationName" name="notificationName" placeholder="请输入标题" required>
     </div>
     <div class="form-group">
         <label for="content">内容</label>
         <textarea  th:text="${notification !=null ? notification.content:''}"  class="form-control" id="content" name="content" placeholder="请在此输入类容..."></textarea>
     </div>
+    <div class="form-group">
+        <label for="attachment">图片</label>
+        <input id="attachment" type="file" name="attachment" class="form-control">
+        <img th:if="notification !=null" class="card-img-top h-md-250" width="100%" th:src="@{'/uploads/notification/'+ *{notification !=null ? notification.url:''}}" th:alt="*{notification !=null ? notification.notificationName:''}" >
+
+    </div>
     <div th:if="${message != null }" th:text="${message}" class="alert alert-danger" role="alert"></div>
     <button type="submit" class="btn btn-primary">发布</button>
     <button type="reset" class="btn btn-danger">重置</button>
 </form>
-<!--js-->
-<script src="/js/jquery-2.1.4.min.js"></script>
-<script src="/js/table-export.min.js" ></script>
-<script src="/js/popper.min.js" ></script>
-<script src="/js/bootstrap.min.js" ></script>
-<script src="/js/bootstrap-table.min.js"></script>
-<script src="/js/bootstrap-table-export.min.js"></script>
-<script src="/js/bootstrap-table-zh-CN.min.js"></script>
-<script src="/js/fileinput.min.js"></script>
+
 </body>
 </html>

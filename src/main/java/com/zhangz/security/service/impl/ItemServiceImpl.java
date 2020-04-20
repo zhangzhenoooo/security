@@ -1,5 +1,8 @@
 package com.zhangz.security.service.impl;
 
+import com.zhangz.security.dto.EChartsResult;
+import com.zhangz.security.dto.EChartsResultDTO;
+import com.zhangz.security.mapper.ItemExtMapper;
 import com.zhangz.security.mapper.ItemMapper;
 import com.zhangz.security.model.Item;
 import com.zhangz.security.model.ItemExample;
@@ -11,6 +14,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author zhangz
@@ -22,6 +26,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private  ItemMapper itemMapper;
+    @Autowired
+    private ItemExtMapper itemExtMapper;
 
     @Override
     public List<Item> listBySiteId(String siteId) {
@@ -37,6 +43,21 @@ public class ItemServiceImpl implements ItemService {
         }
 
 
+    }
+
+    @Override
+    public EChartsResultDTO getItemKindsBySiteId(String sited) {
+        EChartsResultDTO  eChartsResultDTO = new EChartsResultDTO();
+        List<EChartsResult> eChartsResults = itemExtMapper.getItemKindsBySiteId(sited);
+        if (eChartsResults.size() <= 0){
+            return eChartsResultDTO;
+        }
+        List<String> names = eChartsResults.stream().map(t -> t.getName()).collect(Collectors.toList());
+        List<Long> values = eChartsResults.stream().map(t -> t.getValue()).collect(Collectors.toList());
+        eChartsResultDTO.setName(names);
+        eChartsResultDTO.setValues(values);
+        eChartsResultDTO.setData(eChartsResults);
+        return eChartsResultDTO;
     }
 
     @Override

@@ -52,7 +52,7 @@
                     <option th:each="city :${cities}" th:value="${city.getId()}" th:text="${city.getName()}"  ></option>
                 </select>
             </div>
-            <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2col-xs-2 col-sm-2 col-md-2 col-lg-2">
+            <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2>
                 <select class="form-control" id="county" name="county">
                     <option  value="">请选择县</option>
                     <option th:each="county :${counties}" th:value="${county.getId()}" th:text="${county.getName()}"  ></option>

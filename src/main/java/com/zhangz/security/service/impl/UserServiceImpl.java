@@ -110,5 +110,16 @@ public class UserServiceImpl implements UserService {
         return users;
     }
 
+    @Override
+    public int updateUserBySelective(User user) {
+
+
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andUserIdEqualTo(user.getUserId());
+        int result = userMapper.updateByExampleSelective(user, userExample);
+        return result;
+    }
+
 
 }

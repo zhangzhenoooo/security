@@ -20,7 +20,7 @@ import java.util.Collections;
 
 @Configuration
 @ComponentScan(basePackageClasses = DalModule.class)
-@MapperScan(basePackages = "com.zhangz.security")
+@MapperScan("com.zhangz.security.mapper")
 public class DalModule {
 
     @Value("${spring.datasource.url}")
@@ -79,7 +79,7 @@ public class DalModule {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setFailFast(true);
-        sessionFactory.setMapperLocations(resolver.getResources("classpath:/mapper/*Mapper.xml"));
+        sessionFactory.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
         /**
          * 添加插件信息(因为插件采用责任链模式所有可以有多个，所以采用数组
          */
@@ -88,5 +88,6 @@ public class DalModule {
         sessionFactory.setPlugins(interceptors);
         return sessionFactory.getObject();
     }
+
 
 }

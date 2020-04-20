@@ -20,4 +20,6 @@ public interface ExamService {
     boolean updateByExamId(Exam exam, String examId);
 
     int batchInsert(List<Exam> exams);
+
+    List<Exam> list();
 }

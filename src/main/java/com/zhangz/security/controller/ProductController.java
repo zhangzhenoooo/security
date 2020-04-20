@@ -108,4 +108,26 @@ public class ProductController {
         }
 
     }
+
+    @GetMapping(value = "/product/{productId}")
+    public String productDetails(@PathVariable(name = "productId") String productId,
+                                 Model model){
+        ProductDTO productDTO = productServiceImpl.selectById(productId);
+        model.addAttribute("productDTO",productDTO);
+        return "product_details.html";
+    }
+
+
+    @ResponseBody
+    @RequestMapping(value = "product/listOfNeedExamed",method = RequestMethod.POST)
+    public List<ProductDTO> listOfNeedExamed (@RequestBody Map<String,String> map,
+                                  HttpSession session){
+        String batchId = map.get("batchId");
+        String siteId = map.get("siteId");
+        User user = (User) session.getAttribute("user");
+        List<ProductDTO> productDTOS = productServiceImpl.listOfNeedExamed(user.getUserId(),siteId,batchId);
+        return productDTOS;
+    }
+
+
 }

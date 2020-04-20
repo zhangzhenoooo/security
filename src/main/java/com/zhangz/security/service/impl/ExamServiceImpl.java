@@ -140,4 +140,16 @@ public class ExamServiceImpl implements ExamService {
         int i = examExtMapper.insertBatch(exams);
         return i;
     }
+
+    @Override
+    public List<Exam> list() {
+
+        ExamExample examExample = new ExamExample();
+        List<Exam> exams = examMapper.selectByExample(examExample);
+        if (exams.size() > 0){
+            return exams;
+        }else {
+            return new ArrayList<>();
+        }
+    }
 }

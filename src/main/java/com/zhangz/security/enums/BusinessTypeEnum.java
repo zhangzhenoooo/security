@@ -11,7 +11,7 @@ import java.util.Map;
  * @date 2020/3/10 13:55
  */
 public enum  BusinessTypeEnum {
-    VENDOR_IMPORT_PRODUCT("product"),
+    VENDOR_IMPORT_PRODUCT("products"),
     EXAM_IMPORT_PRODUCT("exam"),
     ;
     private String type;
@@ -43,7 +43,7 @@ public enum  BusinessTypeEnum {
          final    String[] vendorImportHeaders = {"productId ","productName","siteId", "siteName", "batchId","itemId","itemName","vendor","vendorName","description" ,"composition","isDelete"};
         final    String[] examImportHeaders = {"examId ","examName","productId","productName", "examBatchId", "examBatchName","launchDate","examDate","examStatus","siteId","siteName" ,"batchId","batchName","productedDate","effectiveDate","vendorId","vendorName","itemId"};
 
-        if ("product".equals(type)){
+        if ("products".equals(type)){
            return Arrays.asList(vendorImportHeaders);
        }else if ("exam".equals(type)){
             return Arrays.asList(examImportHeaders);

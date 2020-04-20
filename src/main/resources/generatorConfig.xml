@@ -48,5 +48,6 @@
         <table tableName="examindexline" domainObjectName="Examindexline"></table>
         <table tableName="address" domainObjectName="Address"></table>
         <table tableName="notification" domainObjectName="Notification"></table>
+        <table tableName="attachment" domainObjectName="Attachment"></table>
     </context>
 </generatorConfiguration>

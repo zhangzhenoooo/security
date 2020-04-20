@@ -5,31 +5,78 @@
     <title>场地详情页</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-table.min.css">
-
+    <link rel="stylesheet" href="/css/fileinput.min.css">
+    <script src="/js/echarts.min.js" chartset="UTF-8" ></script>
 </head>
 <body>
 <div class="content">
-   <h3>场地信息：</h3>
-    <hr>
-    <input type="hidden" id="siteId" th:value="${site.getSiteId()}">
-    <p> 场地编号：<span  th:text="${site.getSiteId()}"></span></p>
-    <p> 场地名称：<span th:text="${site.getSiteName()}"></span></p>
-    <p> 详细地址：<span th:text="${site.getAddress()}"></span></p>
-    <hr><br>
-    <h3>产品列表：</h3>
-    <hr>
-    <div id="toolbar">
-        <div class="select " style="float: left;">
-            <select class="form-control" id="locale" style="width: 200px;" >
-                <option  value="" >全部</option>
-                <option  value="已审批" >已审批</option>
-                <option  value="已审批" >待审批</option>
-            </select>
-        </div>
-        <a class="btn btn-primary " style="float: left;margin-left: 5px;" data-toggle="modal" data-target="#exampleModal" href="#">添加产品</a>
-    </div>
-    <table class="table  table-hover " id="itemListTable" ></table>
+    <div row>
+        <div class="col-md-12">
+            <div class="row">
+                <h4>场地信息：</h4>
+                <hr>
+                <input type="hidden" id="siteId" th:value="${site.getSiteId()}">
+                <input type="hidden" id="siteName" th:value="${site.getSiteName()}">
+                <p> 场地编号：<span id="id" th:text="${site.getSiteId()}"></span></p>
+                <p> 场地名称：<span th:text="${site.getSiteName()}"></span></p>
+                <p> 详细地址：<span th:text="${site.getAddress()}"></span></p>
 
+            </div>
+            <hr>
+            <div class="row">
+                <div>
+                    <form id="ffImport" method="post">
+                        <span >环境图片：</span>
+                        <div title="Excel导入操作" style="padding: 5px;width: 300px;">
+                            <input type="hidden" id="AttachGUID" name="AttachGUID" />
+                            <input id="file" name="file" type="file">
+                        </div>
+                    </form>
+                </div>
+
+                <div class="row">
+                    <!--show-->
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-6 col-md-3" th:each="attachment : ${attachments}">
+                                <a href="#" class="thumbnail">
+                                    <img th:src="@{/uploadFile/sites/{url}(url=${attachment.url})}" style="height: 180px; width: 100%; display: block;" >
+                                </a>
+                                <a href="#" onclick="deleteImg(this)" th:data-id="${attachment.getUrl()}" th:id="${attachment.getAttachmentId()}" th:name="${attachment.getType()}" class="red">删除</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+            </div>
+            <div class="row">
+                <h4>生产列表：</h4>
+                <hr>
+                <div id="toolbar">
+                    <div class="select " style="float: left;">
+                        <select class="form-control" id="locale" style="width: 200px;" >
+                            <option  value="" >全部</option>
+                            <option  value="已审批" >已审批</option>
+                            <option  value="已审批" >待审批</option>
+                        </select>
+                    </div>
+                    <a class="btn btn-primary " style="float: left;margin-left: 5px;" data-toggle="modal" data-target="#exampleModal" href="#">添加产品</a>
+                </div>
+                <table class="table  table-hover " id="itemListTable" ></table>
+            </div>
+            <div class="row">
+                <h4>生产结构分析：</h4>
+                <hr>
+                <div class="col-md-6">
+                    <div class="card" id="main" style="min-height: 300px;min-width: 400px;max-height: 400px;max-width: 600px;"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card" id="zhu" style="min-height: 300px;min-width: 400px;max-height: 400px;max-width: 600px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <!--model-->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -60,12 +107,12 @@
                     </div>
                     <div class="form-group">
                         <label for="kind">选择食品所属类别：</label>
-                                <select class="form-control" id="kind" name="kind">
-                                    <option  value="">请选择...</option>
-                                    <option  th:each="kind :${kinds}" th:value="${kind.kindId}" >
-                                        <span th:text="${kind.kindName}"></span>(<span  th:text="${#strings.abbreviate(kind.description,30)}"></span>)
-                                    </option>
-                                </select>
+                        <select class="form-control" id="kind" name="kind">
+                            <option  value="">请选择...</option>
+                            <option  th:each="kind :${kinds}" th:value="${kind.kindId}" >
+                                <span th:text="${kind.kindName}"></span>(<span  th:text="${#strings.abbreviate(kind.description,30)}"></span>)
+                            </option>
+                        </select>
                     </div>
                 </form>
             </div>
@@ -78,13 +125,101 @@
 </div>
 
 <script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/table-export.min.js" ></script>
 <script src="/js/popper.min.js" ></script>
 <script src="/js/bootstrap.min.js" ></script>
 <script src="/js/bootstrap-table.min.js"></script>
 <script src="/js/bootstrap-table-export.min.js"></script>
-<script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<script src="/js/piexif.js"></script>
+<script src="/js/fileinput.min.js"></script>
+<script src="/js/echarts/vintage.js"></script>
 <script>
 
+    function deleteImg(e) {
+        var id = e.getAttribute("id");
+        var type = e.getAttribute("name");
+        var fileName = e.getAttribute("data-id");
+        alert(id+type+fileName);
+        $.ajax({
+            url:'/file/delete',
+            type:'post',
+            data:{
+                attachmentId:id,
+                type:type,
+                fileName:fileName
+            },
+            success:function (res) {
+                    window.location.reload();
+            },
+            error:function (res) {
+                alert(res.message);
+            }
+        })
+
+    }
+
+    //初始化Excel导入的文件
+    function InitExcelFile() {
+        //记录GUID
+        $("#AttachGUID").val(0);
+
+        $("#file").fileinput({
+            uploadUrl: "/file/upload",//上传的地址
+            uploadAsync: true,              //异步上传
+            language: "zh",                 //设置语言
+            showCaption: true,              //是否显示标题
+            showUpload: true,               //是否显示上传按钮
+            showRemove: true,               //是否显示移除按钮
+            showPreview : true,             //是否显示预览按钮
+            browseClass: "btn btn-primary", //按钮样式
+            dropZoneEnabled: false,         //是否显示拖拽区域
+            previewFileIcon: '<i class="glyphicon glyphicon-file"></i>',
+            allowedPreviewTypes: null,
+            previewFileIconSettings: {
+                'docx': '<i class="glyphicon glyphicon-file"></i>',
+                'xlsx': '<i class="glyphicon glyphicon-file"></i>',
+                'pptx': '<i class="glyphicon glyphicon-file"></i>',
+                'jpg': '<i class="glyphicon glyphicon-picture"></i>',
+                'pdf': '<i class="glyphicon glyphicon-file"></i>',
+                'zip': '<i class="glyphicon glyphicon-file"></i>',
+            },
+            allowedFileExtensions: ["jpg", "png","jpeg","gif","bmp"], //接收的文件后缀
+            maxFileCount: 1,                        //最大上传文件数限制
+            uploadExtraData: {  //上传的时候，增加的附加参数
+                type: 'sites', guid: $("#AttachGUID").val(),parentId:$("#siteId").val()
+            }
+        })  //文件上传完成后的事件
+            .on('fileuploaded', function (event, data, previewId, index) { //文件上传后的处理函数
+                var res = data.response; //返回结果
+                var message = res.message;
+                var code = res.success;
+                var data =res.url;
+                if ( code != 200 ) {
+                    alert(message);
+                }
+                else {
+                    // showTips('上传成功');
+                    // var guid = $("#AttachGUID").val();
+                    // InitImport(data); //重新刷新表格数据
+                    // alert("文件已上传，数据加载完毕！");
+
+                    //重新刷新GUID，以及清空文件，方便下一次处理
+                    RefreshExcel();
+                    window.location.reload();
+
+                }
+            });
+    }
+    //重新更新GUID的值，并清空文件
+    function RefreshExcel() {
+        $("#AttachGUID").val(0);
+        $('#file').fileinput('clear');//清空所有文件
+
+        //附加参数初始化后一直不会变化，如果需要发生变化，则需要使用refresh进行更新
+        $('#file').fileinput('refresh', {
+            uploadExtraData: { folder: '数据导入文件', guid: $("#AttachGUID").val() },
+        });
+    }
 
     function operateFormatter(value, row, index) {
         return [
@@ -117,10 +252,11 @@
 
         },
         'click .like': function (e, value, row, index) {
-            $table.bootstrapTable('like', {
-                field: 'id',
-                values: [row.id]
-            })
+            // $table.bootstrapTable('like', {
+            //     field: 'id',
+            //     values: [row.id]
+            // })
+            window.location.href="/itemDetails/"+row.itemId;
         }
     }
 
@@ -182,13 +318,38 @@
         });
     }
 
+
+    function initZhu(data){
+        var myChart = echarts.init(document.getElementById('zhu'));
+        myChart.setOption({
+            xAxis: {
+                name:'类别名称',
+                type: 'category',
+                data:data.name
+            },
+            yAxis: {
+                name:'数量',
+                type: 'value'
+            },
+            series: [{
+                data: data.values,
+                type: 'bar',
+                showBackground: true,
+                backgroundStyle: {
+                    color: 'rgba(220, 220, 220, 0.8)'
+                }
+            }]
+        });
+    }
+
     $(document).ready(function () {
+        InitExcelFile();
         // 初始化表格
         initTable();
         $('#exampleModal').on('hide.bs.modal', function (event) {
             $("#form-site")[0].reset();
         });
-    // 注册modal提交
+        // 注册modal提交
         $("#btn-submit").click(function () {
             var siteId = $("#siteId").val();
             var itemId = $("#itemId").val();
@@ -212,6 +373,51 @@
                     }
                 }
             })
+        });
+
+        // echarts
+        var myChart = echarts.init(document.getElementById('main'));
+        myChart.showLoading();
+
+// 异步加载数据
+        var siteId = $("#siteId").val();
+        var siteName = $("#siteName").val();
+        $.post('/item/getItemKindsBySiteId',{siteId:siteId},function (data) {
+            // alert("name = "+JSON.stringify(data.name)+"data = "+JSON.stringify(data.data))
+            initZhu(data);
+            myChart.setOption({
+                title: {
+                    text: siteName+'生产基地基地产品分布',
+                    subtext: '',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{a} <br/>{b} : {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'vertical',
+                    left: 'left',
+                    data: data.name
+                },
+                series: [
+                    {
+                        name: '产品类别占比',
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data:data.data,
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            });
+            myChart.hideLoading();
         });
     });
 </script>

@@ -67,4 +67,18 @@ public class AddressServiceImpl implements AddressService {
         List<Address> addresses = addressMapper.selectByExample(adressExample);
         return addresses;
     }
+
+    @Override
+    public Address selcetAddressById(String id) {
+
+        AddressExample addressExample = new AddressExample();
+        addressExample.createCriteria()
+                .andIdEqualTo(id);
+        List<Address> addresses = addressMapper.selectByExample(addressExample);
+        if (addresses.size() > 0 ){
+            return addresses.get(0);
+        }else {
+            return new Address();
+        }
+    }
 }

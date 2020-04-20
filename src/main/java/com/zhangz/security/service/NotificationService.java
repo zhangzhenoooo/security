@@ -15,4 +15,6 @@ public interface NotificationService {
     List<Notification> list();
     Notification selectById(String id);
     List<Notification> listByExampleSelective(Notification notification);
+
+    List<Notification> listOfLatest(int limitedNum);
 }

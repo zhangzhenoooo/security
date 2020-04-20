@@ -1,9 +1,15 @@
 package com.zhangz.security.controller;
 
+import com.zhangz.security.model.Notification;
+import com.zhangz.security.model.Product;
+import com.zhangz.security.service.impl.NotificationServieImpl;
+import com.zhangz.security.service.impl.ProductServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created by codedrinker on 2019/4/24.
@@ -11,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class IndexController {
 
-//    @Autowired
-////    private QuestionService questionService;
+    @Autowired
+    private NotificationServieImpl notificationServieImpl;
+    @Autowired
+    private ProductServiceImpl productServiceImpl;
 //
 //    @Autowired
 //    private HotTagCache hotTagCache;
@@ -32,6 +40,36 @@ public class IndexController {
 //        model.addAttribute("tags", tags);
 //        model.addAttribute("sort", sort);
         return "index";
+    }
+
+
+    @GetMapping("/security")
+    public String firstPage(Model model) {
+        List<Notification> notifications = notificationServieImpl.listOfLatest(10);
+        model.addAttribute("notifications",notifications);
+        return "first_page.html";
+    }
+
+    /**
+     * 食品查询
+     * @description
+     * @author zhangz
+     * @date 2020:04:17 22:04:45
+     * @param searchText
+     * @return
+     **/
+    @ResponseBody
+    @RequestMapping(value = "/search",method = RequestMethod.POST)
+    public List<Product> search(@RequestParam(name = "searchText",defaultValue = "0") String searchText){
+        Product product = new Product();
+        product.setProductId(searchText);
+        List<Product> products = productServiceImpl.selectByExampleSelective(product);
+        return products;
+    }
+
+    @GetMapping(value = "/test")
+    public String test(){
+        return "template.html";
     }
 
 

@@ -43,7 +43,7 @@ public class ExcelController {
     @Autowired
     private ExamServiceImpl examServiceImpl;
 
-    private final static String FILE_UPLOAD_PATH = "src/main/resources/upload/";
+    private final static String FILE_UPLOAD_PATH = "src/main/resources/uploadFile/";
     private ExcelUtil excelUtil = new ExcelUtil();
 
     /**
@@ -212,7 +212,7 @@ User user = (User) session.getAttribute("user");
             e.printStackTrace();
         }
         // 设置扩展头，当Content-Type 的类型为要下载的类型时 , 这个信息头会告诉浏览器这个文件的名字和类型。
-        response.setHeader("Content-Disposition", "attachment;filename=" + hehe);
+        response.setHeader("Content-Disposition", "products;filename=" + hehe);
         try {
             FileUtil.download(fileName,path, response);
         } catch (IOException e) {

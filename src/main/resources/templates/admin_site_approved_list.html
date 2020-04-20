@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>基地已审批列表</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <head th:insert="~{import :: markdown}"></head>
 
 </head>
 <body>
@@ -50,21 +49,13 @@
     </div>
 </div>
 
-<script src="/js/jquery-2.1.4.min.js"></script>
-<script src="/js/popper.min.js" ></script>
-<script src="/js/bootstrap.min.js" ></script>
-<script src="/js/bootstrap-table.min.js"></script>
-<script src="/js/bootstrap-table-export.min.js"></script>
-<script src="/js/bootstrap-table-zh-CN.min.js"></script>
+<head th:insert="~{import :: markdown}"></head>
 <script>
     function operateFormatter(value, row, index) {
         return [
             '<a class="btn btn-success like" href="javascript:void(0)" title="点击进入详情页面">',
-            '<span class="fa fa-heart">合格</span>',
-            '</a>  ',
-            '<a class="btn btn-info remove " href="javascript:void(0)" title="点击按钮进行编辑这一行">',
-            '<span class="fa fa-trash">编辑</span>',
-            '</a>'
+            '<span class="fa fa-heart">详情</span>',
+            '</a>  '
         ].join('')
     }
     function initModel(row){
@@ -81,11 +72,11 @@
         });
     }
     window.operateEvents = {
-        'click .remove': function (e, value, row, index) {
-            // 编辑
-            initModel(row);
-
-        },
+        // 'click .remove': function (e, value, row, index) {
+        //     // 编辑
+        //     initModel(row);
+        //
+        // },
         'click .like': function (e, value, row, index) {
             // 通过审批
             $.ajax({
@@ -151,7 +142,7 @@
                 title: '生产商编号',
                 align: 'center'
             }, {
-                field: 'vendorName',
+                field: 'producerName',
                 title: '生产商',
                 align: 'center'
             }, {
@@ -163,7 +154,7 @@
                 title: '检测结果',
                 align: 'center'
             },{
-                field: 'verifier',
+                field: 'verifierName',
                 title: '审核人',
                 align: 'center'
             },{

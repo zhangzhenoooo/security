@@ -1,5 +1,6 @@
 package com.zhangz.security.service;
 
+import com.zhangz.security.dto.ProductDTO;
 import com.zhangz.security.model.Product;
 
 import java.util.List;
@@ -15,4 +16,10 @@ public interface ProductService <T>{
     int insert(Product record);
 
     int batchInsert(List<Product> list);
+
+    ProductDTO selectById(String productId);
+
+    List<Product> selectByExampleSelective(Product product);
+
+    List<ProductDTO> listOfNeedExamed(String userId, String siteId, String batchId);
 }

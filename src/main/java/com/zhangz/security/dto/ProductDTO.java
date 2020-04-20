@@ -21,11 +21,12 @@ public class ProductDTO {
     private String description;
     private String composition;
     private Integer isDelete;
-    private Site site;
-    private Item item;
     private String siteName;
     private String itemName;
     private String vendor;
     private String vendorName;
     private Batch batch;
+    private Site site;
+    private Item item;
+
 }

@@ -3,9 +3,11 @@ package com.zhangz.security.controller;
 import com.zhangz.security.dto.ResultDTO;
 import com.zhangz.security.enums.ExamTypeEnum;
 import com.zhangz.security.exception.CustomizeErrorCode;
+import com.zhangz.security.model.Attachment;
 import com.zhangz.security.model.Kindlist;
 import com.zhangz.security.model.Site;
 import com.zhangz.security.model.User;
+import com.zhangz.security.service.impl.AttachmentServiceImpl;
 import com.zhangz.security.service.impl.ItemServiceImpl;
 import com.zhangz.security.service.impl.KindListServiceImpl;
 import com.zhangz.security.service.impl.SiteServiceImpl;
@@ -35,6 +37,8 @@ public class SiteController {
     private  ItemServiceImpl itemServiceImpl;
     @Autowired
     private KindListServiceImpl  kindListServiceImpl;
+    @Autowired
+    private AttachmentServiceImpl attachmentServiceImpl;
 
     @GetMapping("/site/siteManagement")
     public String baseManagement(){
@@ -47,9 +51,10 @@ public class SiteController {
                               @PathVariable (name = "siteId") String siteId){
         Site site = siteServiceImpl.selectById(siteId);
         List<Kindlist> kinds = kindListServiceImpl.list();
-
+        List<Attachment> attachments = attachmentServiceImpl.listByParentId(siteId);
         model.addAttribute("site",site);
         model.addAttribute("kinds",kinds);
+        model.addAttribute("attachments",attachments);
         return "site_details";
     }
 

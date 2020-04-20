@@ -4,6 +4,7 @@ import com.zhangz.security.dto.ResultDTO;
 import com.zhangz.security.exception.CustomizeErrorCode;
 import com.zhangz.security.model.Address;
 import com.zhangz.security.model.User;
+import com.zhangz.security.provider.UserProvider;
 import com.zhangz.security.service.impl.AddressServiceImpl;
 import com.zhangz.security.service.impl.UserServiceImpl;
 import com.zhangz.security.utils.DateUtil;
@@ -21,7 +22,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author zhangz
@@ -150,7 +153,13 @@ public class UserController {
                 user.setCityCode(city);
                 user.setCountyCode(county);
                 user.setAddress(addressDetails);
-
+                ResultDTO validityOfUser = UserProvider.isValidityOfUser(user);
+                if (validityOfUser.getCode() != 200){
+                    model.addAttribute("success",false);
+                    model.addAttribute("message",validityOfUser.getMessage());
+                    //注册失败
+                    return "register";
+                }
                 boolean result = userServiceImpl.insert(user);
                 if (result) {
                     //注册成功
@@ -179,7 +188,6 @@ public class UserController {
     public String personManagement(Model model,
                                    HttpSession session){
         User user = (User) session.getAttribute("user");
-
         List<Address> provinces = addressServiceImpl.listOfProvince();
         List<Address> cities = addressServiceImpl.listOfCity();
         List<Address> counties = addressServiceImpl.listOfCountry();
@@ -234,6 +242,30 @@ public class UserController {
     public List<User> getUserList(){
         List<User> users = userServiceImpl.list();
         return users;
+
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/user/updateUserMes",method = RequestMethod.POST)
+    public ResultDTO updateUserMes(@RequestBody User user,
+                                   HttpSession session){
+
+        Address province = addressServiceImpl.selcetAddressById(user.getProvinceCode());
+        Address city = addressServiceImpl.selcetAddressById(user.getCityCode());
+        Address county = addressServiceImpl.selcetAddressById(user.getCountyCode());
+        user.setProvinceName(province.getName());
+        user.setCityName(city.getName());
+        user.setCountyName(county.getName());
+        int result = userServiceImpl.updateUserBySelective(user);
+        if (result > 0 ){
+            //更新成功
+            session.setAttribute("user",user);
+            return ResultDTO.successOf();
+        }else {
+            //更新失败
+            return ResultDTO.errorOf(CustomizeErrorCode.UPDATE_USER_FILED);
+        }
+
     }
 
 }
