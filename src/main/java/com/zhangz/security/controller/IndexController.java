@@ -60,12 +60,16 @@ public class IndexController {
      **/
     @ResponseBody
     @RequestMapping(value = "/search",method = RequestMethod.POST)
-    public List<Product> search(@RequestParam(name = "searchText",defaultValue = "0") String searchText){
+    public List<Product> search(@RequestParam(name = "searchText") String searchText){
+        System.out.println("searchText = "+searchText);
         Product product = new Product();
         product.setProductId(searchText);
-        List<Product> products = productServiceImpl.selectByExampleSelective(product);
+        product.setProductName(searchText);
+        product.setKindName(searchText);
+        List<Product> products = productServiceImpl.search(product);
         return products;
     }
+
 
     @GetMapping(value = "/test")
     public String test(){

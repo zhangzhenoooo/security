@@ -49,5 +49,6 @@
         <table tableName="address" domainObjectName="Address"></table>
         <table tableName="notification" domainObjectName="Notification"></table>
         <table tableName="attachment" domainObjectName="Attachment"></table>
+        <table tableName="sitecycleexam" domainObjectName="SiteCycleExam"></table>
     </context>
 </generatorConfiguration>

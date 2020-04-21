@@ -40,25 +40,22 @@ public class ProductController {
     @GetMapping("/product/productManagement")
     public String  productManagement(HttpSession session,
                                      Model model){
-        BatchExample batchExample = new BatchExample();
         User user = (User) session.getAttribute("user");
+//        获取批次
+        BatchExample batchExample = new BatchExample();
         batchExample.createCriteria()
                 .andIsDeleteEqualTo(false)
                 .andCreatorIdEqualTo(user.getUserId());
         List<Batch> batches = batchMapper.selectByExample(batchExample);
         model.addAttribute("batches",batches) ;
-
-        SiteExample siteExaample = new SiteExample();
-        siteExaample.createCriteria()
+//获取产地列表
+        SiteExample siteExample = new SiteExample();
+        siteExample.createCriteria()
                 .andProducerIdEqualTo(user.getUserId());
-        List<Site> sites = siteMapper.selectByExample(siteExaample);
+        List<Site> sites = siteMapper.selectByExample(siteExample);
         model.addAttribute("sites",sites) ;
-
-
-        Set<String> commentators = sites.stream().map(site -> site.getProducerId()).collect(Collectors.toSet());
-        List<String> siteIds = new ArrayList();
-        siteIds.addAll(commentators);
-
+        List<String> siteIds = sites.stream().map(s ->s.getSiteId()).collect(Collectors.toList());
+//获取产品列表
         ItemExample itemExample = new ItemExample();
         itemExample.createCriteria()
                 .andSiteIdIn(siteIds);
@@ -75,7 +72,8 @@ public class ProductController {
         String batchId = map.get("batchId");
         String siteId = map.get("siteId");
         User user = (User) session.getAttribute("user");
-        List<ProductDTO> productDTOS = productServiceImpl.list(user.getUserId(),siteId,batchId);
+//        List<ProductDTO> productDTOS = productServiceImpl.list(user.getUserId(),siteId,batchId);
+        List<ProductDTO> productDTOS = productServiceImpl.listByVonder(user.getUserId());
         return productDTOS;
     }
 
@@ -104,7 +102,7 @@ public class ProductController {
         if (insert > 0){
             return ResultDTO.successOf();
         }else {
-            return ResultDTO.errorOf(CustomizeErrorCode.EXAM_INSERT_FALSE);
+            return ResultDTO.errorOf(CustomizeErrorCode.INSERT_FALSE);
         }
 
     }
@@ -128,6 +126,8 @@ public class ProductController {
         List<ProductDTO> productDTOS = productServiceImpl.listOfNeedExamed(user.getUserId(),siteId,batchId);
         return productDTOS;
     }
+
+
 
 
 }

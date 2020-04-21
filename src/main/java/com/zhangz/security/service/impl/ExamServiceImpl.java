@@ -63,6 +63,7 @@ public class ExamServiceImpl implements ExamService {
             exam.setVendorId(productDTO.getVendor());
             exam.setBatchName(productDTO.getBatch().getBatchName());
             exam.setLaunchDate(DateUtil.getData());
+            exam.setExamStatus(ExamTypeEnum.NOT_APPROVAL.getStatus());
             return exam;
         }).collect(Collectors.toList());
 
@@ -109,19 +110,19 @@ public class ExamServiceImpl implements ExamService {
             }
             if (examStatus){
                 //            更新检测批次是否通过
-                String examBatchId = dbExam.getExamBatchId();
+                String batchId = dbExam.getBatchId();
                 ExamBatchExample examBatchExample = new ExamBatchExample();
                 examBatchExample.createCriteria()
-                        .andBatchIdEqualTo(examBatchId);
+                        .andBatchIdEqualTo(batchId);
                 ExamBatch examBatch = new ExamBatch();
                 examBatch.setExamStatus(exam.getExamStatus());
                 examBatchMapper.updateByExampleSelective(examBatch,examBatchExample);
             //跟新批次是否检测通过
                 BatchExample batchExample = new BatchExample();
                 examBatchExample.createCriteria()
-                        .andBatchIdEqualTo(examBatchId);
+                        .andBatchIdEqualTo(batchId);
                 Batch batch = new Batch();
-                examBatch.setExamStatus(exam.getExamStatus());
+                batch.setExamStatus(exam.getExamStatus());
                 batchMapper.updateByExampleSelective(batch,batchExample);
 
             }

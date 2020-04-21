@@ -67,7 +67,7 @@ public class NotificationServieImpl implements NotificationService {
         if (notifications.size() > 0 ){
             return notifications.get(0);
         }else{
-            return null;
+            return new Notification();
         }
     }
 

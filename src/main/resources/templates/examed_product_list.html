@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-table.min.css">
     <script src="/js/echarts.min.js"></script>
-
+    <link rel="stylesheet" href="/css/community.css">
 </head>
 <body>
 <div class="content">
@@ -21,8 +21,8 @@
         <!--<a class="btn btn-primary ml-5 float-left" data-toggle="modal" data-target="#exampleModal" href="#">添加送检</a>-->
     </div>
     <table class="table table-hover " id="examListTable" style="min-width:1500px;" ></table>
-    <h3>统计</h3>
-    <div class="card" id="main" style="height: 400px;width: 600px;">
+    <!--<h3>统计</h3>-->
+    <!--<div class="card" id="main" style="height: 400px;width: 600px;">-->
 
     </div>
     <script type="text/javascript">
@@ -216,6 +216,10 @@
                 field: 'launchDate',
                 title: '发起日期',
                 align: 'center'
+                // formatter:function (value, row, index) {
+                //     return   formatedDate(value, 'yyyy-MM-dd');
+                // }
+
             }, {
                 field: 'examDate',
                 title: '检测日期',

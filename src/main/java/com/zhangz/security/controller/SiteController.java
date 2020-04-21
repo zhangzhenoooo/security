@@ -89,6 +89,7 @@ public class SiteController {
                                     @RequestParam(name = "city") String city,
                                     @RequestParam(name = "county") String county,
                                     @RequestParam(name = "address") String address,
+                                    @RequestParam(name = "description") String  description,
                                     HttpSession session){
         User user = (User)session.getAttribute("user");
         Site site = new Site();
@@ -96,6 +97,7 @@ public class SiteController {
         site.setProvinceCode(province);
         site.setCityCode(city);
         site.setCountyCode(county);
+        site.setDescription(description);
         site.setAddress(address);
         site.setSiteName(siteName);
         site.setProducerId(user.getUserId());
@@ -205,7 +207,18 @@ public class SiteController {
         return "provider_site_add";
     }
 
-
-
+    /**
+     *
+     * @description 查询需要定检的site信息
+     * @author zhangz
+     * @date 2020:04:21 11:01:57
+     * @return
+     **/
+    @ResponseBody
+    @RequestMapping(value = "/site/ListNeedExamOfCycle",method = RequestMethod.POST)
+    public List<Site> ListNeedExamOfCycle(){
+        List<Site> sites = siteServiceImpl.listNeedExamofCycle();
+        return sites;
+    }
 
 }

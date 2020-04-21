@@ -43,7 +43,7 @@
     <![endif]-->
 </head>
 
-<body class="no-skin">
+<body class="no-skin ">
 <div id="navbar" class="navbar navbar-default          ace-save-state">
     <div class="navbar-container ace-save-state" id="navbar-container">
         <button type="button" class="navbar-toggle menu-toggler pull-left" id="menu-toggler" data-target="#sidebar">
@@ -233,14 +233,14 @@
 
                             <b class="arrow"></b>
                         </li>
-                        <li class="">
-                            <a href="#"   target="myFrame"   data-id="送检管理/报表"  onclick="changeNav(this)" >
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                报表
-                            </a>
+                        <!--<li class="">-->
+                            <!--<a href="#"   target="myFrame"   data-id="送检管理/报表"  onclick="changeNav(this)" >-->
+                                <!--<i class="menu-icon fa fa-caret-right"></i>-->
+                                <!--报表-->
+                            <!--</a>-->
 
-                            <b class="arrow"></b>
-                        </li>
+                            <!--<b class="arrow"></b>-->
+                        <!--</li>-->
 
                     </ul>
                 </li>
@@ -553,17 +553,17 @@
                     <!--<span id="b-second-nav"></span>-->
                     <!--</small>-->
                     <!--</h1>-->
-                    <input type="button" value="Back" onclick="document.getElementById('myFrame').contentWindow.history.back();">
-                    <input type="button" value="forward" onclick="document.getElementById('myFrame').contentWindow.history.forward();">
-                    <input type="button" value="refresh" onclick="document.getElementById('myFrame').contentWindow.location.reload();">
+                    <input type="button" value="后退" onclick="document.getElementById('myFrame').contentWindow.history.back();">
+                    <input type="button" value="前进" onclick="document.getElementById('myFrame').contentWindow.history.forward();">
+                    <input type="button" value="刷新" onclick="document.getElementById('myFrame').contentWindow.location.reload();">
                 </div><!-- /.page-header -->
 
                 <div class="row">
                     <div class="col-xs-12">
                         <!--页面主内容-->
                         <!-- PAGE CONTENT BEGINS -->
-                        <div class="embed-responsive embed-responsive-4by3">
-                            <iframe id="myFrame" name="myFrame" class="embed-responsive-item" src="/security"></iframe>
+                        <div class="embed-responsive embed-responsive-4by3" style="overflow: hidden">
+                            <iframe  id="myFrame"  name="myFrame" class="embed-responsive-item" src="/security" style="width: 105%;"></iframe>
                         </div>
                         <!-- PAGE CONTENT ENDS -->
                     </div><!-- /.col -->

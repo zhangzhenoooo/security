@@ -86,6 +86,7 @@ public class ProductServiceImpl implements ProductService {
         record.setSiteName(dbSite.getSiteName());
         record.setItemName(dbItem.getItemName());
         record.setProductName(dbItem.getItemName());
+        record.setBatchName(dbBatch.getBatchName());
         record.setProductId(SnowIdUtils.uniqueLongHex());
         int insert = productMapper.insert(record);
         return insert;
@@ -167,6 +168,51 @@ public class ProductServiceImpl implements ProductService {
             return productDTO;
         }).collect(Collectors.toList());
         return productDTOS;
+
+    }
+
+    @Override
+    public List<ProductDTO> listByVonder(String userId) {
+        ProductExample productExample = new ProductExample();
+        productExample.createCriteria()
+                .andVendorEqualTo(userId);
+        List<Product> products = productMapper.selectByExample(productExample);
+
+        // 转换 productDTO
+        List<ProductDTO> productDTOS = products.stream().map(product -> {
+            ProductDTO productDTO = new ProductDTO();
+            BeanUtils.copyProperties(product, productDTO);
+//            productDTO.setBatch(batchMap.get(product.getBatchId()));
+            return productDTO;
+        }).collect(Collectors.toList());
+        if (productDTOS.size() > 0){
+            return productDTOS;
+        }else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public List<Product> search(Product product) {
+        ProductExample productExample = new ProductExample();
+        ProductExample.Criteria criteriaProductId = productExample.createCriteria();
+//        ProductExample.Criteria criteriaProductName = productExample.createCriteria();
+//        ProductExample.Criteria criteriaKindName = productExample.createCriteria();
+        if (!StringUtils.isEmpty(product.getProductId())){
+            criteriaProductId.andProductIdEqualTo(product.getProductId());
+        }
+//        if (!StringUtils.isEmpty(product.getProductName())){
+//            criteriaProductName.andProductNameLike(product.getProductName());
+//        }
+//        if (!StringUtils.isEmpty(product.getKindName())){
+//            criteriaKindName.andKindNameLike(product.getKindName());
+//        }
+        List<Product> products = productMapper.selectByExample(productExample);
+        if (products.size() > 0 ){
+            return products;
+        }else {
+            return new ArrayList<>();
+        }
 
     }
 

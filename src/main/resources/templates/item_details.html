@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-table.min.css">
     <link rel="stylesheet" href="/css/fileinput.min.css">
+    <link rel="stylesheet" href="/css/community.css">
 </head>
 <body >
 <div class="content">
@@ -115,7 +116,7 @@
         var id = e.getAttribute("id");
         var type = e.getAttribute("name");
         var fileName = e.getAttribute("data-id");
-        alert(id+type+fileName);
+        // alert(id+type+fileName);
         $.ajax({
             url:'/file/delete',
             type:'post',

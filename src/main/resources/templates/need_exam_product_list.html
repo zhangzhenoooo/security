@@ -2,11 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>送检产品管理</title>
+    <title>检测产品待审批</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-table.min.css">
     <script src="/js/echarts.min.js"></script>
-
+    <link rel="stylesheet" href="/css/community.css">
 </head>
 <body>
 <div class="content">
@@ -19,8 +19,8 @@
         <!--<a class="btn btn-primary ml-5 float-left" data-toggle="modal" data-target="#exampleModal" href="#">添加送检</a>-->
     </div>
     <table class="table table-hover " id="examListTable" style="min-width:1500px;" ></table>
-    <h3>统计</h3>
-    <div class="card" id="main" style="height: 400px;width: 600px;">
+    <!--<h3>统计</h3>-->
+    <!--<div class="card" id="main" style="height: 400px;width: 600px;">-->
 
     </div>
     <script type="text/javascript">
@@ -114,6 +114,9 @@
             '<a class="btn btn-success like" href="javascript:void(0)" title="点击进入详情页面">',
             '<span class="fa fa-heart">合格</span>',
             '</a>  ',
+            '<a class="btn btn-danger below" href="javascript:void(0)" title="点击进入详情页面">',
+            '<span class="fa fa-heart">不合格</span>',
+            '</a>  ',
             '<a class="btn btn-info remove " href="javascript:void(0)" title="点击按钮进行编辑这一行">',
             '<span class="fa fa-trash">编辑</span>',
             '</a>'
@@ -136,6 +139,23 @@
         'click .remove': function (e, value, row, index) {
             // 编辑
             initModel(row);
+
+        },
+        'click .below': function (e, value, row, index) {
+            // 不通过
+            $.ajax({
+                url:'/exam/approve',
+                type:'post',
+                data:{
+                    examId:row.examId,
+                    examStatus:'未通过'
+                },
+                success:function (data) {
+                    if (data.code == 200 ){
+                        refreshTable();
+                    }
+                }
+            })
 
         },
         'click .like': function (e, value, row, index) {
@@ -214,6 +234,9 @@
                 field: 'launchDate',
                 title: '发起日期',
                 align: 'center'
+                // formatter:function (value, row, index) {
+                //  return   formatedDate(value, 'yyyy-MM-dd h:m:s');
+                // }
             }, {
                 field: 'examDate',
                 title: '检测日期',

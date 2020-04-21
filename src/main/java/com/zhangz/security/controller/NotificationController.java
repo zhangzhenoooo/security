@@ -123,4 +123,20 @@ public class NotificationController {
         List<Notification> list = notificationServieImpl.list();
         return list;
     }
+
+    /**
+     *
+     * @description 消息详情页
+     * @author zhangz
+     * @date 2020:04:21 21:44:21
+     * @param model
+     * @return
+     **/
+    @GetMapping(value = "/notification/notificationDetails/{notificationId}")
+    public String  notificationDetails(@PathVariable(name = "notificationId")String notificationId,
+                                       Model model){
+        Notification notification = notificationServieImpl.selectById(notificationId);
+        model.addAttribute("notification",notification);
+        return "notification_details";
+    }
 }

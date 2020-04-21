@@ -6,7 +6,7 @@
     <head th:insert="~{import :: markdown}"></head>
 </head>
 <body>
-<div class="">
+<div class="content">
     <!--start model-->
     <h5 class="card-title" id="exampleModalLabel">添加送检产品信息</h5>
     <form id="form-site" >
@@ -411,6 +411,10 @@
             var getSelectRows = $("#product_table").bootstrapTable('getSelections', function (row) {
                 return row;
             });
+            if (getSelectRows.length <= 0){
+                alert("请至少选择一行");
+                return;
+            }
             $.ajax({
                 url:'/exam/insertExams',
                 type:'post',

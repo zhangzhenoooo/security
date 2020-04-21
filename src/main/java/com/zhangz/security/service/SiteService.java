@@ -32,4 +32,6 @@ public interface SiteService {
     boolean updateBySiteId(Site site, String siteId);
 
     List<Site> listBySelective(Site site);
+
+    List<Site> listNeedExamofCycle();
 }

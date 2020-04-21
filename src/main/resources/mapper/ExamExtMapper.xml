@@ -34,10 +34,10 @@
 
   <insert id="insertBatch" parameterType="com.zhangz.security.model.Exam">
     INSERT INTO exam
-    ( product_id, product_name, exam_name, launch_date, exam_date, exam_status, site_id, site_name, batch_id, batch_name, producted_date, effective_date, vendor_id, vendor_name)
+    (exam_id, product_id, product_name, exam_name, launch_date, exam_date, exam_status, site_id, site_name, batch_id, batch_name, producted_date, effective_date, vendor_id, vendor_name)
     VALUES
     <foreach collection="list" item="exam" separator=",">
-      ( #{exam.productId}, #{exam.productName}, #{exam.examName}, #{exam.launchDate}, #{exam.examDate}, #{exam.examStatus}, #{exam.siteId}, #{exam.siteName}, #{exam.batchId}, #{exam.batchName}, #{exam.productedDate}, #{exam.effectiveDate}, #{exam.vendorId}, #{exam.vendorName})
+      ( #{exam.examId},#{exam.productId}, #{exam.productName}, #{exam.examName}, #{exam.launchDate}, #{exam.examDate}, #{exam.examStatus}, #{exam.siteId}, #{exam.siteName}, #{exam.batchId}, #{exam.batchName}, #{exam.productedDate}, #{exam.effectiveDate}, #{exam.vendorId}, #{exam.vendorName})
     </foreach>
   </insert>
 </mapper>

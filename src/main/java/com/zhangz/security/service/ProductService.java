@@ -22,4 +22,8 @@ public interface ProductService <T>{
     List<Product> selectByExampleSelective(Product product);
 
     List<ProductDTO> listOfNeedExamed(String userId, String siteId, String batchId);
+
+    List<ProductDTO> listByVonder(String userId);
+
+    List<Product> search(Product product);
 }

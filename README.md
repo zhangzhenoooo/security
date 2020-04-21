@@ -52,17 +52,6 @@ http://localhost:8887
 ## 笔记
 [[Mybatis自定义插件生成雪花ID做为表主键项目:案例](https://www.cnblogs.com/qdhxhz/p/11407815.html)
 
-## 脚本
-```sql
-CREATE TABLE USER
-(
-    ID int AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    ACCOUNT_ID VARCHAR(100),
-    NAME VARCHAR(50),
-    TOKEN VARCHAR(36),
-    GMT_CREATE BIGINT,
-    GMT_MODIFIED BIGINT
-);
 ```
 ```bash
 mvn flyway:migrate

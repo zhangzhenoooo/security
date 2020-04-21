@@ -8,25 +8,25 @@
     <link rel="stylesheet" href="/css/community.css">
 </head>
 <body>
-<div class="">
+<div class="content">
     <form id="form-userMes" >
         <div class="form-group row">
             <label for="userId" class="col-sm-2 col-form-label">ID:</label>
             <div class="col-sm-10">
-                <input th:value="${user.userId}" type="hidden" readonly class="form-control-plaintext" id="userId" name="userId" >
+                <input th:value="${user.userId}" type="hidden" readonly class="form-control" id="userId" name="userId" >
             </div>
         </div>
-        <input th:value="${user.type}" type="hidden" readonly class="form-control-plaintext" id="type" name="type" >
+        <input th:value="${user.type}" type="hidden" readonly class="form-control" id="type" name="type" >
         <div class="form-group row">
             <label for="userName" class="col-sm-2 col-form-label">用户名:</label>
             <div class="col-sm-10">
-                <input  th:value="${user.userName}" type="text" readonly class="form-control-plaintext" id="userName" name="userName" >
+                <input  th:value="${user.userName}" type="text" readonly class="form-control" id="userName" name="userName" >
             </div>
         </div>
         <div class="form-group row">
             <label for="email" class="col-sm-2 col-form-label">邮箱:</label>
             <div class="col-sm-10">
-                <input th:value="${user.email}" type="email" readonly class="form-control-plaintext" id="email" name="email">
+                <input th:value="${user.email}" type="email" readonly class="form-control" id="email" name="email">
             </div>
         </div>
         <div class="form-group">

@@ -12,61 +12,61 @@
 <div class="card m-5 p-5" style="margin-left: 30%;margin-right: 30%;" >
     <h3 class="text-center">注册</h3>
     <h4 class="text-center" style="color: red;" th:text="${message}"></h4>
-<form action="/user/checkRegister" method="post">
-    <div class="form-group">
-        <label for="email">邮箱地址</label>
-        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>
-        <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-    </div>
-    <div class="form-group">
-        <label for="userName">用户名：</label>
-        <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter Password" required>
-    </div>
-    <div class="form-group">
-        <label for="password">密码</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
-    </div>
-    <div class="form-group">
-        <label for="password2">确认密码：</label>
-        <input type="password" class="form-control" id="password2" name="password2" placeholder="Enter Password" required>
-    </div>
-    <div class="form-group">
-        <label for="type">用户类型：</label>
-        <select class="form-control" id="type" name="type">
-            <option value="1" >生产商</option>
-            <option value="2">检测机构</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label for="address">地址信息：</label>
-        <div class="row" id="address">
-            <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <select class="form-control" id="province" name="province">
-                    <option  value="">请选择省份</option>
-                    <option  th:each="province :${provinces}" th:value="${province.getId()}" th:text="${province.getName()}" ></option>
-                </select>
-            </div>
-            <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
-                <select class="form-control" id="city" name="city">
-                    <option  value="">请选择市</option>
-                    <option th:each="city :${cities}" th:value="${city.getId()}" th:text="${city.getName()}"  ></option>
-                </select>
-            </div>
-            <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2>
-                <select class="form-control" id="county" name="county">
-                    <option  value="">请选择县</option>
-                    <option th:each="county :${counties}" th:value="${county.getId()}" th:text="${county.getName()}"  ></option>
-                </select>
-            </div>
-            <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                <input type="text" class="form-control" id="addressDetails" name="addressDetails" placeholder="请输入详细地址" required>
-            </div>
+    <form action="/user/checkRegister" method="post">
+        <div class="form-group">
+            <label for="email">邮箱地址</label>
+            <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+            <!--<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
         </div>
+        <div class="form-group">
+            <label for="userName">用户名：</label>
+            <input type="text" class="form-control" id="userName" name="userName" placeholder="Enter Password" required>
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" required>
+        </div>
+        <div class="form-group">
+            <label for="password2">确认密码：</label>
+            <input type="password" class="form-control" id="password2" name="password2" placeholder="Enter Password" required>
+        </div>
+        <div class="form-group">
+            <label for="type">用户类型：</label>
+            <select class="form-control" id="type" name="type">
+                <option value="1" >生产商</option>
+                <option value="2">检测机构</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="address">地址信息：</label>
+            <div class="row" id="address">
+                <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="province" name="province">
+                        <option  value="">请选择省份</option>
+                        <option  th:each="province :${provinces}" th:value="${province.getId()}" th:text="${province.getName()}" ></option>
+                    </select>
+                </div>
+                <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="city" name="city">
+                        <option  value="">请选择市</option>
+                        <option th:each="city :${cities}" th:value="${city.getId()}" th:text="${city.getName()}"  ></option>
+                    </select>
+                </div>
+                <div class="col col-xs-2 col-sm-2 col-md-2 col-lg-2col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    <select class="form-control" id="county" name="county">
+                        <option  value="">请选择县</option>
+                        <option th:each="county :${counties}" th:value="${county.getId()}" th:text="${county.getName()}"  ></option>
+                    </select>
+                </div>
+                <div class="col col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                    <input type="text" class="form-control" id="addressDetails" name="addressDetails" placeholder="请输入详细地址" required>
+                </div>
+            </div>
 
-    </div>
-    <button type="submit" class="btn btn-primary">注册</button>
-    <button type="reset" class="btn btn-primary">重置</button>
-</form>
+        </div>
+        <button type="submit" class="btn btn-primary">注册</button>
+        <button type="reset" class="btn btn-primary">重置</button>
+    </form>
 </div>
 
 <script src="/js/jquery-2.1.4.min.js"></script>

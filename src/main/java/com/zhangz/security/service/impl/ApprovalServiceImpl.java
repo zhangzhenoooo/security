@@ -32,7 +32,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 
         //添加审批记录
         Approval approval = new Approval();
-        approval.setApprovededId(SnowIdUtils.uniqueLongHex());
+        approval.setApprovalId(SnowIdUtils.uniqueLongHex());
         approval.setApproveDate(DateUtil.getData());
         approval.setApprovededId(userId);
         approval.setApproverId(approver.getUserId());

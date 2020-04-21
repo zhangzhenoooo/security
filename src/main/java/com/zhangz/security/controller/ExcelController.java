@@ -9,6 +9,7 @@ import com.zhangz.security.model.Exam;
 import com.zhangz.security.model.Product;
 import com.zhangz.security.model.User;
 import com.zhangz.security.service.impl.ExamServiceImpl;
+import com.zhangz.security.service.impl.FileUpdateServiceImpl;
 import com.zhangz.security.service.impl.ProductServiceImpl;
 import com.zhangz.security.utils.ExcelUtil;
 import com.zhangz.security.utils.FileUtil;
@@ -38,6 +39,8 @@ import java.util.Map;
 @Controller
 @Slf4j
 public class ExcelController {
+    @Autowired
+    private FileUpdateServiceImpl fileUpdateServiceImpl;
     @Autowired
     private ProductServiceImpl productServiceImpl;
     @Autowired
@@ -87,7 +90,7 @@ public class ExcelController {
                         if (true){
                             List<Product> products = excelUtil.getExcelData(excelFile, type);
                             //save
-                            FileUtil.upload( basePath,excelFile);
+//                            FileUtil.upload( basePath,excelFile);
                             return ResultDTO.successOf(products);
                         }else {
                             //列不匹配
