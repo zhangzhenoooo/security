@@ -41,7 +41,7 @@ public class ExamServiceImpl implements ExamService {
         ExamExample examExample = new ExamExample();
         ExamExample.Criteria criteria =    examExample.createCriteria();
 
-        if (!StringUtils.isEmpty(examStatus)&&!("".equals(examStatus))){
+        if (!StringUtils.isEmpty(examStatus)){
             criteria.andExamStatusEqualTo(examStatus);
         }
         criteria.andVendorIdEqualTo(vendorId);
@@ -153,6 +153,19 @@ public class ExamServiceImpl implements ExamService {
             return exams;
         }else {
             return new ArrayList<>();
+        }
+    }
+
+    @Override
+    public Exam selectByExamId(String examId) {
+        ExamExample examExample = new ExamExample();
+        examExample.createCriteria()
+                .andExamIdEqualTo(examId);
+        List<Exam> exams = examMapper.selectByExample(examExample);
+        if (exams.size() >0){
+            return exams.get(0);
+        }else {
+            return new Exam();
         }
     }
 }

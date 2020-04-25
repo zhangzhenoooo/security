@@ -22,4 +22,6 @@ public interface ExamService {
     int batchInsert(List<Exam> exams);
 
     List<Exam> list();
+
+    Exam selectByExamId(String examId);
 }

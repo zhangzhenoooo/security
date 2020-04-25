@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+
     @Autowired
     private ProductMapper productMapper;
     @Autowired
@@ -196,17 +197,17 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> search(Product product) {
         ProductExample productExample = new ProductExample();
         ProductExample.Criteria criteriaProductId = productExample.createCriteria();
-//        ProductExample.Criteria criteriaProductName = productExample.createCriteria();
-//        ProductExample.Criteria criteriaKindName = productExample.createCriteria();
+        ProductExample.Criteria criteriaProductName = productExample.createCriteria();
+        ProductExample.Criteria criteriaKindName = productExample.createCriteria();
         if (!StringUtils.isEmpty(product.getProductId())){
             criteriaProductId.andProductIdEqualTo(product.getProductId());
         }
-//        if (!StringUtils.isEmpty(product.getProductName())){
-//            criteriaProductName.andProductNameLike(product.getProductName());
-//        }
-//        if (!StringUtils.isEmpty(product.getKindName())){
-//            criteriaKindName.andKindNameLike(product.getKindName());
-//        }
+        if (!StringUtils.isEmpty(product.getProductName())){
+            criteriaProductName.andProductNameLike(product.getProductName());
+        }
+        if (!StringUtils.isEmpty(product.getKindName())){
+            criteriaKindName.andKindNameLike(product.getKindName());
+        }
         List<Product> products = productMapper.selectByExample(productExample);
         if (products.size() > 0 ){
             return products;

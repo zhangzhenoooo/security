@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>首页</title>
 
-    <link rel="stylesheet" href="/css/style.css">
-    <!--<link rel="stylesheet" href="/css/bootstrap.min.css">-->
-    <!--<link rel="stylesheet" href="/css/bootstrap-table.min.css">-->
-    <!--<link rel="stylesheet" href="/css/community.css">-->
-    <head th:insert="~{import :: markdown}"></head>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-table.min.css">
+    <script src="/js/echarts.min.js"></script>
+    <link rel="stylesheet" href="/css/community.css">
+    <!--<head th:insert="~{import :: markdown}"></head>-->
 </head>
 <body>
 <div class="container content" style="margin-top: 10px;" >
@@ -50,7 +50,7 @@
                                          <button onclick="initTable()" type="btn btn-success" class="btn btn-secondary">搜索</button>
                             </span>
                         </div><!-- /input-group -->
-                <table id="searchResultTable" class="table table-hover"> </table>
+                <table id="searchResultTable" name="searchResultTable" class="table table-hover"> </table>
 
                 <!--<img class="card-img-right flex-auto d-none d-md-block" src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%22200%22%20height%3D%22250%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20200%20250%22%20preserveAspectRatio%3D%22none%22%3E%3Cdefs%3E%3Cstyle%20type%3D%22text%2Fcss%22%3E%23holder_16146ef2e3c%20text%20%7B%20fill%3A%23eceeef%3Bfont-weight%3Abold%3Bfont-family%3AArial%2C%20Helvetica%2C%20Open%20Sans%2C%20sans-serif%2C%20monospace%3Bfont-size%3A13pt%20%7D%20%3C%2Fstyle%3E%3C%2Fdefs%3E%3Cg%20id%3D%22holder_16146ef2e3c%22%3E%3Crect%20width%3D%22200%22%20height%3D%22250%22%20fill%3D%22%2355595c%22%3E%3C%2Frect%3E%3Cg%3E%3Ctext%20x%3D%2256.203125%22%20y%3D%22130.7%22%3EThumbnail%3C%2Ftext%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E" alt="Card image cap">-->
             </div>
@@ -76,59 +76,44 @@
     </div><!-- /.row -->
 
 </main><!-- /.container -->
-<!--<script src="/js/jquery-2.1.4.min.js"></script>-->
-<!--<script src="/js/popper.min.js" ></script>-->
-<!--<script src="/js/bootstrap.min.js" ></script>-->
-<!--<script src="/js/bootstrap-table.min.js"></script>-->
-<!--<script src="/js/bootstrap-table-export.min.js"></script>-->
-<!--<script src="/js/bootstrap-table-zh-CN.min.js"></script>-->
+<script src="/js/jquery-2.1.4.min.js"></script>
+<script src="/js/popper.min.js" ></script>
+<script src="/js/bootstrap.min.js" ></script>
+<script src="/js/bootstrap-table.min.js"></script>
+<script src="/js/bootstrap-table-export.min.js"></script>
+<script src="/js/bootstrap-table-zh-CN.min.js"></script>
 <script>
     function initTable() {
         var  searchText = $("#searchText").val();
-        alert(searchText);
+        // alert(searchText);
+        if (searchText.length <= 0){
+            alert("请输入查询条件");
+            return;
+        }
         $('#searchResultTable').bootstrapTable('destroy');
         // var batchId = $("#locale").val();
-        $('#searchResultTable').bootstrapTable({
+        $("#searchResultTable").bootstrapTable({
             url: '/search',         //请求后台的URL（*）
             method: 'post',                      //请求方式（*）
-            // toolbar: '#toolbar',                //工具按钮用哪个容器
-            striped: true,                      //是否显示行间隔色
-            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
-            // pagination: true,                   //是否显示分页（*）
-            // sortable: false,                     //是否启用排序
-            // sortOrder: "asc",                   //排序方式
             queryParams: {searchText:searchText},//传递参数（*）
-            // sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
-            // pageNumber:1,                       //初始化加载第一页，默认第一页
-            // pageSize: 8,                       //每页的记录行数（*）
-            // pageList: [8, 16, 32, 100],        //可供选择的每页的行数（*）
-            // search: true,                       //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
-            // strictSearch: true,
-            showColumns: false,                  //是否显示所有的列
-            // showRefresh: true,                  //是否显示刷新按钮
-            // minimumCountColumns: 2,             //最少允许的列数
-            // clickToSelect: true,                //是否启用点击选中行
-            // showExport:true,                       //是否显示导出数据
-            // exportDataType:'all',                  //导出数据范围{basic ：当前，all;所有,selected：选择的}
-            // height: 500,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
-            // uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
-            // showToggle:true,                    //是否显示详细视图和列表视图的切换按钮
-            // cardView: false,                    //是否显示详细视图
-            // detailView: false,                   //是否显示父子表
             columns: [{
-                checkbox: true
-            }, {
                 field: 'productId',
-                title: '食品编号',
-                sortable: true,
-                align: 'center',
-                visible: false
+                title: '产品编号',
+                align: 'center'
             }, {
                 field: 'productName',
-                title: '名称',
-                align: 'center'
+                title: '产品名称',
+                align: 'center',
+                formatter:function (value, row, index) {
+                    return [
+                        '<a   href="/product/productDetailsBySearch/'+row.productId+'" title="点击进入详情页面">',
+                        '<span class="fa fa-heart">'+row.productName+'</span>',
+                        '</a>  ',
+
+                    ].join('')
+                }
             }]
-        })
+        });
     }
 
 </script>

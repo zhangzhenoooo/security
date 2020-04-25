@@ -42,4 +42,6 @@ public interface UserService {
     List<User> list();
 
     int  updateUserBySelective(User user);
+
+    User selectByUserId(String vendor);
 }

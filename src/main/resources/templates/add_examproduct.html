@@ -86,7 +86,7 @@
         var batchId = $("#batch_select").val();
         var siteId = $("#site_select").val();
         $('#product_table').bootstrapTable({
-            url: '/product/list',         //请求后台的URL（*）
+            url: '/product/listOfNeedExamed',         //请求后台的URL（*）
             method: 'post',                      //请求方式（*）
             toolbar: '#mybar',                //工具按钮用哪个容器
             striped: true,                      //是否显示行间隔色

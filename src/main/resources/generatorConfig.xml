@@ -50,5 +50,7 @@
         <table tableName="notification" domainObjectName="Notification"></table>
         <table tableName="attachment" domainObjectName="Attachment"></table>
         <table tableName="sitecycleexam" domainObjectName="SiteCycleExam"></table>
+        <table tableName="vexamedproductlist" domainObjectName="Examedproductlist"></table>
+        <table tableName="vproduct_details" domainObjectName="Product_details"></table>
     </context>
 </generatorConfiguration>

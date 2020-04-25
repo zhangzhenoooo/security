@@ -127,8 +127,11 @@ public class ExamController {
     @ResponseBody
     @PostMapping("/exam/approve")
     public ResultDTO approve(@RequestParam(name = "examId") String examId,
-                             @RequestParam(name = "examStatus") String examStatus){
+                             @RequestParam(name = "examStatus") String examStatus,
+                             HttpSession session){
+        User user = (User) session.getAttribute("user");
         Exam exam = new Exam();
+        exam.setExamerId(user.getUserId());
         exam.setExamStatus(examStatus);
         exam.setExamDate(DateUtil.getData());
         boolean affectRow = examServiceImpl.updateByExamId(exam, examId);

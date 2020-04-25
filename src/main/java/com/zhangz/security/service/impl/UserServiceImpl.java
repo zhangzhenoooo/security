@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService {
         if (users.size() >0 ){
             return users.get(0);
         }else {
-            return null;
+            return new User();
         }
     }
 
@@ -121,6 +121,20 @@ public class UserServiceImpl implements UserService {
                 .andUserIdEqualTo(user.getUserId());
         int result = userMapper.updateByExampleSelective(user, userExample);
         return result;
+    }
+
+    @Override
+    public User selectByUserId(String vendor) {
+
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andUserIdEqualTo(vendor);
+        List<User> users = userMapper.selectByExample(userExample);
+        if (users.size() >0 ){
+            return users.get(0);
+        }else {
+            return new User();
+        }
     }
 
 

@@ -7,11 +7,12 @@ import com.zhangz.security.mapper.BatchMapper;
 import com.zhangz.security.mapper.ItemMapper;
 import com.zhangz.security.mapper.SiteMapper;
 import com.zhangz.security.model.*;
-import com.zhangz.security.service.impl.ProductServiceImpl;
+import com.zhangz.security.service.impl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import sun.java2d.loops.GeneralRenderer;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -27,9 +28,14 @@ import java.util.stream.Collectors;
  */
 @Controller
 public class ProductController {
-
+    @Autowired
+    private ExamedProductLisServicetImpl examedProductLisServicetImpl;
     @Autowired
     private ProductServiceImpl productServiceImpl;
+    @Autowired
+    private UserServiceImpl  userServiceImpl;
+    @Autowired
+    private AttachmentServiceImpl attachmentServiceImpl;
     @Autowired
     private BatchMapper batchMapper;
     @Autowired
@@ -87,7 +93,7 @@ public class ProductController {
                             HttpSession session){
         User user = (User) session.getAttribute("user");
         if (user == null){
-              return ResultDTO.errorOf(CustomizeErrorCode.NOT_LOGIN);
+            return ResultDTO.errorOf(CustomizeErrorCode.NOT_LOGIN);
         }
         Product product = new Product();
         product.setSiteId(siteId);
@@ -119,13 +125,43 @@ public class ProductController {
     @ResponseBody
     @RequestMapping(value = "product/listOfNeedExamed",method = RequestMethod.POST)
     public List<ProductDTO> listOfNeedExamed (@RequestBody Map<String,String> map,
-                                  HttpSession session){
+                                              HttpSession session){
         String batchId = map.get("batchId");
         String siteId = map.get("siteId");
         User user = (User) session.getAttribute("user");
         List<ProductDTO> productDTOS = productServiceImpl.listOfNeedExamed(user.getUserId(),siteId,batchId);
         return productDTOS;
     }
+
+    @GetMapping (value = "/product/productDetailsBySearch/{productId}")
+    public String productDetailsBySearch (Model model,
+                                          @PathVariable String productId){
+//        食品信息
+        ProductDTO productDTO = productServiceImpl.selectById(productId);
+//        食品附件（图片）
+        List<Attachment> productAttachments = attachmentServiceImpl.listByParentId(productId);
+//        生产基地信息
+        Site site = productDTO.getSite();
+//        生产基地附件（环境图片）
+        List<Attachment> siteAttachments = attachmentServiceImpl.listByParentId(site.getSiteId());
+//        检测信息
+        Examedproductlist exam = examedProductLisServicetImpl.selectByKeyWords(productDTO.getItemId(),productDTO.getSiteId(),productDTO.getBatchId(),"");
+//     生产商信息
+        User user = userServiceImpl.selectByUserId(productDTO.getVendor());
+//检测机构
+        User examer = userServiceImpl.selectByUserId(exam.getExamerId());
+        model.addAttribute("product",productDTO);
+        model.addAttribute("productAttachments",productAttachments);
+        model.addAttribute("site",site);
+        model.addAttribute("siteAttachments",siteAttachments);
+        model.addAttribute("exam",exam);
+        model.addAttribute("user",user);
+        model.addAttribute("examer",examer);
+
+        return "product_details";
+    }
+
+
 
 
 

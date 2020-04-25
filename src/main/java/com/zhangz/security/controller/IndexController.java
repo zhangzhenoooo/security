@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by codedrinker on 2019/4/24.
@@ -55,13 +56,12 @@ public class IndexController {
      * @description
      * @author zhangz
      * @date 2020:04:17 22:04:45
-     * @param searchText
      * @return
      **/
     @ResponseBody
     @RequestMapping(value = "/search",method = RequestMethod.POST)
-    public List<Product> search(@RequestParam(name = "searchText") String searchText){
-        System.out.println("searchText = "+searchText);
+    public List<Product> search(@RequestBody Map<String,String> map){
+        String searchText = map.get("searchText");
         Product product = new Product();
         product.setProductId(searchText);
         product.setProductName(searchText);
